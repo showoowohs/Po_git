@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 	ProgressBar myProgressBar;
 	int myProgress = 20;
 	final String CHACK_COPY_FILE_PATH[] = { "/storage/sdcard1/IQ8_update.zip",
-			"/storage/usbdisk0/IQ8_update.zip", "/mnt/media_rw/sdcard/IQ8_update.zip" };
+			"/storage/usbdisk0/IQ8_update.zip", "/mnt/media_rw/sdcard/IQ8_update.zip", "/mnt/media_rw/usbdisk0/IQ8_update.zip" };
 	String COPY_FILE_PATH = null;
 	/**
 	 * /sdcard/recovery_IQ8.sh
