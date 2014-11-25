@@ -17,3 +17,6 @@ Android 的NFC寫入範例
 
 6. nfc-reader2
 讀取NFC資料的APP
+
+7. RS232Beeper
+讀取RS232的APP, 讀到RS232資料就會Beep一聲
