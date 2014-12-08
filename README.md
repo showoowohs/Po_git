@@ -26,3 +26,4 @@ Android 的NFC寫入範例
 
 9. test_serial_BT_Symbol與test_serial_BT2_Symbol
 這隻APP是是RS2322的Bluetooth程式, 此模組傳輸距離可以傳1KM(經過測試超過一公里), 主要是負責當連線方, AP端如果有啟動, client按下link按鈕就能夠連線並傳送文字了 
+test
