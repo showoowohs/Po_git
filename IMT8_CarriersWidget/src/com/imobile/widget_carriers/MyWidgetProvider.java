@@ -52,7 +52,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	 */
 	private final int LTE = 7; 
 	private String Po_Signal = ""; 
-	 
+	private Context Po_context;  
+	private int []Po_appWidgetId;
+	private AppWidgetManager Po_app_manager; 
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
@@ -125,6 +128,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
+		this.Po_context = context;
+		this.Po_appWidgetId = appWidgetIds;
+		this.Po_app_manager = appWidgetManager;
+		
 		Log.d("Po_add", "onUpdate");
 		System.out.println("on-update widget");
 
@@ -149,6 +156,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			Chang_Signal_Icon(context, this.Po_Signal, Read_Carrier());
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
+		//±Ò°Êthread
+		Thread thread = new Thread(new update_thread()); 
+	    thread.start(); 
 	}
 
 	private String Read_Carrier() {
@@ -281,4 +291,35 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		return "";
 	}
 
+	public class update_thread implements Runnable {
+		@Override
+		public void run() {
+			int i = 0;
+			int Max_num = 5;
+			while (true && i++ < Max_num) {
+
+				try {
+					Thread.sleep(1000);
+					
+					if (i == Max_num){
+						RemoteViews views = new RemoteViews(
+								Po_context.getPackageName(), R.layout.widget_layout);
+						// views.setTextViewText(R.id.TextView01,
+						// String.valueOf(Math.random()) );
+						Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
+						Po_app_manager.updateAppWidget(Po_appWidgetId, views);
+					}
+					Log.d("Po_add", "i=" + i);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					Log.d("Po_add", "InterruptedException");
+				}
+				
+
+				
+			}
+		}
+	}
+	
 }
