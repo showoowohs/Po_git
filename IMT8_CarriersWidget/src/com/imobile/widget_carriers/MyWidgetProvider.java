@@ -92,6 +92,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
         	}else if(signal_text.equals("4G")){
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_4g);
         	}else{
+        		//空值會進來
+        		remoteViews.setImageViewResource(R.id.ImageViewId, R.drawable.signal_not);
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.empty);
         	}
 //        	Log.d("Po_add", "Chang_Signal_Icon()  111111111");
