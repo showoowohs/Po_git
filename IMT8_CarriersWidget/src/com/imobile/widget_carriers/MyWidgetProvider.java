@@ -125,9 +125,14 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 			// 第3參數舊式電信業者資料
 			if (i == 2) {
-				System.out.println("Po_split[2]=" + AfterSplit[i]);
+				//System.out.println("Po_split[2]=" + AfterSplit[i]);
+				//將取得的電信業者資料中的怪怪符號拿除
+				String Del_Symbol = "";
+				int last = AfterSplit[i].length()-1;
+				Del_Symbol = AfterSplit[i].substring(1, last);
+				Log.d("Po_add", "Del_Symbol=" + Del_Symbol);
 				// 回傳電信業者資料
-				return AfterSplit[i];
+				return Del_Symbol;
 			}
 		}
 
