@@ -17,7 +17,7 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:textSize="26sp"
-        android:text="Carriers:"
+        android:text="Searching..."
         />
 
 </LinearLayout>
