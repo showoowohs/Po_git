@@ -65,16 +65,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			System.out.println("clicked");
 			Toast.makeText(context, Read_Carrier(), Toast.LENGTH_LONG).show();
 			if((this.Po_Signal != null) || (this.Po_Signal != "")){
-				Chang_Signal_Icon(context, this.Po_Signal);
+				Chang_Signal_Icon(context, this.Po_Signal, Read_Carrier());
 			}
 		}
 
 	}
-	/**
+	
+	/***
 	 * 更換信號的icon
 	 * @param context
+	 * @param signal_text
+	 * @param carriers
 	 */
-	public void Chang_Signal_Icon(Context context, String signal_text){
+	public void Chang_Signal_Icon(Context context, String signal_text, String carriers){
 		Log.d("Po_add", "Chang_Signal_Icon()");
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
@@ -86,10 +89,13 @@ public class MyWidgetProvider extends AppWidgetProvider {
 //        Log.d("Po_add", "Chang_Signal_Icon()  signal_text="+signal_text+"x");
         if((signal_text != null) | (signal_text.equals(""))){
         	if(signal_text.equals("GSM")){
+        		remoteViews.setImageViewResource(R.id.ImageViewId, R.drawable.signal_all);
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_2g);
         	}else if(signal_text.equals("3G")){
+        		remoteViews.setImageViewResource(R.id.ImageViewId, R.drawable.signal_all);
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_3g);
         	}else if(signal_text.equals("4G")){
+        		remoteViews.setImageViewResource(R.id.ImageViewId, R.drawable.signal_all);
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_4g);
         	}else{
         		//空值會進來
@@ -100,7 +106,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
         }else{
         	remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.empty);
         }
-        
+        //更新電信業者
+        remoteViews.setTextViewText(R.id.Po_TV, carriers);
 
         appWidgetManager.updateAppWidget(watchWidget, remoteViews);
 		
@@ -137,9 +144,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					pendingIntent);
 
 			// Po add
-			remoteViews.setTextViewText(R.id.Po_TV, Read_Carrier());
+//			remoteViews.setTextViewText(R.id.Po_TV, Read_Carrier());
 			//更新信號的圖片
-			Chang_Signal_Icon(context, this.Po_Signal);
+			Chang_Signal_Icon(context, this.Po_Signal, Read_Carrier());
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
