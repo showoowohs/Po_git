@@ -64,7 +64,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		if (CLICK_ACTION.equals(action)) {
 			System.out.println("clicked");
 			Toast.makeText(context, Read_Carrier(), Toast.LENGTH_LONG).show();
-			if(this.Po_Signal != null){
+			if((this.Po_Signal != null) || (this.Po_Signal != "")){
 				Chang_Signal_Icon(context, this.Po_Signal);
 			}
 		}
@@ -75,6 +75,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	 * @param context
 	 */
 	public void Chang_Signal_Icon(Context context, String signal_text){
+		Log.d("Po_add", "Chang_Signal_Icon()");
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
         RemoteViews remoteViews;
@@ -82,7 +83,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         watchWidget = new ComponentName(context, MyWidgetProvider.class);
-        if(signal_text != null){
+//        Log.d("Po_add", "Chang_Signal_Icon()  signal_text="+signal_text+"x");
+        if((signal_text != null) | (signal_text.equals(""))){
         	if(signal_text.equals("GSM")){
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_2g);
         	}else if(signal_text.equals("3G")){
@@ -90,8 +92,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
         	}else if(signal_text.equals("4G")){
         		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_4g);
         	}else{
-        		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.signal_g);
+        		remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.empty);
         	}
+//        	Log.d("Po_add", "Chang_Signal_Icon()  111111111");
         }else{
         	remoteViews.setImageViewResource(R.id.Po_Signal, R.drawable.empty);
         }
