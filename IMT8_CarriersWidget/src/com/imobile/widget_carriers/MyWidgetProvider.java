@@ -153,6 +153,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			// Po add
 //			remoteViews.setTextViewText(R.id.Po_TV, Read_Carrier());
 			//更新信號的圖片
+			remoteViews.setImageViewResource(R.id.ImageViewId, R.drawable.signal_all);
 			Chang_Signal_Icon(context, this.Po_Signal, Read_Carrier());
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
@@ -295,13 +296,13 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		@Override
 		public void run() {
 			int i = 0;
-			int Max_num = 5;
+			int Max_num = 30;
 			while (true && i++ < Max_num) {
 
 				try {
 					Thread.sleep(1000);
 					
-					if (i == Max_num){
+					if ((i == 2) || (i == 5) || (i==10) || (i == 20) || (i == 30)){
 						RemoteViews views = new RemoteViews(
 								Po_context.getPackageName(), R.layout.widget_layout);
 						// views.setTextViewText(R.id.TextView01,
