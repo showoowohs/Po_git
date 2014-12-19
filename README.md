@@ -26,4 +26,4 @@ Android 的NFC寫入範例
 
 9. test_serial_BT_Symbol與test_serial_BT2_Symbol
 這隻APP是是RS2322的Bluetooth程式, 此模組傳輸距離可以傳1KM(經過測試超過一公里), 主要是負責當連線方, AP端如果有啟動, client按下link按鈕就能夠連線並傳送文字了 
-test
+10. 增加IMT8_CarriersWidget程式, 由於MTK code base中沒有rild的code, 因此無法透過正規方式將電信業者與3G/4G符號更新到System UI, 所以在此透過此widget來讀取ublox 3G/4G 模組的電信商家and 3G/4G符號, 目前SIM Card info都會存在/storage/sdcard0下, 未來有時間在將此資料強至顯示到system UI上
