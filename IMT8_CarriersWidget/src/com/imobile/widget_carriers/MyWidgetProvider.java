@@ -296,7 +296,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		@Override
 		public void run() {
 			int i = 0;
-			int Max_num = 30;
+			int Max_num = 61;
 			while (true && i++ < Max_num) {
 
 				try {
@@ -309,6 +309,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 						// String.valueOf(Math.random()) );
 						Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
 						Po_app_manager.updateAppWidget(Po_appWidgetId, views);
+					}
+					
+					if (i == 60){
+						i = 0;
 					}
 					Log.d("Po_add", "i=" + i);
 				} catch (InterruptedException e) {
