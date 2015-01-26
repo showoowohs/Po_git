@@ -34,6 +34,9 @@ public class MainActivity extends Activity {
 	private TextView txtGPS_Quality = null;
 	private TextView txtGPS_Location = null;
 	private TextView txtGPS_Satellites = null;
+	private TextView txtGPS_Accuracy = null;
+	private TextView txtGPS_Time = null;
+	private TextView txtGPS_Bearing = null;
 	//
 	private Handler mHandler = null;
 
@@ -46,6 +49,9 @@ public class MainActivity extends Activity {
 		txtGPS_Quality = (TextView) findViewById(R.id.textGPS_Quality);
 		txtGPS_Location = (TextView) findViewById(R.id.textGPS_Location);
 		txtGPS_Satellites = (TextView) findViewById(R.id.textGPS_Satellites);
+		txtGPS_Accuracy = (TextView) findViewById(R.id.textGPS_Accuracy);
+		txtGPS_Time = (TextView) findViewById(R.id.textGPS_Time);
+		txtGPS_Bearing = (TextView) findViewById(R.id.textGPS_Bearing);
 		registerHandler();
 		registerListener();
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -93,6 +99,11 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				// 定位資料更新時會回呼
 				Log.d("GPS-NMEA", loc.getLatitude() + "," + loc.getLongitude());
+				
+				//show from google api
+				txtGPS_Accuracy.setText(String.valueOf(loc.getAccuracy()));
+				txtGPS_Time.setText(String.valueOf(loc.getTime()));
+				txtGPS_Bearing.setText(String.valueOf(loc.getBearing()));
 			}
 
 			@Override
