@@ -17,6 +17,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /*
@@ -37,6 +40,10 @@ public class MainActivity extends Activity {
 	private TextView txtGPS_Accuracy = null;
 	private TextView txtGPS_Time = null;
 	private TextView txtGPS_Bearing = null;
+	private boolean btn_status = false;
+	private Button btn_nmea = null;
+	private EditText textGPS_nmea = null;
+	private int Po_tmp = 0;
 	//
 	private Handler mHandler = null;
 
@@ -52,6 +59,8 @@ public class MainActivity extends Activity {
 		txtGPS_Accuracy = (TextView) findViewById(R.id.textGPS_Accuracy);
 		txtGPS_Time = (TextView) findViewById(R.id.textGPS_Time);
 		txtGPS_Bearing = (TextView) findViewById(R.id.textGPS_Bearing);
+		btn_nmea= (Button) findViewById(R.id.btn_nmea);
+		textGPS_nmea = (EditText) findViewById(R.id.textGPS_nmea);
 		registerHandler();
 		registerListener();
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -61,6 +70,21 @@ public class MainActivity extends Activity {
 		//
 		//
 
+	}
+	
+	public void on_btn_nmea(View v){
+	    if(v.getId() == R.id.btn_nmea){
+	        //handle the click here
+	    	this.btn_status = !btn_status;
+	    	if(this.btn_status == true){
+	    		this.btn_nmea.setText("Enable");
+	    	}else{
+	    		this.btn_nmea.setText("Disable");
+	    		this.textGPS_nmea.setText("");
+	    	}
+//	    	Toast.makeText(this, "btn_status="+btn_status, Toast.LENGTH_LONG).show();
+//	    	Log.d("on_btn_nmea", "btn_status="+btn_status);
+	    }
 	}
 
 	@Override
@@ -147,6 +171,16 @@ public class MainActivity extends Activity {
 				if (isValidForNmea(nmea)) {
 					nmeaProgress(nmea);
 					Log.d("GPS-NMEA", nmea);
+					//show nmea data
+					
+					if(btn_status == true){
+						textGPS_nmea.append(nmea+"\n");
+						Po_tmp++;
+						if(Po_tmp >= 300){
+							Po_tmp=0;
+							textGPS_nmea.setText("");
+						}
+					}
 				}
 
 			}
@@ -225,7 +259,7 @@ public class MainActivity extends Activity {
 				txtGPS_Location.setText(rawNmeaSplit[2] + " " + rawNmeaSplit[3]
 						+ "," + rawNmeaSplit[4] + " " + rawNmeaSplit[5]);
 				txtGPS_Satellites.setText(rawNmeaSplit[7]);
-
+				
 			}
 		};
 
