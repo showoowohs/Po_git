@@ -15,8 +15,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static final String CLICK_ACTION = "myCustomAction";
 	private static final String Po_btn1_wifi = "Po_WiFi";
 	private static final String Po_btn2_BT = "Po_BT";
+	private static final String Po_btn3_GPS = "Po_GPS";
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
+	private static boolean GPS_status = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -46,6 +48,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			toggle_BT(context);
 		}
 
+		if (Po_btn3_GPS.equals(action)) {
+			toggle_GPS(context);
+		}
 	}
 
 	/*****
@@ -87,6 +92,17 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		Log.d("Po", "toggle_BT() BT_status=" + this.BT_status);
 	}
 
+	/****
+	 * toggle_GPS
+	 * 
+	 * @param context
+	 *            on/of GPS
+	 */
+	public void toggle_GPS(Context context) {
+
+		Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
+	}
+
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
@@ -121,6 +137,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					getPendingSelfIntent(context, Po_btn1_wifi));
 			remoteViews.setOnClickPendingIntent(R.id.Po_bt2,
 					getPendingSelfIntent(context, Po_btn2_BT));
+			remoteViews.setOnClickPendingIntent(R.id.Po_bt3,
+					getPendingSelfIntent(context, Po_btn3_GPS));
 
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
