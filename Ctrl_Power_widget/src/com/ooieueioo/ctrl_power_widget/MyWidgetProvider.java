@@ -3,6 +3,7 @@ package com.ooieueioo.ctrl_power_widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -12,9 +13,11 @@ import android.widget.RemoteViews;
 public class MyWidgetProvider extends AppWidgetProvider {
 
 	private static final String CLICK_ACTION = "myCustomAction";
-	private static final String Po_btn1_wifi = "XX";
+	private static final String Po_btn1_wifi = "Po_WiFi";
+	private static final String Po_btn2_BT = "Po_BT";
 	private static boolean wifi_status = false;
-	
+	private static boolean BT_status = false;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
@@ -22,6 +25,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		String action = intent.getAction();
 
 		System.out.println("onReveice action: " + action);
+		Log.d("Po", "action=" + action);
 
 		if (CLICK_ACTION.equals(action)) {
 			System.out.println("clicked");
@@ -29,23 +33,58 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			// Toast.LENGTH_LONG).show();
 
 		}
-		
-		if (Po_btn1_wifi.equals(intent.getAction())) {
+
+		if (Po_btn1_wifi.equals(action)) {
 			toggle_WiFi(context);
-        }
+		}
+
+		// if (Po_btn1_wifi.equals(intent.getAction())) {
+		// toggle_WiFi(context);
+		// }
+
+		if (Po_btn2_BT.equals(action)) {
+			toggle_BT(context);
+		}
 
 	}
+
+	/*****
+	 * toggle_WiFi
+	 * 
+	 * @param context
+	 *            on/off WiFi
+	 */
 	public void toggle_WiFi(Context context) {
-		WifiManager wifiManager = (WifiManager) 
-				context.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
 		if (!wifiManager.isWifiEnabled()) {
 			wifiManager.setWifiEnabled(true);
 			this.wifi_status = true;
-		} else{
+		} else {
 			wifiManager.setWifiEnabled(false);
 			this.wifi_status = false;
 		}
-		Log.d("Po", "toggleWiFi() Po_btn1_wifi="+this.wifi_status);
+		Log.d("Po", "toggleWiFi() wifi_status=" + this.wifi_status);
+		// System.out.println("toggleWiFi() wifi_status=" + this.wifi_status);
+	}
+
+	/***
+	 * toggle_BT
+	 * 
+	 * @param context
+	 *            on/off BuleTooth
+	 */
+	public void toggle_BT(Context context) {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		if (!mBluetoothAdapter.isEnabled()) {
+			mBluetoothAdapter.enable();
+			this.BT_status = true;
+		} else {
+			mBluetoothAdapter.disable();
+			this.BT_status = false;
+		}
+		Log.d("Po", "toggle_BT() BT_status=" + this.BT_status);
 	}
 
 	@Override
@@ -80,6 +119,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			// Po add button
 			remoteViews.setOnClickPendingIntent(R.id.Po_bt1,
 					getPendingSelfIntent(context, Po_btn1_wifi));
+			remoteViews.setOnClickPendingIntent(R.id.Po_bt2,
+					getPendingSelfIntent(context, Po_btn2_BT));
 
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
