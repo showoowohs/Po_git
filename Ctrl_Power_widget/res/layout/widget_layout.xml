@@ -10,8 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:text="WiFi" 
-        />
+        android:text="WiFi" />
 
     <Button
         android:id="@+id/Po_bt2"
@@ -21,24 +20,28 @@
         android:text="BT" />
 
     <Button
+        android:id="@+id/Po_bt3"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="GPS" />
     
     <Button
+        android:id="@+id/Po_bt4"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="3G" />
     
     <Button
+        android:id="@+id/Po_bt5"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="Finger" />
     
     <Button
+        android:id="@+id/Po_bt6"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
