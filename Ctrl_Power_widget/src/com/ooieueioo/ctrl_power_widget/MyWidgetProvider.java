@@ -5,10 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
@@ -35,8 +34,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
 //            onUpdate(context);
 			this.wifi_status = !this.wifi_status;
 			Log.d("Po", "Po_btn1_wifi="+this.wifi_status);
+			toggleWiFi(this.wifi_status, context);
         }
 
+	}
+	public void toggleWiFi(boolean status , Context context) {
+		WifiManager wifiManager = (WifiManager) 
+				context.getSystemService(Context.WIFI_SERVICE);
+		if (status == true && !wifiManager.isWifiEnabled()) {
+			wifiManager.setWifiEnabled(true);
+		} else if (status == false && wifiManager.isWifiEnabled()) {
+			wifiManager.setWifiEnabled(false);
+		}
+		Log.d("Po", "toggleWiFi() Po_btn1_wifi="+this.wifi_status);
 	}
 
 	@Override
