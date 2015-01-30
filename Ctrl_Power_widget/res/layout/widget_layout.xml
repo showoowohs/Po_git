@@ -6,10 +6,12 @@
     android:orientation="horizontal" >
 
     <Button
+        android:id="@+id/Po_bt1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:text="WiFi" />
+        android:text="WiFi" 
+        />
 
     <Button
         android:layout_width="fill_parent"

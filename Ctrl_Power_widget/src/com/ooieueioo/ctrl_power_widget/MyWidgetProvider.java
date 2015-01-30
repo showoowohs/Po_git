@@ -1,24 +1,20 @@
 package com.ooieueioo.ctrl_power_widget;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
 	private static final String CLICK_ACTION = "myCustomAction";
+	private static final String Po_btn1_wifi = "XX";
+	private static boolean wifi_status = false;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -30,12 +26,18 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 		if (CLICK_ACTION.equals(action)) {
 			System.out.println("clicked");
-//			Toast.makeText(context, Read_Carrier(), Toast.LENGTH_LONG).show();
-			
+			// Toast.makeText(context, Read_Carrier(),
+			// Toast.LENGTH_LONG).show();
+
 		}
+		
+		if (Po_btn1_wifi.equals(intent.getAction())) {
+//            onUpdate(context);
+			this.wifi_status = !this.wifi_status;
+			Log.d("Po", "Po_btn1_wifi="+this.wifi_status);
+        }
 
 	}
-	
 
 	@Override
 	public void onEnabled(Context context) {
@@ -49,7 +51,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
-		
 		Log.d("Po_add", "onUpdate");
 		System.out.println("on-update widget");
 
@@ -67,16 +68,23 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 			remoteViews.setOnClickPendingIntent(R.id.WidgetLayout,
 					pendingIntent);
+			// Po add button
+			remoteViews.setOnClickPendingIntent(R.id.Po_bt1,
+					getPendingSelfIntent(context, Po_btn1_wifi));
 
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
-		//±Ò°Êthread
-//		Thread thread = new Thread(new update_thread()); 
-//	    thread.start(); 
+		// ±Ò°Êthread
+		// Thread thread = new Thread(new update_thread());
+		// thread.start();
 	}
 
-
-
+	private PendingIntent getPendingSelfIntent(Context context, String action) {
+		// An explicit intent directed at the current class (the "self").
+		Intent intent = new Intent(context, getClass());
+		intent.setAction(action);
+		return PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
 
 	public class update_thread implements Runnable {
 		@Override
@@ -87,17 +95,18 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 				try {
 					Thread.sleep(1000);
-					
-//					if ((i == 2) || (i == 5) || (i==10) || (i == 20) || (i == 30)){
-//						RemoteViews views = new RemoteViews(
-//								Po_context.getPackageName(), R.layout.widget_layout);
-						// views.setTextViewText(R.id.TextView01,
-						// String.valueOf(Math.random()) );
-//						Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
-//						Po_app_manager.updateAppWidget(Po_appWidgetId, views);
-//					}
-					
-					if (i == 60){
+
+					// if ((i == 2) || (i == 5) || (i==10) || (i == 20) || (i ==
+					// 30)){
+					// RemoteViews views = new RemoteViews(
+					// Po_context.getPackageName(), R.layout.widget_layout);
+					// views.setTextViewText(R.id.TextView01,
+					// String.valueOf(Math.random()) );
+					// Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
+					// Po_app_manager.updateAppWidget(Po_appWidgetId, views);
+					// }
+
+					if (i == 60) {
 						i = 0;
 					}
 					Log.d("Po_add", "i=" + i);
@@ -106,11 +115,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					e.printStackTrace();
 					Log.d("Po_add", "InterruptedException");
 				}
-				
 
-				
 			}
 		}
 	}
-	
+
 }
