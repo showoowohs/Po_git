@@ -31,20 +31,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		}
 		
 		if (Po_btn1_wifi.equals(intent.getAction())) {
-//            onUpdate(context);
-			this.wifi_status = !this.wifi_status;
-			Log.d("Po", "Po_btn1_wifi="+this.wifi_status);
-			toggleWiFi(this.wifi_status, context);
+			toggle_WiFi(context);
         }
 
 	}
-	public void toggleWiFi(boolean status , Context context) {
+	public void toggle_WiFi(Context context) {
 		WifiManager wifiManager = (WifiManager) 
 				context.getSystemService(Context.WIFI_SERVICE);
-		if (status == true && !wifiManager.isWifiEnabled()) {
+		if (!wifiManager.isWifiEnabled()) {
 			wifiManager.setWifiEnabled(true);
-		} else if (status == false && wifiManager.isWifiEnabled()) {
+			this.wifi_status = true;
+		} else{
 			wifiManager.setWifiEnabled(false);
+			this.wifi_status = false;
 		}
 		Log.d("Po", "toggleWiFi() Po_btn1_wifi="+this.wifi_status);
 	}
