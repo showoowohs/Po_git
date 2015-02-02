@@ -1,7 +1,6 @@
 package com.ooieueioo.ctrl_power_widget;
 
 import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.bluetooth.BluetoothAdapter;
@@ -10,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -19,9 +19,11 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static final String Po_btn1_wifi = "Po_WiFi";
 	private static final String Po_btn2_BT = "Po_BT";
 	private static final String Po_btn3_GPS = "Po_GPS";
+	private static final String Po_btn4_3G = "Po_3G";
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
+	private static boolean net_3G_status = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -53,6 +55,22 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 		if (Po_btn3_GPS.equals(action)) {
 			toggle_GPS(context);
+		}
+
+		if (Po_btn4_3G.equals(action)) {
+			// toggle_GPS(context);
+			TelephonyManager telephonyManager = (TelephonyManager) context
+					.getSystemService(Context.TELEPHONY_SERVICE);
+			Log.d("Po", "telephonyManager.getDataState()="+telephonyManager.getDataState());
+			
+//			switch (telephonyManager.getDataState()) {
+//			case TelephonyManager.DATA_CONNECTED:
+//				setMobileDataEnabledMethod.invoke(iConnectivityManager, false);
+//				break;
+//			case TelephonyManager.DATA_DISCONNECTED:
+//				setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
+//				break;
+//			}
 		}
 	}
 
@@ -117,7 +135,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			context.sendBroadcast(poke);
 			Log.d("Po", "toggle_GPS() GPS_status=flase");
 		}
-//		Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
+		// Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
 	}
 
 	@Override
@@ -156,6 +174,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					getPendingSelfIntent(context, Po_btn2_BT));
 			remoteViews.setOnClickPendingIntent(R.id.Po_bt3,
 					getPendingSelfIntent(context, Po_btn3_GPS));
+			remoteViews.setOnClickPendingIntent(R.id.Po_bt4,
+					getPendingSelfIntent(context, Po_btn4_3G));
 
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
