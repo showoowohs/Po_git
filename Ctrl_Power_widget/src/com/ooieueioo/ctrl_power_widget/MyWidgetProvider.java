@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.ooieueioo.ctrl_power_widget.adrian_bl.ApnICS;
+import com.ooieueioo.ctrl_power_widget.adrian_bl.ApnLegacy;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
@@ -59,18 +61,11 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 		if (Po_btn4_3G.equals(action)) {
 			// toggle_GPS(context);
-			TelephonyManager telephonyManager = (TelephonyManager) context
-					.getSystemService(Context.TELEPHONY_SERVICE);
-			Log.d("Po", "telephonyManager.getDataState()="+telephonyManager.getDataState());
-			
-//			switch (telephonyManager.getDataState()) {
-//			case TelephonyManager.DATA_CONNECTED:
-//				setMobileDataEnabledMethod.invoke(iConnectivityManager, false);
-//				break;
-//			case TelephonyManager.DATA_DISCONNECTED:
-//				setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
-//				break;
-//			}
+			//TelephonyManager telephonyManager = (TelephonyManager) context
+			//		.getSystemService(Context.TELEPHONY_SERVICE);
+			//Log.d("Po", "telephonyManager.getDataState()="+telephonyManager.getDataState());
+			toggleApnStatus(context);
+
 		}
 	}
 
@@ -137,7 +132,57 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		}
 		// Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
 	}
+	
+	//*************** copy from https://github.com/adrian-bl/APN-Switch start***************//
+	
+	/*
+	 * Toggle APN on/off
+	*/
+	private void toggleApnStatus(Context ctx) {
+		setApnStatus(ctx, getApnStatus(ctx) ? false : true);
+		
+		//check 3G status
+		String status = new Boolean(getApnStatus(ctx)).toString();
+		if(status.equals("true")){
+			this.net_3G_status = true;
+		}else{
+			this.net_3G_status = false;
+		}			
+				
+		log("toggleApnStatus: APN-enabled: " + this.net_3G_status);
+	}
+	
+	/*
+	 * Enables APN if 'on' is TRUE
+	*/
+	private void setApnStatus(Context ctx, boolean on) {
+		if(isICS()) { (new ApnICS()).setApnStatus(ctx,on);    }
+		else        { (new ApnLegacy()).setApnStatus(ctx,on); }
+	}
+	
+	/*
+	 * Returns current APN-Status : true == apn is enabled
+	*/
+	private boolean getApnStatus(Context ctx) {
+		if(isICS()) { return (new ApnICS()).getApnStatus(ctx);    }
+		else        { return (new ApnLegacy()).getApnStatus(ctx); }
+	}
+	
+	private void log(String lmsg) {
+//		android.util.Log.d("ApnSwitch INFO: ", lmsg);
+		//Po modify
+		android.util.Log.d("Po", lmsg);
+	}
+	
+	/*
+	 * Returns TRUE if we should use ApnICS(); -> ICS is SDK_INT 14
+	*/
+	private boolean isICS() {
+		return ( android.os.Build.VERSION.SDK_INT >= 14 ? true : false );
+	}
 
+	//*************** copy from https://github.com/adrian-bl/APN-Switch END***************//
+	
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
