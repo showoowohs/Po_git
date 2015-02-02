@@ -1,12 +1,15 @@
 package com.ooieueioo.ctrl_power_widget;
 
 import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -99,8 +102,22 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	 *            on/of GPS
 	 */
 	public void toggle_GPS(Context context) {
-
-		Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
+		String provider = Settings.Secure.getString(
+				context.getContentResolver(),
+				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+		this.GPS_status = provider.contains("gps");
+		if (this.GPS_status == true) {
+			Log.d("Po", "toggle_GPS() GPS_status=true");
+		} else {
+			Intent poke = new Intent();
+			poke.setClassName("com.android.settings",
+					"com.android.settings.widget.SettingsAppWidgetProvider");
+			poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+			poke.setData(Uri.parse("3"));
+			context.sendBroadcast(poke);
+			Log.d("Po", "toggle_GPS() GPS_status=flase");
+		}
+//		Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
 	}
 
 	@Override
