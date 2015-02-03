@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 		dialog.setTitle(Title);
 		dialog.setMessage(Msg);
-		dialog.setIcon(android.R.drawable.ic_dialog_alert);
+		dialog.setIcon(R.drawable.root_x);
 		dialog.setCancelable(false);
 
 		if (btn_num == 2) {
@@ -131,6 +131,7 @@ public class MainActivity extends Activity {
 					});
 		} else {
 			// button number = 1
+			dialog.setIcon(R.drawable.root_o);
 			dialog.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
