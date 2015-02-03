@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/WidgetLayout"
+    android:background="#FF444444"   
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
-    <Button
+    <ImageView
         android:id="@+id/Po_bt1"
+        android:src="@drawable/ic_settings_wireless"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="WiFi" />
 
-    <Button
+    <ImageView
         android:id="@+id/Po_bt2"
+        android:src="@drawable/ic_appwidget_settings_bluetooth_on_holo"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="BT" />
 
-    <Button
+    <ImageView
         android:id="@+id/Po_bt3"
+        android:src="@drawable/ic_settings_location"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="GPS" />
     
-    <Button
+    <ImageView
         android:id="@+id/Po_bt4"
+        android:src="@drawable/ic_network_signal_0"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
