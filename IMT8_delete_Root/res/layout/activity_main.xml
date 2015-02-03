@@ -9,9 +9,10 @@
     tools:context="com.mobile.imt8_delete_root.MainActivity" >
 
     <TextView
+        android:id="@+id/Po_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please click alow"
+        android:text="Please click allow"
         android:textSize="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

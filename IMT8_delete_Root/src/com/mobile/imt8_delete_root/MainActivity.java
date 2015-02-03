@@ -10,17 +10,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	private TextView Po_TV1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		// 1. find ID
 		findViewId();
+
+		// 2. set text
+		this.Po_TV1.setText("Are you ready delete Root??");
 		show_dialog("Are you sure want to delete Root??",
-				"Warning! will lose root!");
+				"Warning!\nwill delete root!", 2);
 	}
 
 	public void Create_File(String file_path, String str) {
@@ -89,40 +95,58 @@ public class MainActivity extends Activity {
 	 * @param Title
 	 * @param Msg
 	 */
-	public void show_dialog(String Title, String Msg) {
+	public void show_dialog(String Title, String Msg, int btn_num) {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 		dialog.setTitle(Title);
 		dialog.setMessage(Msg);
 		dialog.setIcon(android.R.drawable.ic_dialog_alert);
 		dialog.setCancelable(false);
-		dialog.setPositiveButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						// 按下PositiveButton要做的事
-						Toast("APP will exit");
-						onDestroy();
-					}
-				});
 
-		dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// 按下NegativeButton要做的事
-				// Run_su("busybox rm /data/recovery_IQ8.sh; busybox mv /sdcard/recovery_IQ8.sh /data/recovery_IQ8.sh; busybox chmod 777 /data/recovery_IQ8.sh ; ./data/recovery_IQ8.sh");
-				// Move_File("/sdcard/command", "/system/command");
-				String script_command = "rm /system/app/Superuser.apk";
-				Create_File("/sdcard/del_root.sh", script_command);
-				// String Title = "Please shutdown!";
-				// String Msg =
-				// "Recovery setting is OK\nPlease turn off the machine and then into recovery mode";
-				// show_dialog(Title, Msg);
-			}
-		});
+		if (btn_num == 2) {
+			// button number = 2
+			dialog.setPositiveButton("Cancel",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// 按下PositiveButton要做的事
+							Toast("APP will exit");
+							onDestroy();
+						}
+					});
+
+			dialog.setNegativeButton("Yes",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// 按下NegativeButton要做的事
+							// Move_File("/sdcard/command", "/system/command");
+							String script_command = "rm /system/app/Superuser.apk";
+							Create_File("/sdcard/del_root.sh", script_command);
+							Po_TV1.setText("Please click allow, if you need delete Root!");
+
+							Run_su("busybox mv /sdcard/del_root.sh /data/del_root.sh; busybox chmod 777 /data/del_root.sh; ./data/del_root.sh; rm /data/del_root.sh");
+							
+							//call exit dialog
+							Po_TV1.setText("Root delete success!!");
+							show_dialog("Root delete success", "please click ok to exit", 1);
+						}
+					});
+		} else {
+			// button number = 1
+			dialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// 按下PositiveButton要做的事
+							Toast("APP will exit");
+							onDestroy();
+						}
+					});
+
+		}
 
 		dialog.show();
 	}
 
 	public void findViewId() {
-
+		this.Po_TV1 = (TextView) findViewById(R.id.Po_tv1);
 	}
 
 	@Override
