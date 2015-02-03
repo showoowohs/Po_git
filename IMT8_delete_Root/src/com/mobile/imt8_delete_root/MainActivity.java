@@ -18,6 +18,13 @@ public class MainActivity extends Activity {
 		show_dialog("Are you sure want to delete Root??", "Warning! will lose root!");
 	}
 	
+	@Override
+	protected void onDestroy() {
+		int pid = android.os.Process.myPid();
+		android.os.Process.killProcess(pid);
+		super.onDestroy();
+	}
+	
 	/***
 	 * 顯示diglog
 	 * 
@@ -30,17 +37,28 @@ public class MainActivity extends Activity {
 		dialog.setMessage(Msg);
 		dialog.setIcon(android.R.drawable.ic_dialog_alert);
 		dialog.setCancelable(false);
-		dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// 按下PositiveButton要做的事
-				Toast.makeText(MainActivity.this, "APP is exit",
+//				Run_su("busybox rm /data/recovery_IQ8.sh; busybox mv /sdcard/recovery_IQ8.sh /data/recovery_IQ8.sh; busybox chmod 777 /data/recovery_IQ8.sh ; ./data/recovery_IQ8.sh");
+				// Move_File("/sdcard/command", "/system/command");
+
+				Toast.makeText(MainActivity.this, "APP will exit",
 						Toast.LENGTH_SHORT).show();
 				onDestroy();
 			}
 		});
+		
+		dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 按下NegativeButton要做的事
+				String Title = "Please shutdown!";
+				String Msg = "Recovery setting is OK\nPlease turn off the machine and then into recovery mode";
+				show_dialog(Title, Msg);
+			}
+		});
 
 		dialog.show();
-
 	}
 
 	public void findViewId(){
