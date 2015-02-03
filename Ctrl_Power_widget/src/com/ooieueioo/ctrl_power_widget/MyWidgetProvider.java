@@ -26,6 +26,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
 	private static boolean net_3G_status = false;
+	private Context Po_context = null;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -115,10 +116,23 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	 *            on/of GPS
 	 */
 	public void toggle_GPS(Context context) {
-		String provider = Settings.Secure.getString(
+		//open GPS setting dialog
+		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+		
+        this.Po_context = context;
+        
+        
+		// start thread
+		 Thread thread = new Thread(new Po_Read_GPS_status());
+		 thread.start();
+        
+        /*
+        Po_GPS_provider = Settings.Secure.getString(
 				context.getContentResolver(),
 				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-		this.GPS_status = provider.contains("gps");
+		this.GPS_status = Po_GPS_provider.contains("gps");
 		if (this.GPS_status == true) {
 			Log.d("Po", "toggle_GPS() GPS_status=true");
 		} else {
@@ -130,6 +144,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			context.sendBroadcast(poke);
 			Log.d("Po", "toggle_GPS() GPS_status=flase");
 		}
+         */
 		// Log.d("Po", "toggle_GPS() GPS_status=" + this.GPS_status);
 	}
 	
@@ -195,7 +210,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
-		Log.d("Po_add", "onUpdate");
+		Log.d("Po", "onUpdate");
 		System.out.println("on-update widget");
 
 		for (int widgetId : appWidgetIds) {
@@ -236,6 +251,30 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		return PendingIntent.getBroadcast(context, 0, intent, 0);
 	}
 
+	public class Po_Read_GPS_status implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			int Po_read_GPS_start = 0;
+			int Po_read_GPS_end =30;
+			while(Po_read_GPS_start++ < Po_read_GPS_end){
+				try {
+					Thread.sleep(1000);
+					String provider = Settings.Secure.getString(
+							Po_context.getContentResolver(),
+							Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+					GPS_status = provider.contains("gps");
+					Log.d("Po", "GPS_status="+GPS_status + "  time="+Po_read_GPS_start);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
 	public class update_thread implements Runnable {
 		@Override
 		public void run() {
