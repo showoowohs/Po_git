@@ -61,7 +61,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_settings_location"
+            android:src="@drawable/ic_appwidget_settings_gps_off_holo"
             android:text="GPS" />
 
         <ImageView

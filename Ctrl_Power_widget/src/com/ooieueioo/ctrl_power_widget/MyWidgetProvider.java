@@ -354,8 +354,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					 // read GPS status
 					 if(GPS_status){
 						 //true
+						 views.setImageViewResource(R.id.Po_bt3, R.drawable.ic_appwidget_settings_gps_on_holo);
 						 views.setImageViewResource(R.id.Po_IV3_below, R.drawable.blue);
 					 }else{
+						 views.setImageViewResource(R.id.Po_bt3, R.drawable.ic_appwidget_settings_gps_off_holo);
 						 views.setImageViewResource(R.id.Po_IV3_below, R.drawable.white);
 					 }
 
