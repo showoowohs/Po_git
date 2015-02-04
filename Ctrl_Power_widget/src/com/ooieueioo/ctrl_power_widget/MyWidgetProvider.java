@@ -240,8 +240,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 		// ±Ò°Êthread
-		// Thread thread = new Thread(new update_thread());
-		// thread.start();
+		 Thread thread = new Thread(new update_UI());
+		 thread.start();
 	}
 
 	private PendingIntent getPendingSelfIntent(Context context, String action) {
@@ -275,12 +275,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		
 	}
 	
-	public class update_thread implements Runnable {
+	public class update_UI implements Runnable {
 		@Override
 		public void run() {
+			
 			int i = 0;
-			int Max_num = 61;
-			while (true && i++ < Max_num) {
+			while (true) {
 
 				try {
 					Thread.sleep(1000);
@@ -294,15 +294,25 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					// Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
 					// Po_app_manager.updateAppWidget(Po_appWidgetId, views);
 					// }
-
-					if (i == 60) {
+					
+					i++;
+					Log.d("Po", "update_UI() time=" + i);
+					
+					if (i == 60 * 60 *30) {
+						//if 30 min set i =0 
 						i = 0;
 					}
-					Log.d("Po_add", "i=" + i);
+					
+					Log.d("Po", "update_UI() wifi_status=" + wifi_status);
+					Log.d("Po", "update_UI() BT_status=" + BT_status);
+					Log.d("Po", "update_UI() GPS_status=" + GPS_status);
+					Log.d("Po", "update_UI() net_3G_status=" + net_3G_status);
+					
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					Log.d("Po_add", "InterruptedException");
+					Log.d("Po", "InterruptedException");
 				}
 
 			}
