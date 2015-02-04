@@ -346,8 +346,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					 // read bluetooth status
 					 if(BT_status){
 						 //true
+						 views.setImageViewResource(R.id.Po_bt2, R.drawable.ic_appwidget_settings_bluetooth_on_holo);
 						 views.setImageViewResource(R.id.Po_IV2_below, R.drawable.blue);
 					 }else{
+						 views.setImageViewResource(R.id.Po_bt2, R.drawable.ic_appwidget_settings_bluetooth_off_holo);
 						 views.setImageViewResource(R.id.Po_IV2_below, R.drawable.white);
 					 }
 					 
