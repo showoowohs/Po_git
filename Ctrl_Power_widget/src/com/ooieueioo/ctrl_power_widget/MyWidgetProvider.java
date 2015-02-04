@@ -28,6 +28,42 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static boolean net_3G_status = false;
 	private Context Po_context = null;
 
+	private void Po_init_parameter(Context context){
+		
+		// read wifi status
+		WifiManager wifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled()) {
+			this.wifi_status = false;
+		} else {
+			this.wifi_status = true;
+		}
+
+		// read bluetooth status
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		if (!mBluetoothAdapter.isEnabled()) {
+			this.BT_status = false;
+		} else {
+			this.BT_status = true;
+		}
+
+		// read GPS status
+		String provider = Settings.Secure.getString(
+				context.getContentResolver(),
+				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+		this.GPS_status = provider.contains("gps");
+
+		//read 3G status
+		String status = new Boolean(getApnStatus(context)).toString();
+		if(status.equals("true")){
+			this.net_3G_status = true;
+		}else{
+			this.net_3G_status = false;
+		}
+		
+	}
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
@@ -66,7 +102,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
 			//		.getSystemService(Context.TELEPHONY_SERVICE);
 			//Log.d("Po", "telephonyManager.getDataState()="+telephonyManager.getDataState());
 			toggleApnStatus(context);
-
 		}
 	}
 
@@ -239,6 +274,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
+		
+		// init
+		Po_init_parameter(context);
+		
 		// ±Ò°Êthread
 		 Thread thread = new Thread(new update_UI());
 		 thread.start();
