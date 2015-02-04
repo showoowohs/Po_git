@@ -26,7 +26,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
 	private static boolean net_3G_status = false;
-	private Context Po_context = null;
+	private Context Po_GPS_use_context = null;
 
 	private void Po_init_parameter(Context context){
 		
@@ -156,7 +156,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 		
-        this.Po_context = context;
+        this.Po_GPS_use_context = context;
         
         
 		// start thread
@@ -301,7 +301,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 				try {
 					Thread.sleep(1000);
 					String provider = Settings.Secure.getString(
-							Po_context.getContentResolver(),
+							Po_GPS_use_context.getContentResolver(),
 							Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 					GPS_status = provider.contains("gps");
 					Log.d("Po", "GPS_status="+GPS_status + "  time="+Po_read_GPS_start);
