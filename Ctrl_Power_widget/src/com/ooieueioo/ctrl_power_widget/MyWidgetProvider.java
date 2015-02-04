@@ -362,8 +362,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					 // read 3G status
 					 if(net_3G_status){
 						 //true
+						 views.setImageViewResource(R.id.Po_bt4, R.drawable.ic_network_signal_4);
 						 views.setImageViewResource(R.id.Po_IV4_below, R.drawable.blue);
 					 }else{
+						 views.setImageViewResource(R.id.Po_bt4, R.drawable.ic_network_signal_0);
 						 views.setImageViewResource(R.id.Po_IV4_below, R.drawable.white);
 					 }
 					 
