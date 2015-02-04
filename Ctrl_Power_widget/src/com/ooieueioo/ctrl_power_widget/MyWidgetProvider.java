@@ -338,8 +338,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					 // read wifi status
 					 if(wifi_status){
 						 //true
+						 views.setImageViewResource(R.id.Po_bt1, R.drawable.ic_appwidget_settings_wifi_on_holo);
 						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.blue);
 					 }else{
+						 views.setImageViewResource(R.id.Po_bt1, R.drawable.ic_appwidget_settings_wifi_off_holo);
 						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.white);
 					 }
 					 

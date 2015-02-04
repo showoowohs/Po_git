@@ -17,7 +17,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_settings_wireless"
+            android:src="@drawable/ic_appwidget_settings_wifi_off_holo"
             android:text="WiFi" />
 
         <ImageView
@@ -39,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_appwidget_settings_bluetooth_on_holo"
+            android:src="@drawable/ic_appwidget_settings_bluetooth_off_holo"
             android:text="BT" />
 
         <ImageView
