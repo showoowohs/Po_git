@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -27,6 +26,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	private static boolean GPS_status = false;
 	private static boolean net_3G_status = false;
 	private Context Po_GPS_use_context = null;
+	private Context Po_context = null;
+	private int []Po_appWidgetId;
+	private AppWidgetManager Po_app_manager; 
 
 	private void Po_init_parameter(Context context){
 		
@@ -244,7 +246,11 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-
+		
+		this.Po_context = context;
+		this.Po_appWidgetId = appWidgetIds;
+		this.Po_app_manager = appWidgetManager;
+		
 		Log.d("Po", "onUpdate");
 		System.out.println("on-update widget");
 
@@ -326,13 +332,18 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
 					// if ((i == 2) || (i == 5) || (i==10) || (i == 20) || (i ==
 					// 30)){
-					// RemoteViews views = new RemoteViews(
-					// Po_context.getPackageName(), R.layout.widget_layout);
-					// views.setTextViewText(R.id.TextView01,
-					// String.valueOf(Math.random()) );
-					// Chang_Signal_Icon(Po_context, Po_Signal, Read_Carrier());
-					// Po_app_manager.updateAppWidget(Po_appWidgetId, views);
-					// }
+					 RemoteViews views = new RemoteViews(
+					 Po_context.getPackageName(), R.layout.widget_layout);
+					 
+					 // read wifi status
+					 if(wifi_status){
+						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.blue);
+					 }else{
+						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.white);
+					 }
+					 
+					 Po_app_manager.updateAppWidget(Po_appWidgetId, views);
+
 					
 					i++;
 					Log.d("Po", "update_UI() time=" + i);

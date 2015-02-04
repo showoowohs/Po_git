@@ -21,10 +21,11 @@
             android:text="WiFi" />
 
         <ImageView
+            android:id="@+id/Po_IV1_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
     <LinearLayout
