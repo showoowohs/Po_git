@@ -43,10 +43,11 @@
             android:text="BT" />
 
         <ImageView
+            android:id="@+id/Po_IV2_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,10 +65,11 @@
             android:text="GPS" />
 
         <ImageView
+            android:id="@+id/Po_IV3_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,10 +87,11 @@
             android:text="3G" />
 
         <ImageView
+            android:id="@+id/Po_IV4_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -105,10 +108,11 @@
             android:text="Finger" />
 
         <ImageView
+            android:id="@+id/Po_IV5_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -125,10 +129,11 @@
             android:text="Thermal" />
 
         <ImageView
+            android:id="@+id/Po_IV6_below"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="12"
-            android:background="@color/white" />
+            android:src="@drawable/white" />
     </LinearLayout>
 
 </LinearLayout>

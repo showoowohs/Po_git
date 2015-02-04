@@ -337,9 +337,34 @@ public class MyWidgetProvider extends AppWidgetProvider {
 					 
 					 // read wifi status
 					 if(wifi_status){
+						 //true
 						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.blue);
 					 }else{
 						 views.setImageViewResource(R.id.Po_IV1_below, R.drawable.white);
+					 }
+					 
+					 // read bluetooth status
+					 if(BT_status){
+						 //true
+						 views.setImageViewResource(R.id.Po_IV2_below, R.drawable.blue);
+					 }else{
+						 views.setImageViewResource(R.id.Po_IV2_below, R.drawable.white);
+					 }
+					 
+					 // read GPS status
+					 if(GPS_status){
+						 //true
+						 views.setImageViewResource(R.id.Po_IV3_below, R.drawable.blue);
+					 }else{
+						 views.setImageViewResource(R.id.Po_IV3_below, R.drawable.white);
+					 }
+
+					 // read 3G status
+					 if(net_3G_status){
+						 //true
+						 views.setImageViewResource(R.id.Po_IV4_below, R.drawable.blue);
+					 }else{
+						 views.setImageViewResource(R.id.Po_IV4_below, R.drawable.white);
 					 }
 					 
 					 Po_app_manager.updateAppWidget(Po_appWidgetId, views);
