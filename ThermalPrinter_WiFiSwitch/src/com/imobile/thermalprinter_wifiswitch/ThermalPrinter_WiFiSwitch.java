@@ -101,16 +101,62 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		handleIntent();
 		debug_toast("onCreate");
 		
-		//Po area Start
+		//Po add Start
 		
 		this.Po_context = this;
 		Po_find_id();
 		Po_init_parameter(this);
 		
-		//Po area END
+		//Po add END
 	}
 
 	//Po area Start
+	
+	/*****
+	 * toggle_WiFi:
+	 * on/off WiFi
+	 * @param context 
+	 */
+	public void toggle_WiFi(Context context) {
+		WifiManager wifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled()) {
+			wifiManager.setWifiEnabled(true);
+			this.wifi_status = true;
+			
+			//set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_on_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.blue));
+			
+		} else {
+			wifiManager.setWifiEnabled(false);
+			this.wifi_status = false;
+			
+			//set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_off_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.white));
+			
+		}
+		Log.d("Po_test", "toggleWiFi() wifi_status=" + this.wifi_status);
+		// System.out.println("toggleWiFi() wifi_status=" + this.wifi_status);
+	}
+	
+	/***
+	 * Po_wifi_area: 
+	 * click can toggle wifi on/off
+	 * @param view
+	 */
+	 public void Po_wifi_area(View view) {
+		 toggle_WiFi(this);
+//		 Log.d("Po_test", "click");
+	 }
+	
+	 /***
+	  * Po_init_parameter:
+	  * onCreate and onResume call
+	  * can read wifi status, last chang wifi icon 
+	  * @param context
+	  */
 	private void Po_init_parameter(Context context) {
 
 		// read wifi status
@@ -134,6 +180,10 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		Log.d("Po_test", "wifi_status=" + this.wifi_status);
 	}
 	
+	/***
+	 * Po_find_id:
+	 * can run findViewById
+	 */
 	private void Po_find_id(){
 		this.Po_IV1_top = (ImageView) findViewById(R.id.Po_IV1_top);
 		this.Po_IV1_below = (ImageView) findViewById(R.id.Po_IV1_below);
