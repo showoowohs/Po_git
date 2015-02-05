@@ -63,8 +63,9 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	// Po area Start
 	private Context Po_context = null;
 	private static boolean wifi_status = false;
-	private ImageView Po_IV1_top;
-	private ImageView Po_IV1_below;
+	private static boolean BT_status = false;
+	private ImageView Po_IV1_top, Po_IV2_top;
+	private ImageView Po_IV1_below, Po_IV2_below;
 
 	// Po area END
 
@@ -100,22 +101,22 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		initBroadcast();
 		handleIntent();
 		debug_toast("onCreate");
-		
-		//Po add Start
-		
+
+		// Po add Start
+
 		this.Po_context = this;
 		Po_find_id();
 		Po_init_parameter(this);
-		
-		//Po add END
+
+		// Po add END
 	}
 
-	//Po area Start
-	
+	// Po area Start
+
 	/*****
-	 * toggle_WiFi:
-	 * on/off WiFi
-	 * @param context 
+	 * toggle_WiFi: on/off WiFi
+	 * 
+	 * @param context
 	 */
 	public void toggle_WiFi(Context context) {
 		WifiManager wifiManager = (WifiManager) context
@@ -123,40 +124,44 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		if (!wifiManager.isWifiEnabled()) {
 			wifiManager.setWifiEnabled(true);
 			this.wifi_status = true;
-			
-			//set drawable
-			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_on_holo));
-			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.blue));
-			
+
+			// set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_wifi_on_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
 		} else {
 			wifiManager.setWifiEnabled(false);
 			this.wifi_status = false;
-			
-			//set drawable
-			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_off_holo));
-			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.white));
-			
+
+			// set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_wifi_off_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+
 		}
 		Log.d("Po_test", "toggleWiFi() wifi_status=" + this.wifi_status);
 		// System.out.println("toggleWiFi() wifi_status=" + this.wifi_status);
 	}
-	
+
 	/***
-	 * Po_wifi_area: 
-	 * click can toggle wifi on/off
+	 * Po_wifi_area: click can toggle wifi on/off
+	 * 
 	 * @param view
 	 */
-	 public void Po_wifi_area(View view) {
-		 toggle_WiFi(this);
-//		 Log.d("Po_test", "click");
-	 }
-	
-	 /***
-	  * Po_init_parameter:
-	  * onCreate and onResume call
-	  * can read wifi status, last chang wifi icon 
-	  * @param context
-	  */
+	public void Po_wifi_area(View view) {
+		toggle_WiFi(this);
+		// Log.d("Po_test", "click");
+	}
+
+	/***
+	 * Po_init_parameter: onCreate and onResume call can read wifi status, last
+	 * chang wifi/BT icon
+	 * 
+	 * @param context
+	 */
 	private void Po_init_parameter(Context context) {
 
 		// read wifi status
@@ -164,32 +169,52 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 				.getSystemService(Context.WIFI_SERVICE);
 		if (!wifiManager.isWifiEnabled()) {
 			this.wifi_status = false;
-			
-			//set drawable
-			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_off_holo));
-			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.white));
-			
+
+			// set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_wifi_off_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+
 		} else {
 			this.wifi_status = true;
-			
-			//set drawable
-			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_on_holo));
-			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.blue));
-			
+
+			// set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_wifi_on_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
 		}
 		Log.d("Po_test", "wifi_status=" + this.wifi_status);
+
+		// read bluetooth status
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		if (!mBluetoothAdapter.isEnabled()) {
+			this.BT_status = false;
+		} else {
+			this.BT_status = true;
+		}
+
+		Log.d("Po_test", "BT_status=" + this.BT_status);
 	}
-	
+
 	/***
-	 * Po_find_id:
-	 * can run findViewById
+	 * Po_find_id: can run findViewById
 	 */
-	private void Po_find_id(){
+	private void Po_find_id() {
+		// find id wifi
 		this.Po_IV1_top = (ImageView) findViewById(R.id.Po_IV1_top);
 		this.Po_IV1_below = (ImageView) findViewById(R.id.Po_IV1_below);
+
+		// find id BT
+		this.Po_IV2_top = (ImageView) findViewById(R.id.Po_IV2_top);
+		this.Po_IV2_below = (ImageView) findViewById(R.id.Po_IV2_below);
 	}
-	//Po area END
-	
+
+	// Po area END
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
