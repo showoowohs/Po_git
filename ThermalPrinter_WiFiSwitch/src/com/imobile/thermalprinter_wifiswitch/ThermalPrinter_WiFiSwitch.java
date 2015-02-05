@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -55,12 +59,17 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private static final String str1 = "abcdefghijklmnopqrstuvwxyz";
 	private static final String strBarCode = "123456789012";
 	private static final String strQrCode = "Hello, the beautiful world!";
+	// Po area Start
+	private Context Po_context = null;
+	private static boolean wifi_status = false;
+
+	// Po area END
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thermal_printer__wi_fi_switch);
-		
+
 		textView1 = (TextView) findViewById(R.id.textView1);
 		buttonDisconnect = (Button) findViewById(R.id.buttonDisconnect);
 		buttonDisconnect.setOnClickListener(this);
@@ -88,14 +97,37 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		initBroadcast();
 		handleIntent();
 		debug_toast("onCreate");
+		
+		//Po area Start
+		
+		this.Po_context = this;
+		Po_init_parameter(this);
+		
+		//Po area END
 	}
 
+	//Po area Start
+	private void Po_init_parameter(Context context) {
+
+		// read wifi status
+		WifiManager wifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled()) {
+			this.wifi_status = false;
+		} else {
+			this.wifi_status = true;
+		}
+		Log.d("Po_test", "wifi_status=" + this.wifi_status);
+	}
+	//Po area END
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.thermal_printer__wi_fi_switch, menu);
 		return true;
 	}
+
 	private void initBroadcast() {
 		broadcastReceiver = new BroadcastReceiver() {
 
@@ -149,6 +181,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Po_init_parameter(this);
 		debug_toast("onResume");
 	}
 
@@ -307,11 +340,13 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 														.getApplicationInfo().packageName),
 										0);
 						serialPort.port = new USBPort(mUsbManager,
-								ThermalPrinter_WiFiSwitch.this, device, mPermissionIntent);
+								ThermalPrinter_WiFiSwitch.this, device,
+								mPermissionIntent);
 						int ret = mSerial.pl2303_probe(serialPort);
 						if (ret == 0) {
 							textView1.setText(System.currentTimeMillis() + ": "
-									+ " connection successful " + mSerial.type + "\n");
+									+ " connection successful " + mSerial.type
+									+ "\n");
 							buttonConnect.setEnabled(false);
 							buttonDisconnect.setEnabled(true);
 						} else {
@@ -338,12 +373,12 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 				StopBits.ONE, 8);
 		int ret = mSerial.pl2303_open(serialPort, termios);
 		if (ret == 0)
-			textView1.setText(System.currentTimeMillis() + ": " + "open successful"
-					+ serialPort.termios.baudrate + " "
+			textView1.setText(System.currentTimeMillis() + ": "
+					+ "open successful" + serialPort.termios.baudrate + " "
 					+ serialPort.termios.parity + "\n");
 		else
-			textView1.setText(System.currentTimeMillis() + ": " + "open fail(" + ret
-					+ ")\n");
+			textView1.setText(System.currentTimeMillis() + ": " + "open fail("
+					+ ret + ")\n");
 
 	}
 
