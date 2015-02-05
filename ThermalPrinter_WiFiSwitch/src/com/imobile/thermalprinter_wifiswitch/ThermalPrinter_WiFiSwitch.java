@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,8 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	// Po area Start
 	private Context Po_context = null;
 	private static boolean wifi_status = false;
+	private ImageView Po_IV1_top;
+	private ImageView Po_IV1_below;
 
 	// Po area END
 
@@ -101,6 +104,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		//Po area Start
 		
 		this.Po_context = this;
+		Po_find_id();
 		Po_init_parameter(this);
 		
 		//Po area END
@@ -114,10 +118,25 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 				.getSystemService(Context.WIFI_SERVICE);
 		if (!wifiManager.isWifiEnabled()) {
 			this.wifi_status = false;
+			
+			//set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_off_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.white));
+			
 		} else {
 			this.wifi_status = true;
+			
+			//set drawable
+			this.Po_IV1_top.setImageDrawable(getResources().getDrawable( R.drawable.ic_appwidget_settings_wifi_on_holo));
+			this.Po_IV1_below.setImageDrawable(getResources().getDrawable( R.drawable.blue));
+			
 		}
 		Log.d("Po_test", "wifi_status=" + this.wifi_status);
+	}
+	
+	private void Po_find_id(){
+		this.Po_IV1_top = (ImageView) findViewById(R.id.Po_IV1_top);
+		this.Po_IV1_below = (ImageView) findViewById(R.id.Po_IV1_below);
 	}
 	//Po area END
 	
