@@ -64,6 +64,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private Context Po_context = null;
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
+	private static boolean GPS_status = false;
 	private ImageView Po_IV1_top, Po_IV2_top;
 	private ImageView Po_IV1_below, Po_IV2_below;
 
@@ -125,27 +126,27 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		if (!mBluetoothAdapter.isEnabled()) {
 			mBluetoothAdapter.enable();
 			this.BT_status = true;
-			
+
 			// set drawable
 			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_appwidget_settings_bluetooth_on_holo));
 			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
 					R.drawable.blue));
-			
+
 		} else {
 			mBluetoothAdapter.disable();
 			this.BT_status = false;
-			
+
 			// set drawable
 			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_appwidget_settings_bluetooth_off_holo));
 			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
 					R.drawable.white));
-			
+
 		}
 		Log.d("Po_test", "toggle_BT() BT_status=" + this.BT_status);
 	}
-	
+
 	/***
 	 * Po_BT_area: click can toggle BT on/off
 	 * 
@@ -155,7 +156,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		toggle_BT(this);
 		// Log.d("Po_test", "click");
 	}
-	
+
 	/*****
 	 * toggle_WiFi: on/off WiFi
 	 * 
@@ -254,6 +255,14 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		}
 
 		Log.d("Po_test", "BT_status=" + this.BT_status);
+
+		// read GPS status
+		String provider = Settings.Secure.getString(
+				context.getContentResolver(),
+				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+		this.GPS_status = provider.contains("gps");
+
+		Log.d("Po_test", "GPS_status=" + this.GPS_status);
 	}
 
 	/***
