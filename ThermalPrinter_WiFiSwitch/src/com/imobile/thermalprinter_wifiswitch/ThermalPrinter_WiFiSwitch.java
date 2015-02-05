@@ -114,6 +114,30 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 
 	// Po area Start
 
+	/****
+	 * toggle_GPS
+	 * 
+	 * @param context
+	 *            on/of GPS
+	 */
+	public void toggle_GPS(Context context) {
+		//open GPS setting dialog
+		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+		        
+	}
+	
+	/***
+	 * Po_GPS_area: click can toggle GPS on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_GPS_area(View view) {
+		toggle_GPS(this);
+		// Log.d("Po_test", "click");
+	}
+	
 	/***
 	 * toggle_BT
 	 * 
