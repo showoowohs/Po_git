@@ -65,8 +65,8 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
-	private ImageView Po_IV1_top, Po_IV2_top;
-	private ImageView Po_IV1_below, Po_IV2_below;
+	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top;
+	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below;
 
 	// Po area END
 
@@ -262,6 +262,25 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 		this.GPS_status = provider.contains("gps");
 
+		if (this.GPS_status) {
+
+			//true
+			// set drawable
+			this.Po_IV3_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_gps_on_holo));
+			this.Po_IV3_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+		} else {
+			
+			//false
+			// set drawable
+			this.Po_IV3_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_gps_off_holo));
+			this.Po_IV3_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+
+		}
+
 		Log.d("Po_test", "GPS_status=" + this.GPS_status);
 	}
 
@@ -276,6 +295,11 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		// find id BT
 		this.Po_IV2_top = (ImageView) findViewById(R.id.Po_IV2_top);
 		this.Po_IV2_below = (ImageView) findViewById(R.id.Po_IV2_below);
+
+		// find id GPS
+		this.Po_IV3_top = (ImageView) findViewById(R.id.Po_IV3_top);
+		this.Po_IV3_below = (ImageView) findViewById(R.id.Po_IV3_below);
+
 	}
 
 	// Po area END
