@@ -113,6 +113,49 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 
 	// Po area Start
 
+	/***
+	 * toggle_BT
+	 * 
+	 * @param context
+	 *            on/off BuleTooth
+	 */
+	public void toggle_BT(Context context) {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		if (!mBluetoothAdapter.isEnabled()) {
+			mBluetoothAdapter.enable();
+			this.BT_status = true;
+			
+			// set drawable
+			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_bluetooth_on_holo));
+			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+			
+		} else {
+			mBluetoothAdapter.disable();
+			this.BT_status = false;
+			
+			// set drawable
+			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_bluetooth_off_holo));
+			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			
+		}
+		Log.d("Po_test", "toggle_BT() BT_status=" + this.BT_status);
+	}
+	
+	/***
+	 * Po_BT_area: click can toggle BT on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_BT_area(View view) {
+		toggle_BT(this);
+		// Log.d("Po_test", "click");
+	}
+	
 	/*****
 	 * toggle_WiFi: on/off WiFi
 	 * 
@@ -193,8 +236,21 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 				.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			this.BT_status = false;
+
+			// set drawable
+			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_bluetooth_off_holo));
+			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+
 		} else {
 			this.BT_status = true;
+
+			// set drawable
+			this.Po_IV2_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_appwidget_settings_bluetooth_on_holo));
+			this.Po_IV2_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
 		}
 
 		Log.d("Po_test", "BT_status=" + this.BT_status);
