@@ -1,6 +1,6 @@
 package com.ooieuioo.potestjni;
 
 
-public class pojnitest{
+public class PoJNITtest{
 	static public native String HelloWorld();
 }
