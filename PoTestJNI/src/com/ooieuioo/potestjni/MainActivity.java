@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	LinearLayout Po_LLay1 = null;
 	static {
 		System.loadLibrary("PoTestJNI");
 	}
@@ -17,21 +20,29 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		find_id();
 		call_JNI_function();
+		
+	}
+	
+	private void find_id(){
+		Po_LLay1 = (LinearLayout) findViewById(R.id.Po_LLay1);
 	}
 	
 	private void call_JNI_function(){
 		//call HelloWorld()
-//		String str = PoJNITtest.HelloWorld();  
-//        TextView tv = new TextView(this);  
-//        tv.setText(str);  
-//        setContentView(tv);
+		String str = PoJNITtest.HelloWorld();  
+        TextView tv = new TextView(this);  
+        tv.setText(str);
+        tv.setTextSize(24);
+        Po_LLay1.addView(tv);
         
-        //call 
+        //call TransportStringToC()
         String str2 = PoJNITtest.TransportStringToC("Java_Send");  
         TextView tv2 = new TextView(this);  
         tv2.setText(str2);  
-        setContentView(tv2);
+        tv2.setTextSize(24);
+        Po_LLay1.addView(tv2);
 	}
 
 	@Override
