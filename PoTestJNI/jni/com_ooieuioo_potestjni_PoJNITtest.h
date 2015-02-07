@@ -15,6 +15,13 @@ extern "C" {
  */
 JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_HelloWorld(JNIEnv *, jclass);
 
+/**
+ * Class: com_ooieuioo_potestjni_PoJNITtest
+ * Method: TransportStringToC, Java send String to C, then C return string
+ * Signature: ()Ljava/lang/String
+ */
+JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportStringToC(JNIEnv *, jclass, jstring);
+
 #ifdef __cplusplus
 }
 #endif

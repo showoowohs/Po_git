@@ -17,10 +17,21 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		String str = PoJNITtest.HelloWorld();  
-        TextView tv = new TextView(this);  
-        tv.setText(str);  
-        setContentView(tv);
+		call_JNI_function();
+	}
+	
+	private void call_JNI_function(){
+		//call HelloWorld()
+//		String str = PoJNITtest.HelloWorld();  
+//        TextView tv = new TextView(this);  
+//        tv.setText(str);  
+//        setContentView(tv);
+        
+        //call 
+        String str2 = PoJNITtest.TransportStringToC("Java_Send");  
+        TextView tv2 = new TextView(this);  
+        tv2.setText(str2);  
+        setContentView(tv2);
 	}
 
 	@Override
