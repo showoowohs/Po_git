@@ -7,8 +7,6 @@
 
 
 #define LOG_TAG "Po_JNI"
-//#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
-//#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
 #ifdef __cplusplus
 extern "C"
@@ -46,12 +44,11 @@ JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_HelloWorld(JNIE
 JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportStringToC(JNIEnv *env, jclass arg,  jstring str)
 {
 	char* p = Jstring2CStr(env,str);
-	//LOGI("%s",p);
+
 	char* Po_str = " from PoJNI!!";
 
 	char* Po_marge = strcat(p,Po_str);
-	//strcat(dest, sorce) 把sorce字串添加到dest字串的後面
-	//LOGI("END");
+
 	return (*env)->NewStringUTF(env, Po_marge);
 }
 
