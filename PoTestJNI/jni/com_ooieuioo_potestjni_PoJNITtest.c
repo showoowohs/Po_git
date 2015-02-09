@@ -56,6 +56,26 @@ JNIEXPORT jint JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntToC(JN
 	return Po_marge_int;
 }
 
+JNIEXPORT jintArray JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntArrayToC(JNIEnv *env, jclass arg,  jintArray Po_Java_IntArray)
+{
+	// 1.Get Po_Java_IntArray size
+	int len = (*env)->GetArrayLength(env, Po_Java_IntArray);
+
+	// if Po_Java_IntArray size = 0 break
+	if(len==0){
+		return Po_Java_IntArray;
+	}
+
+	// get Po_Java_IntArray address
+	jint* p = (*env)-> GetIntArrayElements(env, Po_Java_IntArray, 0);
+	int i=0;
+	for(i = 0; i < len; i++){
+		//LOGI("len=%ld", *(p+i));//取出的每個元素
+		*(p+i) += 5; //取出的每個元素加五
+	}
+	return Po_Java_IntArray;
+}
+
 #ifdef __cplusplus
 }
 #endif
