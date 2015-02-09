@@ -65,6 +65,13 @@ public class MainActivity extends Activity {
 				+ Po_IntArray_fromJNI[1] + "," + Po_IntArray_fromJNI[2] + "}");
 		tv5.setTextSize(24);
 		Po_LLay1.addView(tv5);
+		
+		// call TransportBooleanToC()
+		boolean Po_Java_boolean = PoJNITtest.TransportBooleanToC(false);
+		TextView tv6 = new TextView(this);
+		tv6.setText("JNI return boolean = " + Po_Java_boolean);
+		tv6.setTextSize(24);
+		Po_LLay1.addView(tv6);
 	}
 
 	@Override
