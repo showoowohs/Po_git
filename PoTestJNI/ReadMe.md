@@ -11,3 +11,6 @@ Reference:
 3. http://stackoverflow.com/questions/8133074/error-unknown-type-name-bool
 4. http://www.cnblogs.com/kchen/archive/2011/08/03/android_ndk_using_jni.html
 5. http://nano-chicken.blogspot.tw/2011/01/linux-modules11module-parameters.html
+
+result:
+![alt tag](https://github.com/showoowohs/Po_git/blob/PoTestJNI/PoTestJNI/result.png)
