@@ -4,7 +4,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <android/log.h>
+// file : myboolean.h
+#ifndef MYBOOLEAN_H
+#define MYBOOLEAN_H
 
+#define false 0
+#define true 1
+typedef int bool; // or #define bool int
+
+#endif
 
 #define LOG_TAG "Po_JNI"
 
@@ -74,6 +82,13 @@ JNIEXPORT jintArray JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntA
 		*(p+i) += 5; //取出的每個元素加五
 	}
 	return Po_Java_IntArray;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportBooleanToC(JNIEnv *env, jclass arg, jboolean Po_Java_boolean)
+{
+	bool boolean_from_Java = Po_Java_boolean;
+	bool Po_JNI_boolean = !boolean_from_Java;
+	return Po_JNI_boolean;
 }
 
 #ifdef __cplusplus

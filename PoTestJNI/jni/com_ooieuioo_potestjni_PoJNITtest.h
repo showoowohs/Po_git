@@ -36,6 +36,13 @@ JNIEXPORT jint JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntToC(JN
  */
 JNIEXPORT jintArray JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntArrayToC(JNIEnv *, jclass, jintArray);
 
+/**
+ * Class: com_ooieuioo_potestjni_PoJNITtest
+ * Method: TransportBooleanToC, Java send a boolean to C, then C return (!Java_boolean) to Java
+ * Signature: ()Ljava/lang/String
+ */
+JNIEXPORT jboolean JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportBooleanToC(JNIEnv *, jclass, jboolean);
+
 #ifdef __cplusplus
 }
 #endif
