@@ -52,6 +52,12 @@ JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportString
 	return (*env)->NewStringUTF(env, Po_marge);
 }
 
+JNIEXPORT jint JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntToC(JNIEnv *env, jclass arg,  jint Po_Java_number)
+{
+	int int_from_Java = Po_Java_number;
+	int Po_marge_int = Po_Java_number + 1;
+	return Po_marge_int;
+}
 
 #ifdef __cplusplus
 }

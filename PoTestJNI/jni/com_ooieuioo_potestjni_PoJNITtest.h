@@ -22,6 +22,13 @@ JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_HelloWorld(JNIE
  */
 JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportStringToC(JNIEnv *, jclass, jstring);
 
+/**
+ * Class: com_ooieuioo_potestjni_PoJNITtest
+ * Method: TransportIntToC, Java send a integer to C, then C return (integer + 1) to Java
+ * Signature: ()Ljava/lang/String
+ */
+JNIEXPORT jint JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntToC(JNIEnv *, jclass, jint);
+
 #ifdef __cplusplus
 }
 #endif
