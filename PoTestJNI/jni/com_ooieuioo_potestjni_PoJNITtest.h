@@ -43,6 +43,13 @@ JNIEXPORT jintArray JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntA
  */
 JNIEXPORT jboolean JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportBooleanToC(JNIEnv *, jclass, jboolean);
 
+/**
+ * Class: com_ooieuioo_potestjni_PoJNITtest
+ * Method: PoTryExec
+ * Signature: ()Ljava/lang/String
+ */
+JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_ReadProc(JNIEnv *, jclass, jstring);
+
 #ifdef __cplusplus
 }
 #endif

@@ -72,6 +72,13 @@ public class MainActivity extends Activity {
 		tv6.setText("JNI return boolean = " + Po_Java_boolean);
 		tv6.setTextSize(24);
 		Po_LLay1.addView(tv6);
+		
+		// call PoTryExec()
+		String str3 = PoJNITtest.ReadProc("Po");
+		TextView tv7 = new TextView(this);
+		tv7.setText("Read /proc/Po_value = "+str3);
+		tv7.setTextSize(24);
+		Po_LLay1.addView(tv7);
 	}
 
 	@Override

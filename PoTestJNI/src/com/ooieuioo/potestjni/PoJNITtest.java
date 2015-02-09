@@ -12,4 +12,6 @@ public class PoJNITtest{
 	static public native int[] TransportIntArrayToC(int[] int_Array);
 	
 	static public native boolean TransportBooleanToC(boolean bool);
+	
+	static public native String ReadProc(String Po_value);
 }

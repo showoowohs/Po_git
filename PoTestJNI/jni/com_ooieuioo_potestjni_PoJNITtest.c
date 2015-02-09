@@ -115,6 +115,51 @@ JNIEXPORT jboolean JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportBoole
 	return Po_JNI_boolean;
 }
 
+JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_ReadProc(JNIEnv *env, jclass arg,  jstring str)
+{
+	char* p = Jstring2CStr(env,str);
+
+
+#define CHUNK 1024 /* read 1024 bytes at a time */
+	char buf[CHUNK];
+	FILE *file;
+	size_t nread;
+
+	file = fopen("/proc/Po_value", "r");
+	if (file) {
+		while ((nread = fread(buf, 1, sizeof buf, file)) > 0)
+			fwrite(buf, 1, nread, stdout);
+
+		if (ferror(file)) {
+			/* deal with error */
+		}
+		fclose(file);
+	}
+
+	LOGI("[Po add] TransportStringToC() %s", buf);
+	char *test = strtok(buf, "\n");
+//	while (test != NULL) {
+//		LOGI("[Po add] TransportStringToC()  test=%s", test);
+
+//	}
+
+
+	if(strcmp(test, "1") == 0){
+		p = test;
+	}else if(strcmp(test, "0") == 0){
+		p = test;
+	}else{
+		p = "xx";
+	}
+
+	//LOGI("[Po add] TransportStringToC() %s", p);
+	//Po log start
+	//LOGI("[Po add] TransportStringToC() %s", buf);
+	//Po log end
+
+	return (*env)->NewStringUTF(env, p);
+}
+
 #ifdef __cplusplus
 }
 #endif
