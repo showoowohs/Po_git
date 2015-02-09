@@ -19,37 +19,46 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		find_id();
 		call_JNI_function();
-		
+
 	}
-	
-	private void find_id(){
+
+	private void find_id() {
 		Po_LLay1 = (LinearLayout) findViewById(R.id.Po_LLay1);
 	}
-	
-	private void call_JNI_function(){
-		//call HelloWorld()
-		String str = PoJNITtest.HelloWorld();  
-        TextView tv = new TextView(this);  
-        tv.setText(str);
-        tv.setTextSize(24);
-        Po_LLay1.addView(tv);
-        
-        //call TransportStringToC()
-        String str2 = PoJNITtest.TransportStringToC("Java_Send");  
-        TextView tv2 = new TextView(this);  
-        tv2.setText(str2);  
-        tv2.setTextSize(24);
-        Po_LLay1.addView(tv2);
-        
-        //call TransportIntToC()
-        int Po_Java_int = PoJNITtest.TransportIntToC(20);  
-        TextView tv3 = new TextView(this);  
-        tv3.setText("JNI return number = " + Po_Java_int);  
-        tv3.setTextSize(24);
-        Po_LLay1.addView(tv3);
+
+	private void call_JNI_function() {
+		// call HelloWorld()
+		String str = PoJNITtest.HelloWorld();
+		TextView tv = new TextView(this);
+		tv.setText(str);
+		tv.setTextSize(24);
+		Po_LLay1.addView(tv);
+
+		// call TransportStringToC()
+		String str2 = PoJNITtest.TransportStringToC("Java_Send");
+		TextView tv2 = new TextView(this);
+		tv2.setText(str2);
+		tv2.setTextSize(24);
+		Po_LLay1.addView(tv2);
+
+		// call TransportIntToC()
+		int Po_Java_int = PoJNITtest.TransportIntToC(20);
+		TextView tv3 = new TextView(this);
+		tv3.setText("JNI return number = " + Po_Java_int);
+		tv3.setTextSize(24);
+		Po_LLay1.addView(tv3);
+
+		// show origin function
+		int[] Po_int_array = { 1, 2, 3 };
+		TextView tv4 = new TextView(this);
+		tv4.setText("origin array = {" + Po_int_array[0] + ","
+				+ Po_int_array[1] + "," + Po_int_array[2] + "}");
+		tv4.setTextSize(24);
+		Po_LLay1.addView(tv4);
+		// call TransportIntArrayToC()
 	}
 
 	@Override
