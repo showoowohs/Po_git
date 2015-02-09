@@ -44,11 +44,8 @@ JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_HelloWorld(JNIE
 JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportStringToC(JNIEnv *env, jclass arg,  jstring str)
 {
 	char* p = Jstring2CStr(env,str);
-
 	char* Po_str = " from PoJNI!!";
-
 	char* Po_marge = strcat(p,Po_str);
-
 	return (*env)->NewStringUTF(env, Po_marge);
 }
 
