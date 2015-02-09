@@ -15,6 +15,9 @@ typedef int bool; // or #define bool int
 #endif
 
 #define LOG_TAG "Po_JNI"
+#define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, fmt, ##args)
+#define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, fmt, ##args)
+#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, fmt, ##args)
 
 #ifdef __cplusplus
 extern "C"
@@ -46,6 +49,9 @@ char* Jstring2CStr(JNIEnv* env, jstring jstr) {
 JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_HelloWorld(JNIEnv *env, jclass arg)
 {
 	jstring str = (*env)->NewStringUTF(env, "HelloWorld from JNI !");
+
+	//Po log start
+	//LOGI("[Po add] HelloWorld()");
 	return str;
 }
 
@@ -54,6 +60,11 @@ JNIEXPORT jstring JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportString
 	char* p = Jstring2CStr(env,str);
 	char* Po_str = " from PoJNI!!";
 	char* Po_marge = strcat(p,Po_str);
+
+	//Po log start
+	//LOGI("[Po add] TransportStringToC() %s", Po_marge);
+	//Po log end
+
 	return (*env)->NewStringUTF(env, Po_marge);
 }
 
@@ -61,6 +72,10 @@ JNIEXPORT jint JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntToC(JN
 {
 	int int_from_Java = Po_Java_number;
 	int Po_marge_int = Po_Java_number + 1;
+
+	//Po log start
+	//LOGI("[Po add] TransportIntToC() %d", Po_marge_int);
+	//Po log end
 	return Po_marge_int;
 }
 
@@ -78,9 +93,13 @@ JNIEXPORT jintArray JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportIntA
 	jint* p = (*env)-> GetIntArrayElements(env, Po_Java_IntArray, 0);
 	int i=0;
 	for(i = 0; i < len; i++){
-		//LOGI("len=%ld", *(p+i));//取出的每個元素
 		*(p+i) += 5; //取出的每個元素加五
 	}
+
+	//Po log start
+	//LOGI("[Po add] TransportIntArrayToC()");
+	//Po log end
+
 	return Po_Java_IntArray;
 }
 
@@ -88,6 +107,11 @@ JNIEXPORT jboolean JNICALL Java_com_ooieuioo_potestjni_PoJNITtest_TransportBoole
 {
 	bool boolean_from_Java = Po_Java_boolean;
 	bool Po_JNI_boolean = !boolean_from_Java;
+
+	//Po log start
+	//LOGI("[Po add] TransportBooleanToC()");
+	//Po log end
+
 	return Po_JNI_boolean;
 }
 
