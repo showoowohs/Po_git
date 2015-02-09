@@ -43,6 +43,13 @@ public class MainActivity extends Activity {
         tv2.setText(str2);  
         tv2.setTextSize(24);
         Po_LLay1.addView(tv2);
+        
+        //call TransportIntToC()
+        int Po_Java_int = PoJNITtest.TransportIntToC(20);  
+        TextView tv3 = new TextView(this);  
+        tv3.setText("JNI return number = " + Po_Java_int);  
+        tv3.setTextSize(24);
+        Po_LLay1.addView(tv3);
 	}
 
 	@Override
