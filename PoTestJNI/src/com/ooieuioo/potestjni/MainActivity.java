@@ -59,6 +59,12 @@ public class MainActivity extends Activity {
 		tv4.setTextSize(24);
 		Po_LLay1.addView(tv4);
 		// call TransportIntArrayToC()
+		int[] Po_IntArray_fromJNI =  PoJNITtest.TransportIntArrayToC(Po_int_array);
+		TextView tv5 = new TextView(this);
+		tv5.setText("updata array = {" + Po_IntArray_fromJNI[0] + ","
+				+ Po_IntArray_fromJNI[1] + "," + Po_IntArray_fromJNI[2] + "}");
+		tv5.setTextSize(24);
+		Po_LLay1.addView(tv5);
 	}
 
 	@Override
