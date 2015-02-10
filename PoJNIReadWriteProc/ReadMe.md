@@ -13,3 +13,6 @@ reference:
 
 // png to gif
 2. http://www.gifmaker.me/#001
+
+result:
+![alt tag](https://github.com/showoowohs/Po_git/blob/a8c5d49ebaba635a3b58ea70496c4686a0f62db3/PoJNIReadWriteProc/output_jlXfva.gif)
