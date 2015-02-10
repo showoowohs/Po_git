@@ -15,6 +15,11 @@ public class PoJNIReadWriteProc extends Activity {
 	private LinearLayout Po_LLay_read = null;
 	private EditText Po_Read_ed = null;
 	private TextView Po_Read_tv = null;
+	private String Read_Path = null;
+	
+	static {
+		System.loadLibrary("PoJNIT");
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,14 @@ public class PoJNIReadWriteProc extends Activity {
 	}
 	
 	public void Po_Read_btn (View view){
-		this.Po_Read_tv.setText("111");
+		// 1. get Read_Path
+		this.Read_Path = this.Po_Read_ed.getText().toString();
+		
+		// 2. call ReadProc()
+		String str = PoJNIT.ReadProc(this.Read_Path);
+		
+		// 3. show JNI return value
+		this.Po_Read_tv.setText(str);
 	}
 	
 	private void find_id() {
