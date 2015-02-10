@@ -43,9 +43,17 @@ public class PoJNIReadWriteProc extends Activity {
 		this.Write_value = this.Po_Write_ed2.getText().toString();
 		
 		// 3. call WriteProc()
-//		String str = PoJNIT.ReadProc(this.Read_Path);
+		String str = PoJNIT.WriteProc(this.Write_Path, this.Write_value);
 		
-		this.Po_Write_tv.setText("Write "+ this.Write_value +" --> " +this.Write_Path);
+		// 4. show message
+		if(str.equals("oo")){
+			String oo = " success";
+			this.Po_Write_tv.setText("Write "+ this.Write_value +" --> " +this.Write_Path + oo);	
+		}else{
+			String xx = " error!";
+			this.Po_Write_tv.setText("Write "+ this.Write_value +" --> " +this.Write_Path + xx);
+		}
+		
 	}
 	
 	public void Po_Read_btn (View view){
