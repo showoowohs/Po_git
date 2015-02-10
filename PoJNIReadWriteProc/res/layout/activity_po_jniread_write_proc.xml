@@ -39,7 +39,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read"
+            android:text="Read from JNI"
             android:textSize="20dp"
             android:onClick="Po_Read_btn" />
         
@@ -47,7 +47,7 @@
             android:id="@+id/Po_Read_TV1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read_vaule"
+            android:text=""
             android:textSize="20dp" 
             />
     </LinearLayout>

@@ -48,8 +48,8 @@ char* Jstring2CStr(JNIEnv* env, jstring jstr) {
 
 JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_ReadProc(JNIEnv *env, jclass arg,  jstring str)
 {
-	LOGI("[Po add] TransportStringToC() oooo");
-	char* p = Jstring2CStr(env,str);
+	char* origin_path = Jstring2CStr(env,str);
+	char* p = "";
 
 
 #define CHUNK 1024 /* read 1024 bytes at a time */
@@ -57,7 +57,7 @@ JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_ReadProc(
 	FILE *file;
 	size_t nread;
 
-	file = fopen("/proc/Po_value", "r");
+	file = fopen(origin_path, "r");
 	if (file) {
 		while ((nread = fread(buf, 1, sizeof buf, file)) > 0)
 			fwrite(buf, 1, nread, stdout);
@@ -68,7 +68,7 @@ JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_ReadProc(
 		fclose(file);
 	}
 
-	LOGI("[Po add] TransportStringToC() %s", buf);
+	LOGI("[Po add] ReadProc() %s", buf);
 	char *test = strtok(buf, "\n");
 //	while (test != NULL) {
 //		LOGI("[Po add] TransportStringToC()  test=%s", test);

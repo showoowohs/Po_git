@@ -27,7 +27,7 @@ public class PoJNIReadWriteProc extends Activity {
 		setContentView(R.layout.activity_po_jniread_write_proc);
 		
 		find_id();
-		call_JNI_Read_function();
+
 	}
 	
 	public void Po_Read_btn (View view){
@@ -38,7 +38,7 @@ public class PoJNIReadWriteProc extends Activity {
 		String str = PoJNIT.ReadProc(this.Read_Path);
 		
 		// 3. show JNI return value
-		this.Po_Read_tv.setText(str);
+		this.Po_Read_tv.setText("JNI return value ="+str);
 	}
 	
 	private void find_id() {
@@ -48,21 +48,6 @@ public class PoJNIReadWriteProc extends Activity {
 		
 	}
 	
-	private void call_JNI_Read_function() {
-		
-		String Read_Path = this.Po_Read_ed.getText().toString();
-		this.Po_Read_tv.setText(Read_Path);
-//		String Read_Path = "/proc/Po_value";
-//		TextView tv = new TextView(this);
-//		tv.setText("Read Path = "+Read_Path);
-//		tv.setTextSize(24);
-//		Po_LLay_read.addView(tv);
-		
-		// call ReadProc()
-//		String str = PoJNITtest.HelloWorld();
-		
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
