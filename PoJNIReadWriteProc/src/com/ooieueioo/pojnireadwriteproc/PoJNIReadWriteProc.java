@@ -15,7 +15,12 @@ public class PoJNIReadWriteProc extends Activity {
 	private LinearLayout Po_LLay_read = null;
 	private EditText Po_Read_ed = null;
 	private TextView Po_Read_tv = null;
+	private EditText Po_Write_ed = null;
+	private EditText Po_Write_ed2 = null;
+	private TextView Po_Write_tv = null;
 	private String Read_Path = null;
+	private String Write_Path = null;
+	private String Write_value = null;
 	
 	static {
 		System.loadLibrary("PoJNIT");
@@ -28,6 +33,19 @@ public class PoJNIReadWriteProc extends Activity {
 		
 		find_id();
 
+	}
+	
+	public void Po_Write_btn (View view){
+		// 1. get Write Path
+		this.Write_Path = this.Po_Write_ed.getText().toString();
+		
+		// 2. get Write value
+		this.Write_value = this.Po_Write_ed2.getText().toString();
+		
+		// 3. call WriteProc()
+//		String str = PoJNIT.ReadProc(this.Read_Path);
+		
+		this.Po_Write_tv.setText("Write "+ this.Write_value +" --> " +this.Write_Path);
 	}
 	
 	public void Po_Read_btn (View view){
@@ -46,6 +64,9 @@ public class PoJNIReadWriteProc extends Activity {
 		this.Po_Read_ed = (EditText) findViewById(R.id.Po_Read_ED1);
 		this.Po_Read_tv = (TextView) findViewById(R.id.Po_Read_TV1);
 		
+		this.Po_Write_ed = (EditText) findViewById(R.id.Po_Write_ED1);
+		this.Po_Write_ed2 = (EditText) findViewById(R.id.Po_Write_ED2);
+		this.Po_Write_tv = (TextView) findViewById(R.id.Po_Write_TV1);
 	}
 	
 	@Override
