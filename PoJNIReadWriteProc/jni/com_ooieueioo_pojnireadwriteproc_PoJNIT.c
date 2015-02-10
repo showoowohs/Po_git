@@ -92,6 +92,39 @@ JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_ReadProc(
 	return (*env)->NewStringUTF(env, p);
 }
 
+JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_WriteProc(JNIEnv *env, jclass arg, jstring Write_Path_from_JNI, jstring Write_value_from_JNI)
+{
+	char* Write_Path = Jstring2CStr(env,Write_Path_from_JNI);
+	char* Write_value = Jstring2CStr(env,Write_value_from_JNI);
+	char* status = "";
+
+	//LOGI("[Po add] WriteProc() Write_Path=%s", Write_Path);
+	//LOGI("[Po add] WriteProc() Write_value=%s", Write_value);
+	//LOGI("[Po add] WriteProc() status=%s", status);
+
+	FILE *f = fopen(Write_Path, "w");
+	if (f == NULL)
+	{
+		LOGI("[Po add] WriteProc() error!");
+		status = "xx";
+	    exit(1);
+	}
+
+	/* print some text */
+	const char *text = Write_value;
+	fprintf(f, "%s\n", text);
+
+	fclose(f);
+	status = "oo";
+
+	//LOGI("[Po add] TransportStringToC() %s", p);
+	//Po log start
+	LOGI("[Po add] WriteProc() %s", status);
+	//Po log end
+
+	return (*env)->NewStringUTF(env, status);
+}
+
 #ifdef __cplusplus
 }
 #endif

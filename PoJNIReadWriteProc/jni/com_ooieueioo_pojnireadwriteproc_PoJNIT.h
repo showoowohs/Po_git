@@ -15,6 +15,12 @@ extern "C" {
  */
 JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_ReadProc(JNIEnv *, jclass, jstring);
 
+/**
+ * Class: com_ooieueioo_pojnireadwriteproc_PoJNIT
+ * Method: WriteProc, Java send String to C, then C return string, can write parameter to /proc/Po_value
+ * Signature: ()Ljava/lang/String
+ */
+JNIEXPORT jstring JNICALL Java_com_ooieueioo_pojnireadwriteproc_PoJNIT_WriteProc(JNIEnv *, jclass, jstring, jstring);
 
 
 #ifdef __cplusplus
