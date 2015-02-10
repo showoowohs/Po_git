@@ -10,3 +10,6 @@ P.S Path and value from Java send
 reference:
 // file write
 1. http://stackoverflow.com/questions/11573974/write-to-txt-file
+
+// png to gif
+2. http://www.gifmaker.me/#001
