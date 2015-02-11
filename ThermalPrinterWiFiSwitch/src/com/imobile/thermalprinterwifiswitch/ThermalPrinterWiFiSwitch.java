@@ -150,8 +150,16 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 //			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
 			
 			if (Tmp_Thermal_status.equals("oo")) {
+				
 				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + oo);
 				this.Thermal_status = 1;
+				
+				// set drawable
+				this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.thermal_printer));
+				this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+				
 			} else {
 				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + xx);
 			}
@@ -163,8 +171,16 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 //			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
 			
 			if (Tmp_Thermal_status.equals("oo")) {
+				
 				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + oo);
 				this.Thermal_status = 0;
+				
+				// set drawable
+				this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.thermal_printer_xx));
+				this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+				
 			} else {
 				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + xx);
 			}
