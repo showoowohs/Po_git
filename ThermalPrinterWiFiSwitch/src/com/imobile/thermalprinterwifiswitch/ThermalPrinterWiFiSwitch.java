@@ -392,6 +392,35 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		}
 
 		Log.d(TAG, "GPS_status=" + this.GPS_status);
+
+		// read Thermal Printer status
+		String Thermal_Read_Path = "/proc/tca6416";
+		String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
+		// Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+
+		// Tmp_Thermal_status.toString());
+
+		if (Tmp_Thermal_status.equals("1")) {
+			// set Thermal_status --> 1
+			this.Thermal_status = 1;
+
+			// set drawable
+			this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.thermal_printer));
+			this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		} else {
+			// set Thermal_status --> 0
+			this.Thermal_status = 0;
+
+			// set drawable
+			this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.thermal_printer_xx));
+			this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+
+		}
+		Log.d(TAG, "Thermal_status=" + this.Thermal_status);
 	}
 
 	/***
