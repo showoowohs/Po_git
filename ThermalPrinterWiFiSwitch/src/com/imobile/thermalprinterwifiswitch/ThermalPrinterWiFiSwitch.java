@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -119,6 +120,30 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 	// Po area Start
 
+	@Override
+	public void onBackPressed() {
+		
+		//check thermal status
+		if(this.Thermal_status == 1){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setMessage("Your Thermal Printer power is trun on\nPlease turn off Thermal Printer")
+		           .setCancelable(false)
+		           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		                    // not thing
+		               }
+		           });
+		    AlertDialog alert = builder.create();
+		    alert.show();
+		}else{
+			// finish
+            ThermalPrinterWiFiSwitch.this.finish();
+
+		}
+	    
+
+	}
+	
 	/****
 	 * toggle_Thermal
 	 * 
@@ -527,6 +552,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		disconnect();
 		uninitBroadcast();
 		debug_toast("onDestroy");
+		Log.d(TAG, "exit APP");
 	}
 
 	@Override
