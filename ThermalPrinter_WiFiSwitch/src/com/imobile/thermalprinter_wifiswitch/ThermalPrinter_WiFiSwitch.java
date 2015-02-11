@@ -68,7 +68,11 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private static int Thermal_status = 0;
 	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top, Po_IV4_top;
 	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below;
+	private final String TAG = "Po_test";
 
+	static {
+		System.loadLibrary("imobileJNI");
+	}
 	// Po area END
 
 	@Override
@@ -122,11 +126,20 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	 *            on/of Thermal Printer
 	 */
 	public void toggle_Thermal(Context context) {
-		//open GPS setting dialog
-//		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(intent);
-		        
+		// 1. Read Thermal status
+		String Thermal_Read_Path = "/proc/tca6416";
+		String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
+		Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+ Tmp_Thermal_status.toString());
+		
+		if(Tmp_Thermal_status.equals("1")){
+			// set Thermal_status --> 1
+			this.Thermal_status = 1;
+		} else {
+			// set Thermal_status --> 0
+			this.Thermal_status = 0;
+		}
+
+		Log.d(TAG, "toggle_Thermal() Thermal_status ="+ this.Thermal_status);
 	}
 	
 	/***
@@ -136,7 +149,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	 */
 	public void Po_thermal_area(View view) {
 		toggle_Thermal(this);
-//		 Log.d("Po_test", "Po_thermal_area() click");
+//		 Log.d(TAG, "Po_thermal_area() click");
 	}
 	
 	/****
@@ -160,7 +173,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	 */
 	public void Po_GPS_area(View view) {
 		toggle_GPS(this);
-		// Log.d("Po_test", "click");
+		// Log.d(TAG, "click");
 	}
 	
 	/***
@@ -193,7 +206,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 					R.drawable.white));
 
 		}
-		Log.d("Po_test", "toggle_BT() BT_status=" + this.BT_status);
+		Log.d(TAG, "toggle_BT() BT_status=" + this.BT_status);
 	}
 
 	/***
@@ -203,7 +216,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	 */
 	public void Po_BT_area(View view) {
 		toggle_BT(this);
-		// Log.d("Po_test", "click");
+		// Log.d(TAG, "click");
 	}
 
 	/*****
@@ -235,7 +248,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 					R.drawable.white));
 
 		}
-		Log.d("Po_test", "toggleWiFi() wifi_status=" + this.wifi_status);
+		Log.d(TAG, "toggleWiFi() wifi_status=" + this.wifi_status);
 		// System.out.println("toggleWiFi() wifi_status=" + this.wifi_status);
 	}
 
@@ -246,7 +259,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	 */
 	public void Po_wifi_area(View view) {
 		toggle_WiFi(this);
-		// Log.d("Po_test", "click");
+		// Log.d(TAG, "click");
 	}
 
 	/***
@@ -279,7 +292,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 					R.drawable.blue));
 
 		}
-		Log.d("Po_test", "wifi_status=" + this.wifi_status);
+		Log.d(TAG, "wifi_status=" + this.wifi_status);
 
 		// read bluetooth status
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
@@ -303,7 +316,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 					R.drawable.blue));
 		}
 
-		Log.d("Po_test", "BT_status=" + this.BT_status);
+		Log.d(TAG, "BT_status=" + this.BT_status);
 
 		// read GPS status
 		String provider = Settings.Secure.getString(
@@ -330,7 +343,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 
 		}
 
-		Log.d("Po_test", "GPS_status=" + this.GPS_status);
+		Log.d(TAG, "GPS_status=" + this.GPS_status);
 	}
 
 	/***
