@@ -70,9 +70,9 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below;
 	private final String TAG = "Po_test";
 
-//	static {
-//		System.loadLibrary("imobileJNI");
-//	}
+	static {
+		System.loadLibrary("imobileJNI");
+	}
 	// Po area END
 
 	@Override
