@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.imobile.thermalprinter_wifiswitch"
+    package="com.imobile.thermalprinterwifiswitch"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -36,7 +36,7 @@
         android:label="@string/app_name"
         android:theme="@style/android:Theme.Light" >
         <activity
-            android:name=".ThermalPrinter_WiFiSwitch"
+            android:name="com.imobile.thermalprinterwifiswitch.ThermalPrinterWiFiSwitch"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="landscape" >

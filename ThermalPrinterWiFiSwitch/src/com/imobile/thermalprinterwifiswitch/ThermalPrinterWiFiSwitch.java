@@ -1,4 +1,4 @@
-package com.imobile.thermalprinter_wifiswitch;
+package com.imobile.thermalprinterwifiswitch;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,7 +40,7 @@ import com.lvrenyang.rw.TTYTermios.StopBits;
 import com.lvrenyang.rw.USBPort;
 import com.lvrenyang.rw.USBSerialPort;
 
-public class ThermalPrinter_WiFiSwitch extends Activity implements
+public class ThermalPrinterWiFiSwitch extends Activity implements
 		OnClickListener {
 
 	private Button buttonTestText, buttonTestBarCode, buttonTestQrCode,
@@ -70,9 +70,9 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below;
 	private final String TAG = "Po_test";
 
-	static {
-		System.loadLibrary("imobileJNI");
-	}
+//	static {
+//		System.loadLibrary("imobileJNI");
+//	}
 	// Po area END
 
 	@Override
@@ -470,7 +470,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 
 		case R.id.buttonTestText:
 			/**
-			 * usb打印机虚拟串口波特率只有象征意义，波特率哪一个都可以。
+			 * usb??�印?��??��?�串?��波特??�只??�象征�?��?��?�波?��??�哪�?个都?��以�??
 			 */
 			open(115200, Parity.NONE);
 			mPos.POS_S_TextOut(str1, 32, 0, 0, 0, 0x00 + 0x400);
@@ -507,7 +507,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 			}
 			open(115200, Parity.NONE);
 			/**
-			 * 图片的像素宽度必须为8的整数倍
+			 * ?��??��?��?��?�宽度�?�须�?8??�整?��??
 			 */
 			mPos.POS_PrintPicture(bitmap, 360, 0);
 			mPos.POS_FeedLine();
@@ -525,7 +525,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 			byte[] data = { 0x10, 0x04, 0x01 };
 			byte[] buf = new byte[1];
 
-			/** 有两次机会 */
+			/** ??�两次机�? */
 			for (retry = 0; retry < maxRetry; retry++) {
 				mPos.POS_Write(data, 0, data.length, 500);
 				try {
@@ -548,8 +548,8 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	}
 
 	/**
-	 * 打开和关闭按钮，就是用来连接USB的，打开就是probe，关闭就是disconnect
-	 * probe会填充port字段，open会根据termios字段来打开串口
+	 * ??��???�关?��??�钮，就?��?��?��连接USB??��?��?��?就是probe，关?��就是disconnect
+	 * probe会填??�port字段，open会根?��termios字段?��??��?串口
 	 * 
 	 */
 
@@ -559,7 +559,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
 		Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
 		if (deviceList.size() > 0) {
-			// 初始化选择对话框布局，并添加按钮和事件
+			// ??��?��?��?�择对�?��?��?��?，并添�?��?�钮??��?�件
 			LinearLayout llSelectDevice = new LinearLayout(this);
 			llSelectDevice.setOrientation(LinearLayout.VERTICAL);
 			llSelectDevice.setLayoutParams(new LayoutParams(
@@ -568,7 +568,7 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 			builder.setTitle("Link Device").setView(llSelectDevice);
 			final AlertDialog dialog = builder.create();
 
-			while (deviceIterator.hasNext()) { // 这里是if不是while，说明我只想支持一种device
+			while (deviceIterator.hasNext()) { // 这�?�是if不是while，说??��?�只?��?��??��?种device
 				final UsbDevice device = deviceIterator.next();
 				Button btDevice = new Button(llSelectDevice.getContext());
 				btDevice.setLayoutParams(new LayoutParams(
@@ -582,14 +582,14 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 						// TODO Auto-generated method stub
 						PendingIntent mPermissionIntent = PendingIntent
 								.getBroadcast(
-										ThermalPrinter_WiFiSwitch.this,
+										ThermalPrinterWiFiSwitch.this,
 										0,
 										new Intent(
-												ThermalPrinter_WiFiSwitch.this
+												ThermalPrinterWiFiSwitch.this
 														.getApplicationInfo().packageName),
 										0);
 						serialPort.port = new USBPort(mUsbManager,
-								ThermalPrinter_WiFiSwitch.this, device,
+								ThermalPrinterWiFiSwitch.this, device,
 								mPermissionIntent);
 						int ret = mSerial.pl2303_probe(serialPort);
 						if (ret == 0) {

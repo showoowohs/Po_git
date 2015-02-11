@@ -1,4 +1,4 @@
-package com.imobile.thermalprinter_wifiswitch;
+package com.imobile.thermalprinterwifiswitch;
 
 public class imobileJNI {
 
