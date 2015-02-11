@@ -8,3 +8,7 @@ reference:
 1. http://stackoverflow.com/questions/24504103/android-exit-button-with-alert-dialog
 
 result:
+![alt tag](https://github.com/showoowohs/Po_git/blob/ThermalPrinter_WiFiSwitch/ThermalPrinterWiFiSwitch/output_lVg6d0.gif)
+
+if you click exit, but not off thermal power, will show message
+![alt tag](http://goo.gl/ol7sdu)
