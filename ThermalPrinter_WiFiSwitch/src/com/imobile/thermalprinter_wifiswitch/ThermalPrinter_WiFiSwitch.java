@@ -65,8 +65,9 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
-	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top;
-	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below;
+	private static int Thermal_status = 0;
+	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top, Po_IV4_top;
+	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below;
 
 	// Po area END
 
@@ -114,6 +115,30 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 
 	// Po area Start
 
+	/****
+	 * toggle_Thermal
+	 * 
+	 * @param context
+	 *            on/of Thermal Printer
+	 */
+	public void toggle_Thermal(Context context) {
+		//open GPS setting dialog
+//		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
+		        
+	}
+	
+	/***
+	 * Po_thermal_area: click can toggle thermal printer on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_thermal_area(View view) {
+		toggle_Thermal(this);
+//		 Log.d("Po_test", "Po_thermal_area() click");
+	}
+	
 	/****
 	 * toggle_GPS
 	 * 
@@ -323,6 +348,10 @@ public class ThermalPrinter_WiFiSwitch extends Activity implements
 		// find id GPS
 		this.Po_IV3_top = (ImageView) findViewById(R.id.Po_IV3_top);
 		this.Po_IV3_below = (ImageView) findViewById(R.id.Po_IV3_below);
+		
+		// find id Thermal Printer
+		this.Po_IV4_top = (ImageView) findViewById(R.id.Po_IV4_top);
+		this.Po_IV4_below = (ImageView) findViewById(R.id.Po_IV4_below);
 
 	}
 
