@@ -129,7 +129,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		// 1. Read Thermal status
 		String Thermal_Read_Path = "/proc/tca6416";
 		String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
-		Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+ Tmp_Thermal_status.toString());
+		//Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+ Tmp_Thermal_status.toString());
 		
 		if(Tmp_Thermal_status.equals("1")){
 			// set Thermal_status --> 1
@@ -138,8 +138,40 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			// set Thermal_status --> 0
 			this.Thermal_status = 0;
 		}
+		Log.d(TAG, "toggle_Thermal() Thermal_status (origin) ="+ this.Thermal_status);
+		
+		// 2. toggle Thermal Printer status
+		String oo = " success";
+		String xx = " error!!";
+		if(this.Thermal_status == 0){
+			
+			// call JNI, and echo "1" > /proc/tca6416
+			Tmp_Thermal_status = imobileJNI.WriteProc(Thermal_Read_Path, "1");
+//			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
+			
+			if (Tmp_Thermal_status.equals("oo")) {
+				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + oo);
+				this.Thermal_status = 1;
+			} else {
+				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + xx);
+			}
 
-		Log.d(TAG, "toggle_Thermal() Thermal_status ="+ this.Thermal_status);
+		} else {
+
+			// call JNI, and echo "0" > /proc/tca6416
+			Tmp_Thermal_status = imobileJNI.WriteProc(Thermal_Read_Path, "0");
+//			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
+			
+			if (Tmp_Thermal_status.equals("oo")) {
+				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + oo);
+				this.Thermal_status = 0;
+			} else {
+				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_Thermal() Thermal_status (update) ="+ this.Thermal_status);
+		
 	}
 	
 	/***
