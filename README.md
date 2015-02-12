@@ -15,6 +15,7 @@
   <dd>this APP is a Android RS232 example</dd>
 <dl>
 
+---
 
 #### 3.
 <dl>
@@ -23,6 +24,7 @@
   <dd>this APP is a Android NFC, how to write example</dd>
 <dl>
 
+---
 
 #### 4.
 <dl>
@@ -31,6 +33,7 @@
   <dd>this APP can remove /system/ 下面某某folder(need Root permission)<dd>
 <dl>
 
+---
 
 #### 5. install_recovery<br />
 ##### description:<br />
