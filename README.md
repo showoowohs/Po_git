@@ -1,5 +1,5 @@
 # This is my README
-1. Flash_Ethernet_Mac<br />          
+1. Flash_Ethernet_Mac<br /> 
 description: this APP can flash Ethernet(need Root permission)
 
 2. MainMenu<br />
@@ -8,12 +8,10 @@ description: this APP is a Android RS232 example
 3. Test_NFC<br />
 description: this APP is a Android NFC, how to write example
 
-4. 
-name: install_del_APP
+4. install_del_APP<br />
 description: this APP can remove /system/ 下面某某folder(need Root permission)
 
-5. 
-name: install_recovery
+5. install_recovery<br />
 description: this APP can copy update.zip on USB disk 或 SD Card, last copy update.zip to /cash/recovery/ , 達成 recovery function(IMT8)
 
 6. 
