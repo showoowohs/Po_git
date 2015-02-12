@@ -1,14 +1,11 @@
 # This is my README
-1. 
-Name: Flash_Ethernet_Mac          
+1. Flash_Ethernet_Mac<br />          
 description: this APP can flash Ethernet(need Root permission)
 
-2.
-Name: MainMenu
+2. MainMenu<br />
 description: this APP is a Android RS232 example
 
-3. 
-name: Test_NFC
+3. Test_NFC<br />
 description: this APP is a Android NFC, how to write example
 
 4. 
