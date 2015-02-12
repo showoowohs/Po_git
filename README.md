@@ -1,22 +1,27 @@
 # This is my README
 #### 1. Flash_Ethernet_Mac<br /> 
-##### description: this APP can flash Ethernet(need Root permission)
+##### description:<br />
+this APP can flash Ethernet(need Root permission)
 
-2. MainMenu<br />
-description: this APP is a Android RS232 example
+#### 2. MainMenu<br />
+##### description:<br />
+this APP is a Android RS232 example
 
-3. Test_NFC<br />
-description: this APP is a Android NFC, how to write example
+#### 3. Test_NFC<br />
+##### description:<br />
+this APP is a Android NFC, how to write example
 
-4. install_del_APP<br />
-description: this APP can remove /system/ 下面某某folder(need Root permission)
+#### 4. install_del_APP<br />
+##### description:<br />
+this APP can remove /system/ 下面某某folder(need Root permission)
 
-5. install_recovery<br />
-description: this APP can copy update.zip on USB disk 或 SD Card, last copy update.zip to /cash/recovery/ , 達成 recovery function(IMT8)
+#### 5. install_recovery<br />
+##### description:<br />
+this APP can copy update.zip on USB disk 或 SD Card, last copy update.zip to /cash/recovery/ , 達成 recovery function(IMT8)
 
-6. 
-name: IQ8_install_recovery
-description: 可以拷貝USB碟或SD卡中的IQ8_update.zip到data/recovery_IQ8/下, 接著透過recovery mode就可以去選取此檔案, 達到還原image的效果
+#### 6. name: IQ8_install_recovery
+##### description:<br />
+可以拷貝USB碟或SD卡中的IQ8_update.zip到data/recovery_IQ8/下, 接著透過recovery mode就可以去選取此檔案, 達到還原image的效果
 
 7. 
 name: nfc-reader2
