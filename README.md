@@ -6,17 +6,30 @@
   <dd>this APP can flash Ethernet(need Root permission)</dd>
 </dl>
 
-#### 2. MainMenu<br />
-##### description:<br />
-this APP is a Android RS232 example
 
-#### 3. Test_NFC<br />
-##### description:<br />
-this APP is a Android NFC, how to write example
+#### 2. 
+<dl>
+  <dt>MainMenu<dt/>
+  <dt>description:</dt>
+  <dd>this APP is a Android RS232 example</dd>
+<dl>
 
-#### 4. install_del_APP<br />
-##### description:<br />
-this APP can remove /system/ 下面某某folder(need Root permission)
+
+#### 3.
+<dl>
+  <dt>Test_NFC</dt>
+  <dt>description:</dt>
+  <dd>this APP is a Android NFC, how to write example</dd>
+<dl>
+
+
+#### 4.
+<dl>
+  <dt>install_del_APP</dt>
+  <dt>description:</dt>
+  <dd>this APP can remove /system/ 下面某某folder(need Root permission)<dd>
+<dl>
+
 
 #### 5. install_recovery<br />
 ##### description:<br />
