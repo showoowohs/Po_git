@@ -66,14 +66,18 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	private static boolean wifi_status = false;
 	private static boolean BT_status = false;
 	private static boolean GPS_status = false;
-	private static int Thermal_status = 0;
-	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top, Po_IV4_top;
-	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below;
+	private static int Thermal_status = 1; // thermal 0 is on , 1 is off
+	private static int Finger_status = 3; // finger 2 is on , 3 is off
+	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top, Po_IV4_top,
+			Po_IV5_top;
+	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below,
+			Po_IV5_below;
 	private final String TAG = "Po_test";
 
 	static {
 		System.loadLibrary("imobileJNI");
 	}
+
 	// Po area END
 
 	@Override
@@ -120,30 +124,100 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 	// Po area Start
 
-	@Override
-	public void onBackPressed() {
-		
-		//check thermal status
-		if(this.Thermal_status == 1){
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    builder.setMessage("Your Thermal Printer power is trun on\nPlease turn off Thermal Printer")
-		           .setCancelable(false)
-		           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		                    // not thing
-		               }
-		           });
-		    AlertDialog alert = builder.create();
-		    alert.show();
-		}else{
-			// finish
-            ThermalPrinterWiFiSwitch.this.finish();
+	/****
+	 * toggle_Finger
+	 * 
+	 * @param context
+	 *            on/of Finger Printer
+	 */
+	public void toggle_Finger(Context context) {
+
+		String Finger_Read_Path = "/proc/tca6416";
+		String Tmp_Finger_status = "";
+
+		// 2. toggle Finger Printer status
+		String oo = " success";
+		String xx = " error!!";
+		if (this.Finger_status == 2) {
+
+			// call JNI, and echo "3" > /proc/tca6416
+			Tmp_Finger_status = imobileJNI.WriteProc(Finger_Read_Path, "3");
+
+			if (Tmp_Finger_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_Finger() via JNI write 3 is" + oo);
+				this.Finger_status = 3;
+
+				// set drawable
+				this.Po_IV5_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.finger_printer__xx));
+				this.Po_IV5_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			}
+
+		} else {
+
+			// call JNI, and echo "2" > /proc/tca6416
+			Tmp_Finger_status = imobileJNI.WriteProc(Finger_Read_Path, "2");
+			// Log.d(TAG, "toggle_Finger() Tmp_Finger_status =" +
+			// Tmp_Finger_status);
+
+			if (Tmp_Finger_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_Finger() via JNI write 2 is" + oo);
+				this.Finger_status = 2;
+
+				// set drawable
+				this.Po_IV5_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.finger_printer));
+				this.Po_IV5_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			}
 
 		}
-	    
+		Log.d(TAG, "toggle_Finger() Finger_status (update) ="
+				+ this.Finger_status);
 
 	}
-	
+
+	/***
+	 * Po_finger_area: click can toggle finger printer on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_finger_area(View view) {
+		toggle_Finger(this);
+		// Log.d(TAG, "Po_finger_area() click");
+	}
+
+	@Override
+	public void onBackPressed() {
+
+		// check thermal status
+		if (this.Thermal_status == 0) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(
+					"Your Thermal Printer power is trun on\nPlease turn off Thermal Printer")
+					.setCancelable(false)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// not thing
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} else {
+			// finish
+			ThermalPrinterWiFiSwitch.this.finish();
+
+		}
+
+	}
+
 	/****
 	 * toggle_Thermal
 	 * 
@@ -151,40 +225,41 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	 *            on/of Thermal Printer
 	 */
 	public void toggle_Thermal(Context context) {
-		// 1. Read Thermal status
+		/*
+		 * // 1. Read Thermal status String Thermal_Read_Path = "/proc/tca6416";
+		 * String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
+		 * //Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+
+		 * Tmp_Thermal_status.toString());
+		 * 
+		 * if(Tmp_Thermal_status.equals("1")){ // set Thermal_status --> 1
+		 * this.Thermal_status = 1; } else { // set Thermal_status --> 0
+		 * this.Thermal_status = 0; } Log.d(TAG,
+		 * "toggle_Thermal() Thermal_status (origin) ="+ this.Thermal_status);
+		 */
 		String Thermal_Read_Path = "/proc/tca6416";
-		String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
-		//Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+ Tmp_Thermal_status.toString());
-		
-		if(Tmp_Thermal_status.equals("1")){
-			// set Thermal_status --> 1
-			this.Thermal_status = 1;
-		} else {
-			// set Thermal_status --> 0
-			this.Thermal_status = 0;
-		}
-		Log.d(TAG, "toggle_Thermal() Thermal_status (origin) ="+ this.Thermal_status);
-		
+		String Tmp_Thermal_status = "";
+
 		// 2. toggle Thermal Printer status
 		String oo = " success";
 		String xx = " error!!";
-		if(this.Thermal_status == 0){
-			
+		if (this.Thermal_status == 0) {
+
 			// call JNI, and echo "1" > /proc/tca6416
 			Tmp_Thermal_status = imobileJNI.WriteProc(Thermal_Read_Path, "1");
-//			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
-			
+			// Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
 			if (Tmp_Thermal_status.equals("oo")) {
-				
+
 				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + oo);
 				this.Thermal_status = 1;
-				
+
 				// set drawable
 				this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
-						R.drawable.thermal_printer));
+						R.drawable.thermal_printer_xx));
 				this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
-						R.drawable.blue));
-				
+						R.drawable.white));
+
 			} else {
 				Log.d(TAG, "toggle_Thermal() via JNI write 1 is" + xx);
 			}
@@ -193,28 +268,30 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 			// call JNI, and echo "0" > /proc/tca6416
 			Tmp_Thermal_status = imobileJNI.WriteProc(Thermal_Read_Path, "0");
-//			Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" + Tmp_Thermal_status);
-			
+			// Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
 			if (Tmp_Thermal_status.equals("oo")) {
-				
+
 				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + oo);
 				this.Thermal_status = 0;
-				
+
 				// set drawable
 				this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
-						R.drawable.thermal_printer_xx));
+						R.drawable.thermal_printer));
 				this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
-						R.drawable.white));
-				
+						R.drawable.blue));
+
 			} else {
 				Log.d(TAG, "toggle_Thermal() via JNI write 0 is" + xx);
 			}
 
 		}
-		Log.d(TAG, "toggle_Thermal() Thermal_status (update) ="+ this.Thermal_status);
-		
+		Log.d(TAG, "toggle_Thermal() Thermal_status (update) ="
+				+ this.Thermal_status);
+
 	}
-	
+
 	/***
 	 * Po_thermal_area: click can toggle thermal printer on/off
 	 * 
@@ -222,9 +299,9 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	 */
 	public void Po_thermal_area(View view) {
 		toggle_Thermal(this);
-//		 Log.d(TAG, "Po_thermal_area() click");
+		// Log.d(TAG, "Po_thermal_area() click");
 	}
-	
+
 	/****
 	 * toggle_GPS
 	 * 
@@ -232,13 +309,13 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	 *            on/of GPS
 	 */
 	public void toggle_GPS(Context context) {
-		//open GPS setting dialog
+		// open GPS setting dialog
 		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-		        
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
 	}
-	
+
 	/***
 	 * Po_GPS_area: click can toggle GPS on/off
 	 * 
@@ -248,7 +325,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		toggle_GPS(this);
 		// Log.d(TAG, "click");
 	}
-	
+
 	/***
 	 * toggle_BT
 	 * 
@@ -399,15 +476,15 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 		if (this.GPS_status) {
 
-			//true
+			// true
 			// set drawable
 			this.Po_IV3_top.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_appwidget_settings_gps_on_holo));
 			this.Po_IV3_below.setImageDrawable(getResources().getDrawable(
 					R.drawable.blue));
 		} else {
-			
-			//false
+
+			// false
 			// set drawable
 			this.Po_IV3_top.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_appwidget_settings_gps_off_holo));
@@ -418,15 +495,29 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 		Log.d(TAG, "GPS_status=" + this.GPS_status);
 
-		// read Thermal Printer status
-		String Thermal_Read_Path = "/proc/tca6416";
-		String Tmp_Thermal_status = imobileJNI.ReadProc(Thermal_Read_Path);
-		// Log.d(TAG, "toggle_Thermal() Tmp_Thermal_status ="+
-		// Tmp_Thermal_status.toString());
+		/*
+		 * // read Thermal Printer status String Thermal_Read_Path =
+		 * "/proc/tca6416"; String Tmp_Thermal_status =
+		 * imobileJNI.ReadProc(Thermal_Read_Path); // Log.d(TAG,
+		 * "toggle_Thermal() Tmp_Thermal_status ="+ //
+		 * Tmp_Thermal_status.toString());
+		 */
 
-		if (Tmp_Thermal_status.equals("1")) {
+		if (this.Thermal_status == 1) {
 			// set Thermal_status --> 1
-			this.Thermal_status = 1;
+			// this.Thermal_status = 1;
+
+			// set drawable
+			this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.thermal_printer_xx));
+			this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_Thermal_status = imobileJNI.WriteProc("/proc/tca6416",
+					"1");
+
+		} else {
+			// set Thermal_status --> 0
+			// this.Thermal_status = 0;
 
 			// set drawable
 			this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
@@ -434,18 +525,31 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
 					R.drawable.blue));
 
-		} else {
-			// set Thermal_status --> 0
-			this.Thermal_status = 0;
-
-			// set drawable
-			this.Po_IV4_top.setImageDrawable(getResources().getDrawable(
-					R.drawable.thermal_printer_xx));
-			this.Po_IV4_below.setImageDrawable(getResources().getDrawable(
-					R.drawable.white));
-
 		}
 		Log.d(TAG, "Thermal_status=" + this.Thermal_status);
+
+		if (this.Finger_status == 3) {
+			// set Finger_status --> 3
+
+			// set drawable
+			this.Po_IV5_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.finger_printer__xx));
+			this.Po_IV5_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_Thermal_status = imobileJNI.WriteProc("/proc/tca6416",
+					"3");
+
+		} else {
+			// set Thermal_status --> 2
+
+			// set drawable
+			this.Po_IV5_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.finger_printer));
+			this.Po_IV5_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "Finger_status=" + this.Finger_status);
 	}
 
 	/***
@@ -463,10 +567,14 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		// find id GPS
 		this.Po_IV3_top = (ImageView) findViewById(R.id.Po_IV3_top);
 		this.Po_IV3_below = (ImageView) findViewById(R.id.Po_IV3_below);
-		
+
 		// find id Thermal Printer
 		this.Po_IV4_top = (ImageView) findViewById(R.id.Po_IV4_top);
 		this.Po_IV4_below = (ImageView) findViewById(R.id.Po_IV4_below);
+
+		// find id Finger Printer
+		this.Po_IV5_top = (ImageView) findViewById(R.id.Po_IV5_top);
+		this.Po_IV5_below = (ImageView) findViewById(R.id.Po_IV5_below);
 
 	}
 
