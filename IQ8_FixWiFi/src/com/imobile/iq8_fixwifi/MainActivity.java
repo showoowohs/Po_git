@@ -35,8 +35,8 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy()");
 		
-		// call reboot
-		Run_su("/system/bin/reboot");
+		// delete /mnt/shell/emulated/0/*.ini  and call reboot()
+		Run_su("busybox rm /mnt/shell/emulated/0/WCNSS_qcom_cfg_Jason1.ini; busybox rm /mnt/shell/emulated/0/WCNSS_qcom_cfg_org.ini; /system/bin/reboot");
 		// Kill myself
 		// android.os.Process.killProcess(android.os.Process.myPid());
 	}
