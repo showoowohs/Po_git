@@ -22,3 +22,8 @@
 > 1. [copy file from assets](http://www.technotalkative.com/android-copy-files-from-assets-to-sd-card/)
 > 2. [git-hub](https://github.com/PareshMayani/Android-CopyFiles)
 > 3. [onDestroy](http://blog.xuite.net/carolineyah/java/41635189-Android+%E5%BC%B7%E5%88%B6%E9%97%9C%E9%96%89%E7%A8%8B%E5%BC%8F+)
+
+---
+
+### Result photo
+![alt tag](https://github.com/showoowohs/Po_git/blob/master/IQ8_FixWiFi/output_ZT5Cji.gif)
