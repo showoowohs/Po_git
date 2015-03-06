@@ -1,5 +1,22 @@
 # ReadMe
-1. 
+### Remark
+> 1. config1 --> Jason config
+> 2. config2 --> msm8960 config
+
+---
+
+### APP setup
+> 1. copy assets/file/* to /mnt/shell/emulated/0/
+> P.S WCNSS_qcom_cfg_Jason1.ini --> Jason modify
+> P.S WCNSS_qcom_cfg_org.ini --> msm8960 origin
+>
+> 2. copy user_select.ini to /data/misc/wifi/WCNSS_qcom_cfg.ini
+>
+> 3. delete /mnt/shell/emulated/0/*ini
+>
+> 4. call reboot
+
+---
 
 ### reference:
 > 1. [copy file from assets](http://www.technotalkative.com/android-copy-files-from-assets-to-sd-card/)
