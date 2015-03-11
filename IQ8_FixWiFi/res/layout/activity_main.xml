@@ -13,11 +13,107 @@
             android:layout_height="wrap_content"
             android:text=" "
             android:textSize="24dp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WiFi Mac Address"
+            android:textSize="24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/Po_MAC_ET1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="00"
+                android:maxLength="2"
+                android:text="00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/Po_MAC_ET2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0A"
+                android:maxLength="2"
+                android:text="0A" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/Po_MAC_ET3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="F5"
+                android:maxLength="2"
+                android:text="F5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/Po_MAC_ET4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="89"
+                android:maxLength="2"
+                android:text="89" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/Po_MAC_ET5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="89"
+                android:maxLength="2"
+                android:text="89" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/Po_MAC_ET6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="FF"
+                android:maxLength="2"
+                android:text="FF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="24dp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please select WiFi config"
+            android:text="\nPlease select WiFi config"
             android:textSize="24dp" />
     </LinearLayout>
 
@@ -29,14 +125,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WiFi Config 1"
-            android:onClick="Po_Config1" />
+            android:onClick="Po_Config1"
+            android:text="WiFi Config 1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WiFi Config 2"
-            android:onClick="Po_Config2" />
+            android:onClick="Po_Config2"
+            android:text="WiFi Config 2" />
     </LinearLayout>
 
 </LinearLayout>
