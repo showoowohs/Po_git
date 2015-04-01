@@ -1,16 +1,24 @@
-package com.imobile.iq8_readserialnumber;
+package com.imobile.iq8readserialnumber;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.imobile.iq8_readserialnumber.R;
+
 public class MainActivity extends Activity {
 
+	static {
+		System.loadLibrary("iMobileReadSerialNumber");
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		String str = iMobileReadSerialNumber.ReadSN();
+		setTitle(""+str);
 	}
 
 	@Override
