@@ -8,19 +8,13 @@
 extern "C" {
 #endif
 
-/**
- * Class: com_imobile_iq8readserialnumber_iMobileReadSerialNumber
- * Method: HelloWorld
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_HelloWorld(JNIEnv *, jclass);
 
 /**
  * Class: com_imobile_iq8readserialnumber_iMobileReadSerialNumber
  * Method: ReadSN
  * Signature: ()Ljava/lang/String
  */
-JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(JNIEnv *, jclass, jstring);
+JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

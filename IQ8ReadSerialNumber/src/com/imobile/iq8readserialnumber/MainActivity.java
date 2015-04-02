@@ -24,31 +24,12 @@ public class MainActivity extends Activity {
 	private String Read_SN() {
 		
 		String SN_number = "";
-		File file = new File("/data/Po_prop.txt");
+		
+		SN_number = iMobileReadSerialNumber.ReadSN();
 
-		// Read text from file
-		StringBuilder text = new StringBuilder();
-
-		try {
-
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line;
-
-			while ((line = br.readLine()) != null) {
-				
-				text.append(line);
-				//Log.i(TAG, "text=" + text);
-			}
-			br.close();
-			
-			SN_number = text.toString();
-		} catch (IOException e) {
-			Log.i(TAG, "e=" + e);
-			// You'll need to add proper error handling here
-		}
-
+		Log.i(TAG, "s"+SN_number+"p");
 		// not data return "Not SN"
-		if (SN_number == null || SN_number == "") {
+		if (SN_number == null || SN_number == "" || (SN_number.endsWith("en_US"))) {
 			SN_number = "Not SN";
 			return SN_number;
 		}
@@ -59,10 +40,10 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String str = iMobileReadSerialNumber.ReadSN("/data/Po_prop.txt");
-		setTitle(""+str);
-		//String SN= Read_SN();
-		//setTitle(""+SN);
+//		String str = iMobileReadSerialNumber.ReadSN("/data/Po_prop.txt");
+//		setTitle(""+str);
+		String SN= Read_SN();
+		setTitle(""+SN);
 	}
 
 	@Override

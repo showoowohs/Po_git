@@ -24,44 +24,8 @@ extern "C"
 {
 #endif
 
-int system(const char *command);
-
-JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_HelloWorld(
-		JNIEnv *env, jclass arg) {
-	jstring str = (*env)->NewStringUTF(env, "HelloWorld from JNI !");
-
-	//Po log start
-	LOGI("[Po add] HelloWorld()");
-	return str;
-}
-
-/*
- *jstring 2 char*
- */
-char* Jstring2CStr(JNIEnv* env, jstring jstr) {
-	char* rtn = NULL;
-	jclass clsstring = (*env)->FindClass(env, "java/lang/String");
-	jstring strencode = (*env)->NewStringUTF(env, "utf-8");
-	jmethodID mid = (*env)->GetMethodID(env, clsstring, "getBytes",
-			"(Ljava/lang/String;)[B");
-	jbyteArray barr = (jbyteArray)(*env)->CallObjectMethod(env, jstr, mid,
-			strencode);
-	jsize alen = (*env)->GetArrayLength(env, barr);
-	jbyte* ba = (*env)->GetByteArrayElements(env, barr, JNI_FALSE);
-	if (alen > 0) {
-		rtn = (char*) malloc(alen + 1);
-		memcpy(rtn, ba, alen);
-		rtn[alen] = 0;
-	}
-	(*env)->ReleaseByteArrayElements(env, barr, ba, 0);
-	return rtn;
-}
-
 JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(
-		JNIEnv *env, jclass arg, jstring Path) {
-
-	char* origin_path = Jstring2CStr(env, Path);
-	char* p = "";
+		JNIEnv *env, jclass arg) {
 
 #define CHUNK 1024 // read 1024 bytes at a time
 	char buf[CHUNK];
@@ -79,14 +43,19 @@ JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerial
 		fclose(file);
 	}
 
-	LOGI("[Po add] ReadProc() %s", buf);
+	//LOGI("[Po add] buf=%s", buf);
+	char *test = strtok(buf, "\n");
+	LOGI("[Po add] test=%s", test);
+
+	jstring str = (*env)->NewStringUTF(env, "init");
+
+	if((test != "en-US") && (test != NULL) && (test != "")){
+		str = (*env)->NewStringUTF(env, test);
+	}else{
+		str = (*env)->NewStringUTF(env, "Not SN!");
+	}
 
 
-	LOGI("[Po add] ReadSN() 111");
-	jstring str = (*env)->NewStringUTF(env, "ReadSN from JNI !");
-
-	//Po log start
-	LOGI("[Po add] ReadSN() 222");
 	return str;
 }
 
