@@ -11,12 +11,14 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.imobile.iq8_readserialnumber.R;
 
 public class MainActivity extends Activity {
 
 	final String TAG = "Po_debug";
+	private TextView TV1;
 	static {
 		System.loadLibrary("iMobileReadSerialNumber");
 	}
@@ -27,7 +29,7 @@ public class MainActivity extends Activity {
 		
 		SN_number = iMobileReadSerialNumber.ReadSN();
 
-		Log.i(TAG, "s"+SN_number+"p");
+		Log.i(TAG, SN_number);
 		// not data return "Not SN"
 		if (SN_number == null || SN_number == "" || (SN_number.endsWith("en_US"))) {
 			SN_number = "Not SN";
@@ -36,14 +38,21 @@ public class MainActivity extends Activity {
 		return SN_number;
 	}
 	
+	private void find_id(){
+		this.TV1 = (TextView) findViewById(R.id.Po_TV1);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-//		String str = iMobileReadSerialNumber.ReadSN("/data/Po_prop.txt");
-//		setTitle(""+str);
+
+		find_id();
+		
+		// show SN to TV1
 		String SN= Read_SN();
-		setTitle(""+SN);
+		this.TV1.setText(SN);
+		
 	}
 
 	@Override
