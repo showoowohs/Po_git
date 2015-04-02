@@ -20,7 +20,7 @@ JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerial
  * Method: ReadSN
  * Signature: ()Ljava/lang/String
  */
-JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(JNIEnv *, jclass);
+JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus
 }

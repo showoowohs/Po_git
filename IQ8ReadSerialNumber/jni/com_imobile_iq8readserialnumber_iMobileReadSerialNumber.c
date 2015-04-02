@@ -35,32 +35,68 @@ JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerial
 	return str;
 }
 
+/*
+ *jstring 2 char*
+ */
+char* Jstring2CStr(JNIEnv* env, jstring jstr) {
+	char* rtn = NULL;
+	jclass clsstring = (*env)->FindClass(env, "java/lang/String");
+	jstring strencode = (*env)->NewStringUTF(env, "utf-8");
+	jmethodID mid = (*env)->GetMethodID(env, clsstring, "getBytes",
+			"(Ljava/lang/String;)[B");
+	jbyteArray barr = (jbyteArray)(*env)->CallObjectMethod(env, jstr, mid,
+			strencode);
+	jsize alen = (*env)->GetArrayLength(env, barr);
+	jbyte* ba = (*env)->GetByteArrayElements(env, barr, JNI_FALSE);
+	if (alen > 0) {
+		rtn = (char*) malloc(alen + 1);
+		memcpy(rtn, ba, alen);
+		rtn[alen] = 0;
+	}
+	(*env)->ReleaseByteArrayElements(env, barr, ba, 0);
+	return rtn;
+}
+
 JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerialNumber_ReadSN(
-		JNIEnv *env, jclass arg) {
+		JNIEnv *env, jclass arg, jstring Path) {
 
+	char* origin_path = Jstring2CStr(env, Path);
+	char* p = "";
 
-	// ls -al | grep '^d'
-	FILE *pp;
-	pp = popen("/system/IQ8_Read_SN.sh", "r");
-	if (pp != NULL) {
-		while (1) {
-			char *line;
-			char buf[1000];
-			line = fgets(buf, sizeof buf, pp);
-			if (line == NULL)
-				break;
-			if (line[0] == 'd')
-				LOGI("[Po add]%s", line); // line includes '\n'
+#define CHUNK 1024 // read 1024 bytes at a time
+	char buf[CHUNK];
+	FILE *file;
+	size_t nread;
+
+	file = fopen("/mnt/shell/emulated/0/222", "r");
+	if (file) {
+		while ((nread = fread(buf, 1, sizeof buf, file)) > 0)
+			fwrite(buf, 1, nread, stdout);
+
+		if (ferror(file)) {
+			// deal with error
 		}
-		pclose(pp);
+		fclose(file);
 	}
 
+	LOGI("[Po add] ReadProc() %s", buf);
 
-
-	 //system("/system/IQ8_Read_SN.sh");
-
-
-
+	          // ls -al | grep '^d'
+	          FILE *pp;
+	          pp = popen("cat /mnt/shell/emulated/0/222", "r");
+	          if (pp != NULL) {
+	                  while (1) {
+	                          char *line;
+	                          char buf[1000];
+	                          line = fgets(buf, sizeof buf, pp);
+	                          if (line == NULL)
+	                                  break;
+	                          else{
+	                                  LOGI("[Po add]%s", line); // line includes '    \n'
+	                          }
+	                  }
+	                  pclose(pp);
+	          }
 
 	LOGI("[Po add] ReadSN() 111");
 	jstring str = (*env)->NewStringUTF(env, "ReadSN from JNI !");
