@@ -68,7 +68,7 @@ JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerial
 	FILE *file;
 	size_t nread;
 
-	file = fopen("/mnt/shell/emulated/0/222", "r");
+	file = fopen("/data/Po_prop.txt", "r");
 	if (file) {
 		while ((nread = fread(buf, 1, sizeof buf, file)) > 0)
 			fwrite(buf, 1, nread, stdout);
@@ -81,22 +81,6 @@ JNIEXPORT jstring JNICALL Java_com_imobile_iq8readserialnumber_iMobileReadSerial
 
 	LOGI("[Po add] ReadProc() %s", buf);
 
-	          // ls -al | grep '^d'
-	          FILE *pp;
-	          pp = popen("cat /mnt/shell/emulated/0/222", "r");
-	          if (pp != NULL) {
-	                  while (1) {
-	                          char *line;
-	                          char buf[1000];
-	                          line = fgets(buf, sizeof buf, pp);
-	                          if (line == NULL)
-	                                  break;
-	                          else{
-	                                  LOGI("[Po add]%s", line); // line includes '    \n'
-	                          }
-	                  }
-	                  pclose(pp);
-	          }
 
 	LOGI("[Po add] ReadSN() 111");
 	jstring str = (*env)->NewStringUTF(env, "ReadSN from JNI !");

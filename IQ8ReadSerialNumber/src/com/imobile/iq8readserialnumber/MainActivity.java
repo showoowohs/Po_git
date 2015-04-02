@@ -59,10 +59,10 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		//String str = iMobileReadSerialNumber.ReadSN("/data/Po_prop.txt");
-		//setTitle(""+str);
-		String SN= Read_SN();
-		setTitle(""+SN);
+		String str = iMobileReadSerialNumber.ReadSN("/data/Po_prop.txt");
+		setTitle(""+str);
+		//String SN= Read_SN();
+		//setTitle(""+SN);
 	}
 
 	@Override
