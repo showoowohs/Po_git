@@ -13,12 +13,12 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="7"
-            android:text="Please setting your LAN IP address"
-            android:textSize="30sp" />
+        <!-- <TextView -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="fill_parent" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:text="Please setting your LAN IP address" -->
+        <!-- android:textSize="30sp" /> -->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -37,7 +37,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="3"
                     android:text="IP Address"
-                    android:textSize="26sp" />
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_IP_2"
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_IP_3"
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_IP_4"
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:maxLength="3"
                         android:numeric="integer"
-                        android:text="122"
+                        android:text="200"
                         android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -111,7 +111,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="3"
                     android:text="Default Gateway"
-                    android:textSize="26sp" />
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -131,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_GW_2"
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_GW_3"
@@ -161,7 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_GW_4"
@@ -185,7 +185,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="3"
                     android:text="DNS server"
-                    android:textSize="26sp" />
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -205,7 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_DNS_2"
@@ -220,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_DNS_3"
@@ -235,7 +235,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="."
-                        android:textSize="26sp" />
+                        android:textSize="30sp" />
 
                     <EditText
                         android:id="@+id/Po_DNS_4"
@@ -247,6 +247,28 @@
                         android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Po_button_area"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Po_save_config"
+                android:text="Save config"
+                android:textSize="26sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Po_set_default_config"
+                android:text="Default config"
+                android:textSize="26sp" />
         </LinearLayout>
     </LinearLayout>
 
