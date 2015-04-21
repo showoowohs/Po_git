@@ -57,8 +57,89 @@ public class MainActivity extends Activity {
 
 	}
 
+	private int Po_check_range(String tmp[]) {
+		for (int i = 0; i < tmp.length; i++) {
+			int intValue = Integer.parseInt(tmp[i]);
+			// Log.i(TAG, "intValue="+intValue);
+			if ((intValue > 255) || (intValue < 0)) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	private String Read_DNS() {
+
+		String DNS = "";
+		String PoTmp_DNS1, PoTmp_DNS2, PoTmp_DNS3, PoTmp_DNS4;
+		PoTmp_DNS1 = this.Po_DNS_1.getText().toString();
+		PoTmp_DNS2 = this.Po_DNS_2.getText().toString();
+		PoTmp_DNS3 = this.Po_DNS_3.getText().toString();
+		PoTmp_DNS4 = this.Po_DNS_4.getText().toString();
+
+		if ((!PoTmp_DNS1.equals("")) & (!PoTmp_DNS2.equals(""))
+				& (!PoTmp_DNS3.equals("")) & (!PoTmp_DNS4.equals(""))) {
+
+			// check range
+			String tmp[] = { PoTmp_DNS1, PoTmp_DNS2, PoTmp_DNS3, PoTmp_DNS4 };
+			int status = Po_check_range(tmp);
+			if (status == 1) {
+				// success
+				DNS = PoTmp_DNS1 + "." + PoTmp_DNS2 + "." + PoTmp_DNS3 + "."
+						+ PoTmp_DNS4;
+			} else {
+				return "X";
+			}
+
+		} else {
+			// Log.i(TAG, "IP_address is null");
+			return "X";
+		}
+		Log.i(TAG, "DNS=" + DNS);
+
+		return DNS;
+	}
+
+	/**
+	 * Read user input gateway function
+	 * 
+	 * @return gateway
+	 */
+	private String Read_Gateway() {
+
+		String Gateway_address = "";
+		String PoTmp_GW1, PoTmp_GW2, PoTmp_GW3, PoTmp_GW4;
+		PoTmp_GW1 = this.Po_GW_1.getText().toString();
+		PoTmp_GW2 = this.Po_GW_2.getText().toString();
+		PoTmp_GW3 = this.Po_GW_3.getText().toString();
+		PoTmp_GW4 = this.Po_GW_4.getText().toString();
+
+		if ((!PoTmp_GW1.equals("")) & (!PoTmp_GW2.equals(""))
+				& (!PoTmp_GW3.equals("")) & (!PoTmp_GW4.equals(""))) {
+
+			// check range
+			String tmp[] = { PoTmp_GW1, PoTmp_GW2, PoTmp_GW3, PoTmp_GW4 };
+			int status = Po_check_range(tmp);
+			if (status == 1) {
+				// success
+				Gateway_address = PoTmp_GW1 + "." + PoTmp_GW2 + "." + PoTmp_GW3
+						+ "." + PoTmp_GW4;
+			} else {
+				return "X";
+			}
+
+		} else {
+			// Log.i(TAG, "IP_address is null");
+			return "X";
+		}
+		Log.i(TAG, "Gateway_address=" + Gateway_address);
+
+		return Gateway_address;
+	}
+
 	/***
 	 * Read user input IP(if error can return X)
+	 * 
 	 * @return IP
 	 */
 	private String Read_IP() {
@@ -73,11 +154,19 @@ public class MainActivity extends Activity {
 		if ((!PoTmp_IP1.equals("")) & (!PoTmp_IP2.equals(""))
 				& (!PoTmp_IP3.equals("")) & (!PoTmp_IP4.equals(""))) {
 
-			IP_address = PoTmp_IP1 + "." + PoTmp_IP2 + "." + PoTmp_IP3 + "."
-					+ PoTmp_IP4;
+			// check range
+			String tmp[] = { PoTmp_IP1, PoTmp_IP2, PoTmp_IP3, PoTmp_IP4 };
+			int status = Po_check_range(tmp);
+			if (status == 1) {
+				// success
+				IP_address = PoTmp_IP1 + "." + PoTmp_IP2 + "." + PoTmp_IP3
+						+ "." + PoTmp_IP4;
+			} else {
+				return "X";
+			}
 
 		} else {
-//			Log.i(TAG, "IP_address is null");
+			// Log.i(TAG, "IP_address is null");
 			return "X";
 		}
 		Log.i(TAG, "IP_address=" + IP_address);
@@ -155,7 +244,20 @@ public class MainActivity extends Activity {
 	 */
 	public void Po_save_config(View view) {
 		Log.d(TAG, "Po_save_config()");
-		Read_IP();
+
+		// check data is null??
+		if (Read_IP().equals("X")) {
+			Toast.makeText(MainActivity.this, "IP Address format is error!",
+					Toast.LENGTH_SHORT).show();
+		} else if (Read_Gateway().equals("X")) {
+			Toast.makeText(MainActivity.this, "Gateway format is error!",
+					Toast.LENGTH_SHORT).show();
+		} else if (Read_DNS().equals("X")) {
+			Toast.makeText(MainActivity.this, "DNS format is error!",
+					Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+		}
 		// show_dialog("Restore config", "success", this.Default_config);
 	}
 
