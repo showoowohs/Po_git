@@ -269,6 +269,13 @@
                 android:onClick="Po_set_default_config"
                 android:text="Default config"
                 android:textSize="26sp" />
+            
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Po_read_current_IP"
+                android:text="Read current IP"
+                android:textSize="26sp" />
         </LinearLayout>
     </LinearLayout>
 
