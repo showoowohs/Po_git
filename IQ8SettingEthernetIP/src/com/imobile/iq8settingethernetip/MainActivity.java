@@ -181,16 +181,28 @@ public class MainActivity extends Activity {
 			// Path ==> /mnt/shell/emulated/0/
 			FileWriter fw = new FileWriter("/sdcard/IQ8_EthernetIP.sh", false);
 			BufferedWriter bw = new BufferedWriter(fw); // 將BufferedWeiter與FileWrite物件做連結
-			bw.write("#!/system/bin/sh\n\n");
-			// 1. set dhcp
-			//bw.write("netcfg eth0 dhcp\nsleep 1\nstart dhcpcd_eth0\nsleep 1\n");
-			// 2. set IP address
-			bw.write("busybox ifconfig eth0 " + IP + "\nsleep 1\n");
-			// 3. set Gateway
-			bw.write("route add default gw " + Gateway + " dev eth0\nsleep 1\n");
-			// 4. set DNS
-			bw.write("ndc resolver setifdns eth0 '' " + DNS + " 8.8.8.8\n");
-			bw.write("ndc resolver setdefaultif eth0\n");
+			bw.write("#!/system/bin/sh\n");
+			bw.write("\n");
+			bw.write("     netcfg | grep eth0 | grep DOWN && DOWN=\"1\" || DOWN=\"0\"\n");
+			bw.write("     if [ \"$DOWN\" = \"1\" ]; then\n");
+			bw.write("         netcfg eth0 dhcp\n");
+			bw.write("         sleep 1\n");
+			bw.write("     else\n");
+			bw.write("         busybox ifconfig eth0 192.168.1.211\n");
+			bw.write("     fi\n"); 
+			bw.write("     \n"); 
+			bw.write("     ETH0=`getprop init.svc.dhcpcd_eth0`\n");
+			bw.write("     if [ ! \"x$ETH0\" = \"xrunning\" ]; then\n");
+			bw.write("         start dhcpcd_eth0\n");
+			bw.write("         sleep 5\n");
+			bw.write("     fi\n");
+			bw.write("     \n");
+			bw.write("     ndc resolver setifdns eth0 \"\" 8.8.8.8 8.8.8.4\n");
+			bw.write("     ndc resolver setdefaultif eth0\n");
+			bw.write("     \n");
+			bw.write("     route add default gw 192.168.1.1 dev eth0\n");
+			bw.write("     \n");
+			bw.write("     sleep 3");
 			bw.newLine();
 			bw.close();
 		} catch (IOException e) {
