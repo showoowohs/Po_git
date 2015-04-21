@@ -188,19 +188,20 @@ public class MainActivity extends Activity {
 			bw.write("         netcfg eth0 dhcp\n");
 			bw.write("         sleep 1\n");
 			bw.write("     else\n");
-			bw.write("         busybox ifconfig eth0 192.168.1.211\n");
-			bw.write("     fi\n"); 
-			bw.write("     \n"); 
+			bw.write("         busybox ifconfig eth0 " + IP + "\n");
+			bw.write("     fi\n");
+			bw.write("     \n");
 			bw.write("     ETH0=`getprop init.svc.dhcpcd_eth0`\n");
 			bw.write("     if [ ! \"x$ETH0\" = \"xrunning\" ]; then\n");
 			bw.write("         start dhcpcd_eth0\n");
 			bw.write("         sleep 5\n");
 			bw.write("     fi\n");
 			bw.write("     \n");
-			bw.write("     ndc resolver setifdns eth0 \"\" 8.8.8.8 8.8.8.4\n");
+			bw.write("     ndc resolver setifdns eth0 \"\" " + DNS
+					+ " 8.8.8.4\n");
 			bw.write("     ndc resolver setdefaultif eth0\n");
 			bw.write("     \n");
-			bw.write("     route add default gw 192.168.1.1 dev eth0\n");
+			bw.write("     route add default gw " + Gateway + " dev eth0\n");
 			bw.write("     \n");
 			bw.write("     sleep 3");
 			bw.newLine();
@@ -292,7 +293,8 @@ public class MainActivity extends Activity {
 			int Po_write_status = Po_write_file(this.Read_IP(),
 					this.Read_Gateway(), this.Read_DNS());
 			if (Po_write_status == 1) {
-				show_dialog("Save config", "save is success\nwill exit APP!", this.Custom_config);
+				show_dialog("Save config", "save is success\nwill exit APP!",
+						this.Custom_config);
 			} else {
 				Toast.makeText(MainActivity.this, "modify IP address error!!",
 						Toast.LENGTH_SHORT).show();
