@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
 
 	private final String TAG = "Po_ETH";
 	private int Default_config = 9;
+	private int Custom_config = 1;
+
 	// Po_IP_area
 	private EditText Po_IP_1, Po_IP_2, Po_IP_3, Po_IP_4;
 	// Po_Gateway_area
@@ -174,19 +176,28 @@ public class MainActivity extends Activity {
 		return IP_address;
 	}
 
-	private void write_file() {
+	private int Po_write_file(String IP, String Gateway, String DNS) {
 		try {
 			// Path ==> /mnt/shell/emulated/0/
 			FileWriter fw = new FileWriter("/sdcard/IQ8_EthernetIP.sh", false);
 			BufferedWriter bw = new BufferedWriter(fw); // 將BufferedWeiter與FileWrite物件做連結
 			bw.write("#!/system/bin/sh\n\n");
-			bw.write("echo 192.168.1.210\n");
-			bw.write("busybox ifconfig eth0 192.168.1.210");
+			// 1. set dhcp
+			//bw.write("netcfg eth0 dhcp\nsleep 1\nstart dhcpcd_eth0\nsleep 1\n");
+			// 2. set IP address
+			bw.write("busybox ifconfig eth0 " + IP + "\nsleep 1\n");
+			// 3. set Gateway
+			bw.write("route add default gw " + Gateway + " dev eth0\nsleep 1\n");
+			// 4. set DNS
+			bw.write("ndc resolver setifdns eth0 '' " + DNS + " 8.8.8.8\n");
+			bw.write("ndc resolver setdefaultif eth0\n");
 			bw.newLine();
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return 0;
 		}
+		return 1;
 	}
 
 	@Override
@@ -220,6 +231,15 @@ public class MainActivity extends Activity {
 							onDestroy();
 						}
 					});
+		} else if (Po_event == this.Custom_config) {
+			dialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+
+						public void onClick(DialogInterface dialog, int which) {
+
+							onDestroy();
+						}
+					});
 		} else {
 			dialog.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
@@ -233,6 +253,7 @@ public class MainActivity extends Activity {
 						}
 					});
 		}
+
 		dialog.show();
 
 	}
@@ -246,19 +267,26 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "Po_save_config()");
 
 		// check data is null??
-		if (Read_IP().equals("X")) {
+		if (this.Read_IP().equals("X")) {
 			Toast.makeText(MainActivity.this, "IP Address format is error!",
 					Toast.LENGTH_SHORT).show();
-		} else if (Read_Gateway().equals("X")) {
+		} else if (this.Read_Gateway().equals("X")) {
 			Toast.makeText(MainActivity.this, "Gateway format is error!",
 					Toast.LENGTH_SHORT).show();
-		} else if (Read_DNS().equals("X")) {
+		} else if (this.Read_DNS().equals("X")) {
 			Toast.makeText(MainActivity.this, "DNS format is error!",
 					Toast.LENGTH_SHORT).show();
 		} else {
-			Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+			int Po_write_status = Po_write_file(this.Read_IP(),
+					this.Read_Gateway(), this.Read_DNS());
+			if (Po_write_status == 1) {
+				show_dialog("Save config", "save is success\nwill exit APP!", this.Custom_config);
+			} else {
+				Toast.makeText(MainActivity.this, "modify IP address error!!",
+						Toast.LENGTH_SHORT).show();
+			}
 		}
-		// show_dialog("Restore config", "success", this.Default_config);
+
 	}
 
 	/***
