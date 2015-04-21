@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 	private final String TAG = "Po_ETH";
 	private int Default_config = 9;
 	private int Custom_config = 1;
+	private int Read_my_IP = 8;
 
 	// Po_IP_area
 	private EditText Po_IP_1, Po_IP_2, Po_IP_3, Po_IP_4;
@@ -94,12 +95,12 @@ public class MainActivity extends Activity {
 	}
 
 	/***
-	 * Po_check_range(), this function can analyze user input number
-	 * P.S user input number can not > 255, can not < 0 
-	 * @param tmp (user input number)
-	 * @return success/error
-	 * P.S return 0 is error
-	 * P.S return 1 is success
+	 * Po_check_range(), this function can analyze user input number P.S user
+	 * input number can not > 255, can not < 0
+	 * 
+	 * @param tmp
+	 *            (user input number)
+	 * @return success/error P.S return 0 is error P.S return 1 is success
 	 */
 	private int Po_check_range(String tmp[]) {
 		for (int i = 0; i < tmp.length; i++) {
@@ -114,6 +115,7 @@ public class MainActivity extends Activity {
 
 	/***
 	 * Read_DNS(), can read user input DNS
+	 * 
 	 * @return DNS
 	 */
 	private String Read_DNS() {
@@ -224,6 +226,7 @@ public class MainActivity extends Activity {
 
 	/***
 	 * can save user input data to /mnt/shell/emulated/0/IQ8_EthernetIP.sh
+	 * 
 	 * @param IP
 	 * @param Gateway
 	 * @param DNS
@@ -289,6 +292,7 @@ public class MainActivity extends Activity {
 		dialog.setCancelable(false);
 
 		if (Po_event == this.Default_config) {
+			dialog.setIcon(R.drawable.success);
 			dialog.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 
@@ -298,6 +302,7 @@ public class MainActivity extends Activity {
 						}
 					});
 		} else if (Po_event == this.Custom_config) {
+			dialog.setIcon(R.drawable.success);
 			dialog.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 
@@ -306,7 +311,17 @@ public class MainActivity extends Activity {
 							onDestroy();
 						}
 					});
+		} else if (Po_event == this.Read_my_IP) {
+			dialog.setIcon(R.drawable.success);
+			dialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					});
 		} else {
+			dialog.setIcon(R.drawable.error);
 			dialog.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
 
@@ -405,10 +420,10 @@ public class MainActivity extends Activity {
 				// Log.d(TAG, Po_current_IP);
 				// Log.d(TAG, Po_current_Mask);
 				// Log.d(TAG, Po_current_Gateway);
-				
+
 				// show dialog
-				show_dialog("Current IP information", Last_String, 0);
-			}else{
+				show_dialog("Current IP information", Last_String, this.Read_my_IP);
+			} else {
 				// Read file error!!
 				show_dialog("Error", "read IP information is error!!", 0);
 			}
@@ -426,7 +441,8 @@ public class MainActivity extends Activity {
 		File delete_file = new File("/sdcard/IQ8_EthernetIP.sh");
 		// delete file
 		delete_file.delete();
-		show_dialog("Restore config", "Restore IQ8 default is success", this.Default_config);
+		show_dialog("Restore config", "Restore IQ8 default is success",
+				this.Default_config);
 	}
 
 	@Override
