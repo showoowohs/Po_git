@@ -1,7 +1,9 @@
 package com.imobile.iq8settingethernetip;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -9,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +60,34 @@ public class MainActivity extends Activity {
 		this.Po_DNS_3 = (EditText) findViewById(R.id.Po_DNS_3);
 		this.Po_DNS_4 = (EditText) findViewById(R.id.Po_DNS_4);
 
+	}
+
+	/***
+	 * read_current_IP() can read /mnt/shell/emulated/0/IQ8_IP_info, IQ8_IP_info
+	 * have IQ8 IP information
+	 * 
+	 * @return current_IP
+	 */
+	private String read_current_IP() {
+		StringBuilder text = new StringBuilder();
+		try {
+			File sdcard = Environment.getExternalStorageDirectory();
+			File file = new File(sdcard, "IQ8_IP_info");
+
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = br.readLine()) != null) {
+				text.append(line);
+				// Log.i(TAG, "text : " + text + " : end");
+				text.append('\n');
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "X";
+		}
+		// Log.d(TAG, text.toString());
+		return text.toString();
 	}
 
 	private int Po_check_range(String tmp[]) {
@@ -259,10 +290,6 @@ public class MainActivity extends Activity {
 
 						public void onClick(DialogInterface dialog, int which) {
 
-							// 按下PositiveButton要做的事
-							Toast.makeText(MainActivity.this, "APP is exit",
-									Toast.LENGTH_SHORT).show();
-							onDestroy();
 						}
 					});
 		}
@@ -298,6 +325,70 @@ public class MainActivity extends Activity {
 			} else {
 				Toast.makeText(MainActivity.this, "modify IP address error!!",
 						Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
+
+	/***
+	 * Po_read_current_IP is a button, can read current IP information
+	 * 
+	 * @param view
+	 */
+	public void Po_read_current_IP(View view) {
+		Log.d(TAG, "Po_read_current_IP()");
+		// 1. read current IP
+		String Po_tmp_IP_info;
+		Po_tmp_IP_info = read_current_IP();
+
+		// 2. check IP information
+		if (Po_tmp_IP_info.equals("X")) {
+			// Read file error!!
+			show_dialog("Error", "read IP information is error!!", 0);
+		} else {
+
+			// 3. analyse IP information
+			String[] vElement = Po_tmp_IP_info.split(",");
+
+			// Log.d(TAG, vElement.length+"");
+			// for( int i = 0; i < vElement.length; i++ ){
+			// Log.d(TAG, vElement[i]);
+			// }
+			// split
+			if (vElement.length == 3) {
+				String[] tmp;
+				String Last_String;
+
+				// 3.1 split IP
+				String Po_current_IP = "";
+				tmp = vElement[0].split(" ");
+				for (int i = 0; i < tmp.length; i++) {
+					Po_current_IP += tmp[i];
+				}
+				tmp = null;
+
+				// 3.2 split Mask
+				String Po_current_Mask = "";
+				tmp = vElement[1].split(" ");
+				for (int i = 0; i < tmp.length; i++) {
+					Po_current_Mask += tmp[i];
+				}
+				tmp = null;
+
+				String Po_current_Gateway = vElement[2];
+
+				// marge String
+				Last_String = "IP address:" + Po_current_IP + "\nMask:"
+						+ Po_current_Mask + "\nGateway:" + Po_current_Gateway;
+				// Log.d(TAG, Po_current_IP);
+				// Log.d(TAG, Po_current_Mask);
+				// Log.d(TAG, Po_current_Gateway);
+				
+				// show dialog
+				show_dialog("Current IP information", Last_String, 0);
+			}else{
+				// Read file error!!
+				show_dialog("Error", "read IP information is error!!", 0);
 			}
 		}
 
