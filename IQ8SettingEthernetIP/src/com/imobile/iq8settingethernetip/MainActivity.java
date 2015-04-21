@@ -441,7 +441,7 @@ public class MainActivity extends Activity {
 		File delete_file = new File("/sdcard/IQ8_EthernetIP.sh");
 		// delete file
 		delete_file.delete();
-		show_dialog("Restore config", "Restore IQ8 default is success",
+		show_dialog("Restore config", "Restore IQ8 default is success\nPlease reboot device!",
 				this.Default_config);
 	}
 
