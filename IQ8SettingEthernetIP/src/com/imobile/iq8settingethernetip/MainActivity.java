@@ -40,6 +40,9 @@ public class MainActivity extends Activity {
 		Po_find_id();
 	}
 
+	/***
+	 * Po_find_id(), this function will find id
+	 */
 	private void Po_find_id() {
 
 		// find id IP area
@@ -90,6 +93,14 @@ public class MainActivity extends Activity {
 		return text.toString();
 	}
 
+	/***
+	 * Po_check_range(), this function can analyze user input number
+	 * P.S user input number can not > 255, can not < 0 
+	 * @param tmp (user input number)
+	 * @return success/error
+	 * P.S return 0 is error
+	 * P.S return 1 is success
+	 */
 	private int Po_check_range(String tmp[]) {
 		for (int i = 0; i < tmp.length; i++) {
 			int intValue = Integer.parseInt(tmp[i]);
@@ -101,6 +112,10 @@ public class MainActivity extends Activity {
 		return 1;
 	}
 
+	/***
+	 * Read_DNS(), can read user input DNS
+	 * @return DNS
+	 */
 	private String Read_DNS() {
 
 		String DNS = "";
@@ -207,6 +222,13 @@ public class MainActivity extends Activity {
 		return IP_address;
 	}
 
+	/***
+	 * can save user input data to /mnt/shell/emulated/0/IQ8_EthernetIP.sh
+	 * @param IP
+	 * @param Gateway
+	 * @param DNS
+	 * @return success/error
+	 */
 	private int Po_write_file(String IP, String Gateway, String DNS) {
 		try {
 			// Path ==> /mnt/shell/emulated/0/
@@ -404,7 +426,7 @@ public class MainActivity extends Activity {
 		File delete_file = new File("/sdcard/IQ8_EthernetIP.sh");
 		// delete file
 		delete_file.delete();
-		show_dialog("Restore config", "success", this.Default_config);
+		show_dialog("Restore config", "Restore IQ8 default is success", this.Default_config);
 	}
 
 	@Override
