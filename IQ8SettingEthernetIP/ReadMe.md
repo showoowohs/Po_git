@@ -13,4 +13,4 @@ P.S IQ8_EthernetIP.sh is user define
 P.S IQ8_IP_info is current LAN IP address
 
 result:
-![alt tag](https://github.com/showoowohs/Po_git/blob/a8c5d49ebaba635a3b58ea7    0496c4686a0f62db3/PoJNIReadWriteProc/output_jlXfva.gif)
+![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP/IQ8SettingEthernetIP/2015_04_21_08.54.25.png)
