@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
 
 	// Po_IP_area
 	private EditText Po_IP_1, Po_IP_2, Po_IP_3, Po_IP_4;
+	// Po_Mask_area
+	private EditText Po_Mask_1, Po_Mask_2, Po_Mask_3, Po_Mask_4;
 	// Po_Gateway_area
 	private EditText Po_GW_1, Po_GW_2, Po_GW_3, Po_GW_4;
 	// Po_DNS_area
@@ -51,6 +53,12 @@ public class MainActivity extends Activity {
 		this.Po_IP_2 = (EditText) findViewById(R.id.Po_IP_2);
 		this.Po_IP_3 = (EditText) findViewById(R.id.Po_IP_3);
 		this.Po_IP_4 = (EditText) findViewById(R.id.Po_IP_4);
+
+		// find id Mask area
+		this.Po_Mask_1 = (EditText) findViewById(R.id.Po_Mask_1);
+		this.Po_Mask_2 = (EditText) findViewById(R.id.Po_Mask_2);
+		this.Po_Mask_3 = (EditText) findViewById(R.id.Po_Mask_3);
+		this.Po_Mask_4 = (EditText) findViewById(R.id.Po_Mask_4);
 
 		// find id Gateway area
 		this.Po_GW_1 = (EditText) findViewById(R.id.Po_GW_1);
@@ -111,6 +119,43 @@ public class MainActivity extends Activity {
 			}
 		}
 		return 1;
+	}
+
+	/**
+	 * Read_Mask(), can read user input Mask
+	 * 
+	 * @return
+	 */
+	private String Read_Mask() {
+
+		String Mask = "";
+		String PoTmp_Mask1, PoTmp_Mask2, PoTmp_Mask3, PoTmp_Mask4;
+		PoTmp_Mask1 = this.Po_Mask_1.getText().toString();
+		PoTmp_Mask2 = this.Po_Mask_2.getText().toString();
+		PoTmp_Mask3 = this.Po_Mask_3.getText().toString();
+		PoTmp_Mask4 = this.Po_Mask_4.getText().toString();
+
+		if ((!PoTmp_Mask1.equals("")) & (!PoTmp_Mask2.equals(""))
+				& (!PoTmp_Mask3.equals("")) & (!PoTmp_Mask4.equals(""))) {
+
+			// check range
+			String tmp[] = { PoTmp_Mask1, PoTmp_Mask2, PoTmp_Mask3, PoTmp_Mask4 };
+			int status = Po_check_range(tmp);
+			if (status == 1) {
+				// success
+				Mask = PoTmp_Mask1 + "." + PoTmp_Mask2 + "." + PoTmp_Mask3
+						+ "." + PoTmp_Mask4;
+			} else {
+				return "X";
+			}
+
+		} else {
+			// Log.i(TAG, "Mask is null");
+			return "X";
+		}
+		Log.i(TAG, "Mask=" + Mask);
+
+		return Mask;
 	}
 
 	/***
@@ -232,7 +277,7 @@ public class MainActivity extends Activity {
 	 * @param DNS
 	 * @return success/error
 	 */
-	private int Po_write_file(String IP, String Gateway, String DNS) {
+	private int Po_write_file(String IP, String Mask, String Gateway, String DNS) {
 		try {
 			// Path ==> /mnt/shell/emulated/0/
 			FileWriter fw = new FileWriter("/sdcard/IQ8_EthernetIP.sh", false);
@@ -244,7 +289,9 @@ public class MainActivity extends Activity {
 			bw.write("         netcfg eth0 dhcp\n");
 			bw.write("         sleep 1\n");
 			bw.write("     else\n");
-			bw.write("         busybox ifconfig eth0 " + IP + "\n");
+			bw.write("         #busybox ifconfig eth0 " + IP + "\n");
+			bw.write("         busybox ifconfig eth0 " + IP + " netmask "
+					+ Mask + "\n");
 			bw.write("     fi\n");
 			bw.write("     \n");
 			bw.write("     ETH0=`getprop init.svc.dhcpcd_eth0`\n");
@@ -347,6 +394,9 @@ public class MainActivity extends Activity {
 		if (this.Read_IP().equals("X")) {
 			Toast.makeText(MainActivity.this, "IP Address format is error!",
 					Toast.LENGTH_SHORT).show();
+		} else if (this.Read_Mask().equals("X")) {
+			Toast.makeText(MainActivity.this, "Mask format is error!",
+					Toast.LENGTH_SHORT).show();
 		} else if (this.Read_Gateway().equals("X")) {
 			Toast.makeText(MainActivity.this, "Gateway format is error!",
 					Toast.LENGTH_SHORT).show();
@@ -355,7 +405,7 @@ public class MainActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		} else {
 			int Po_write_status = Po_write_file(this.Read_IP(),
-					this.Read_Gateway(), this.Read_DNS());
+					this.Read_Mask(), this.Read_Gateway(), this.Read_DNS());
 			if (Po_write_status == 1) {
 				show_dialog("Save config", "save is success\nwill exit APP!",
 						this.Custom_config);
@@ -422,7 +472,8 @@ public class MainActivity extends Activity {
 				// Log.d(TAG, Po_current_Gateway);
 
 				// show dialog
-				show_dialog("Current IP information", Last_String, this.Read_my_IP);
+				show_dialog("Current IP information", Last_String,
+						this.Read_my_IP);
 			} else {
 				// Read file error!!
 				show_dialog("Error", "read IP information is error!!", 0);
@@ -441,7 +492,8 @@ public class MainActivity extends Activity {
 		File delete_file = new File("/sdcard/IQ8_EthernetIP.sh");
 		// delete file
 		delete_file.delete();
-		show_dialog("Restore config", "Restore IQ8 default is success\nPlease reboot device!",
+		show_dialog("Restore config",
+				"Restore IQ8 default is success\nPlease reboot device!",
 				this.Default_config);
 	}
 
