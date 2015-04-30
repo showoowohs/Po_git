@@ -13,6 +13,11 @@ P.S IQ8_EthernetIP.sh is user define
 P.S IQ8_IP_info is current LAN IP address
 
 result:
+1. save user setting IP
 ![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/save.gif)
+
+2. read current IP
 ![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/read.gif)
+
+3. restore default IP
 ![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/default.gif)
