@@ -465,8 +465,11 @@ public class MainActivity extends Activity {
 				String Po_current_Gateway = vElement[2];
 
 				// marge String
+				// Last_String = "IP address:" + Po_current_IP + "\nMask:"
+				// + Po_current_Mask + "\nGateway:" + Po_current_Gateway;
+				// Po modify (custom say not show gateway)
 				Last_String = "IP address:" + Po_current_IP + "\nMask:"
-						+ Po_current_Mask + "\nGateway:" + Po_current_Gateway;
+						+ Po_current_Mask;
 				// Log.d(TAG, Po_current_IP);
 				// Log.d(TAG, Po_current_Mask);
 				// Log.d(TAG, Po_current_Gateway);
