@@ -34,6 +34,8 @@ public class MainActivity extends Activity {
 	private EditText Po_GW_1, Po_GW_2, Po_GW_3, Po_GW_4;
 	// Po_DNS_area
 	private EditText Po_DNS_1, Po_DNS_2, Po_DNS_3, Po_DNS_4;
+	// Po_DNS2_area
+	private EditText Po_DNS2_1, Po_DNS2_2, Po_DNS2_3, Po_DNS2_4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +68,17 @@ public class MainActivity extends Activity {
 		this.Po_GW_3 = (EditText) findViewById(R.id.Po_GW_3);
 		this.Po_GW_4 = (EditText) findViewById(R.id.Po_GW_4);
 
-		// find id Gateway area
+		// find id DNS area
 		this.Po_DNS_1 = (EditText) findViewById(R.id.Po_DNS_1);
 		this.Po_DNS_2 = (EditText) findViewById(R.id.Po_DNS_2);
 		this.Po_DNS_3 = (EditText) findViewById(R.id.Po_DNS_3);
 		this.Po_DNS_4 = (EditText) findViewById(R.id.Po_DNS_4);
+
+		// find id DNS2 area
+		this.Po_DNS2_1 = (EditText) findViewById(R.id.Po_DNS2_1);
+		this.Po_DNS2_2 = (EditText) findViewById(R.id.Po_DNS2_2);
+		this.Po_DNS2_3 = (EditText) findViewById(R.id.Po_DNS2_3);
+		this.Po_DNS2_4 = (EditText) findViewById(R.id.Po_DNS2_4);
 
 	}
 
@@ -156,6 +164,43 @@ public class MainActivity extends Activity {
 		Log.i(TAG, "Mask=" + Mask);
 
 		return Mask;
+	}
+
+	/**
+	 * Read_DNS2(), can read user input DNS2
+	 * 
+	 * @return DNS2
+	 */
+	private String Read_DNS2() {
+
+		String DNS2 = "";
+		String PoTmp_DNS1, PoTmp_DNS2, PoTmp_DNS3, PoTmp_DNS4;
+		PoTmp_DNS1 = this.Po_DNS2_1.getText().toString();
+		PoTmp_DNS2 = this.Po_DNS2_2.getText().toString();
+		PoTmp_DNS3 = this.Po_DNS2_3.getText().toString();
+		PoTmp_DNS4 = this.Po_DNS2_4.getText().toString();
+
+		if ((!PoTmp_DNS1.equals("")) & (!PoTmp_DNS2.equals(""))
+				& (!PoTmp_DNS3.equals("")) & (!PoTmp_DNS4.equals(""))) {
+
+			// check range
+			String tmp[] = { PoTmp_DNS1, PoTmp_DNS2, PoTmp_DNS3, PoTmp_DNS4 };
+			int status = Po_check_range(tmp);
+			if (status == 1) {
+				// success
+				DNS2 = PoTmp_DNS1 + "." + PoTmp_DNS2 + "." + PoTmp_DNS3 + "."
+						+ PoTmp_DNS4;
+			} else {
+				return "X";
+			}
+
+		} else {
+			// Log.i(TAG, "DNS2 is null");
+			return "X";
+		}
+		Log.i(TAG, "DNS2=" + DNS2);
+
+		return DNS2;
 	}
 
 	/***
@@ -273,11 +318,14 @@ public class MainActivity extends Activity {
 	 * can save user input data to /mnt/shell/emulated/0/IQ8_EthernetIP.sh
 	 * 
 	 * @param IP
+	 * @param Mask
 	 * @param Gateway
 	 * @param DNS
+	 * @param DNS2
 	 * @return success/error
 	 */
-	private int Po_write_file(String IP, String Mask, String Gateway, String DNS) {
+	private int Po_write_file(String IP, String Mask, String Gateway,
+			String DNS, String DNS2) {
 		try {
 			// Path ==> /mnt/shell/emulated/0/
 			FileWriter fw = new FileWriter("/sdcard/IQ8_EthernetIP.sh", false);
@@ -300,8 +348,8 @@ public class MainActivity extends Activity {
 			bw.write("         sleep 5\n");
 			bw.write("     fi\n");
 			bw.write("     \n");
-			bw.write("     ndc resolver setifdns eth0 \"\" " + DNS
-					+ " 8.8.8.4\n");
+			bw.write("     ndc resolver setifdns eth0 \"\" " + DNS + " " + DNS2
+					+ "\n");
 			bw.write("     ndc resolver setdefaultif eth0\n");
 			bw.write("     \n");
 			bw.write("     route add default gw " + Gateway + " dev eth0\n");
@@ -403,9 +451,13 @@ public class MainActivity extends Activity {
 		} else if (this.Read_DNS().equals("X")) {
 			Toast.makeText(MainActivity.this, "DNS format is error!",
 					Toast.LENGTH_SHORT).show();
+		} else if (this.Read_DNS2().equals("X")) {
+			Toast.makeText(MainActivity.this, "DNS2 format is error!",
+					Toast.LENGTH_SHORT).show();
 		} else {
 			int Po_write_status = Po_write_file(this.Read_IP(),
-					this.Read_Mask(), this.Read_Gateway(), this.Read_DNS());
+					this.Read_Mask(), this.Read_Gateway(), this.Read_DNS(),
+					this.Read_DNS2());
 			if (Po_write_status == 1) {
 				show_dialog("Save config", "save is success\nwill exit APP!",
 						this.Custom_config);
