@@ -12,12 +12,15 @@ P.S IQ8_EthernetIP.sh is user define
 2. This APP can read /mnt/shell/emulated/0/IQ8_IP_info
 P.S IQ8_IP_info is current LAN IP address
 
+note
+1. 2015/05/08 add DNS2 setting function
+
 result:
 1. save user setting IP
-![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/save.gif)
+![alt tag](https://github.com/showoowohs/Po_git/blob/master/IQ8SettingEthernetIP/demo/save.gif)
 
 2. read current IP
-![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/read.gif)
+![alt tag](https://github.com/showoowohs/Po_git/blob/master/IQ8SettingEthernetIP/demo/read.gif)
 
 3. restore default IP
-![alt tag](https://github.com/showoowohs/Po_git/blob/IQ8SettingEthernetIP_NOIO/IQ8SettingEthernetIP/demo/default.gif)
+![alt tag](https://github.com/showoowohs/Po_git/blob/master/IQ8SettingEthernetIP/demo/default.gif)
