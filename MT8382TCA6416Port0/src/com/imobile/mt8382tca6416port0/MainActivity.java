@@ -519,6 +519,79 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	}
 	
+	/****
+	 * toggle_Touch
+	 * 
+	 * @param context
+	 *            on/of Touch
+	 */
+	public void toggle_Touch(Context context) {
+		
+		String Touch_Read_Path = "/proc/tca6416";
+		String Tmp_Touch_status = "";
+
+		String oo = " success";
+		String xx = " error!!";
+		if (this.Touch_status == 10) {
+
+			// call JNI, and echo "11" > /proc/tca6416
+			Tmp_Touch_status = imobileJNI.WriteProc(Touch_Read_Path, "B");
+			// Log.d(TAG, "toggle_Touch() Tmp_Touch_status =" +
+			// Tmp_Touch_status);
+
+			if (Tmp_Touch_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_USBGSM() via JNI write B is" + oo);
+				this.Touch_status = 11;
+
+				// set drawable
+				this.Po_IV9_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.touch_x));
+				this.Po_IV9_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			} else {
+				Log.d(TAG, "toggle_Barcode() via JNI write B is" + xx);
+			}
+
+		} else {
+
+			// call JNI, and echo "10" > /proc/tca6416
+			Tmp_Touch_status = imobileJNI.WriteProc(Touch_Read_Path, "A");
+			// Log.d(TAG, "toggle_Touch() Tmp_Touch_status =" +
+			// Tmp_Touch_status);
+
+			if (Tmp_Touch_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_Touch() via JNI write A is" + oo);
+				this.Touch_status = 10;
+
+				// set drawable
+				this.Po_IV9_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.touch));
+				this.Po_IV9_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			} else {
+				Log.d(TAG, "toggle_Touch() via JNI write A is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_Touch() Touch_status (update) ="
+				+ this.Touch_status);
+
+	}
+	
+	/***
+	 * Po_MultiTouch_area: click can toggle Touch on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_MultiTouch_area(View view) {
+		toggle_Touch(this);
+		// Log.d(TAG, "click");
+	}
+	
 	/***
 	 * Po_USBGSM_area: click can toggle USB GSM on/off
 	 * 
@@ -855,6 +928,30 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		}
 		Log.d(TAG, "USB_SGM_status=" + this.USB_SGM_status);
+		
+		if (this.Touch_status == 11) {
+			// set USB_SGM_status --> 11
+
+			// set drawable
+			this.Po_IV9_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.touch_x));
+			this.Po_IV9_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_Touch_status = imobileJNI.WriteProc("/proc/tca6416",
+					"B");
+
+		} else {
+			// set USB_SGM_status --> 10
+
+			// set drawable
+			this.Po_IV9_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.touch));
+			this.Po_IV9_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "Touch_status=" + this.Touch_status);
+		
 	}
 
 	/***
