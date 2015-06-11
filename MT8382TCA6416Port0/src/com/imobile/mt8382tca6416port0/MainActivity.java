@@ -67,10 +67,23 @@ public class MainActivity extends Activity implements OnClickListener {
 	private static boolean GPS_status = false;
 	private static int Thermal_status = 1; // thermal 0 is on , 1 is off
 	private static int Finger_status = 3; // finger 2 is on , 3 is off
+	//Po add 2015/06/10 (Setup2)
+	private static int NFC_SCR_status = 5; // NFC/SCR 4 is on , 5 is off
+	private static int Barcode_status = 7; // NFC/SCR 6 is on , 7 is off
+	private static int USB_SGM_status = 9; // NFC/SCR 8 is on , 9 is off
+	private static int Touch_status = 11; // NFC/SCR 10 is on , 11 is off
+	private static int USB_GPS_status = 13; // NFC/SCR 12 is on , 13 is off
+	//Po End
 	private ImageView Po_IV1_top, Po_IV2_top, Po_IV3_top, Po_IV4_top,
 			Po_IV5_top;
 	private ImageView Po_IV1_below, Po_IV2_below, Po_IV3_below, Po_IV4_below,
 			Po_IV5_below;
+	// Po add 2015/06/10 function 2 (Setup1)
+	private ImageView Po_IV6_top, Po_IV7_top, Po_IV8_top, Po_IV9_top,
+			Po_IV10_top;
+	private ImageView Po_IV6_below, Po_IV7_below, Po_IV8_below, Po_IV9_below,
+			Po_IV10_below;
+	// Po End
 	private final String TAG = "Po_test";
 
 	static {
@@ -314,7 +327,157 @@ public class MainActivity extends Activity implements OnClickListener {
 		context.startActivity(intent);
 
 	}
+	
+	//Po add 2015/06/10 (Setup4)
+	/****
+	 * toggle_NFC_SCR
+	 * 
+	 * @param context
+	 *            on/of NFC_SCR
+	 */
+	public void toggle_NFC_SCR(Context context) {
+		
+		String NFC_SCR_Read_Path = "/proc/tca6416";
+		String Tmp_NFC_SCR_status = "";
 
+		// 2. toggle Thermal Printer status
+		String oo = " success";
+		String xx = " error!!";
+		if (this.NFC_SCR_status == 4) {
+
+			// call JNI, and echo "1" > /proc/tca6416
+			Tmp_NFC_SCR_status = imobileJNI.WriteProc(NFC_SCR_Read_Path, "5");
+			// Log.d(TAG, "toggle_NFC_SCR() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
+			if (Tmp_NFC_SCR_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_NFC_SCR() via JNI write 5 is" + oo);
+				this.NFC_SCR_status = 5;
+
+				// set drawable
+				this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.nfc_checkpoint2_x));
+				this.Po_IV6_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			} else {
+				Log.d(TAG, "toggle_NFC_SCR() via JNI write 5 is" + xx);
+			}
+
+		} else {
+
+			// call JNI, and echo "4" > /proc/tca6416
+			Tmp_NFC_SCR_status = imobileJNI.WriteProc(NFC_SCR_Read_Path, "4");
+			// Log.d(TAG, "toggle_NFC_SCR() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
+			if (Tmp_NFC_SCR_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_NFC_SCR() via JNI write 4 is" + oo);
+				this.NFC_SCR_status = 4;
+
+				// set drawable
+				this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.nfc_checkpoint2_o));
+				this.Po_IV6_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			} else {
+				Log.d(TAG, "toggle_NFC_SCR() via JNI write 4 is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_NFC_SCR() NFC_SCR_status (update) ="
+				+ this.NFC_SCR_status);
+
+	}
+	
+	/****
+	 * toggle_NFC_SCR
+	 * 
+	 * @param context
+	 *            on/of NFC_SCR
+	 */
+	public void toggle_Barcode(Context context) {
+		
+		String Barcode_Read_Path = "/proc/tca6416";
+		String Tmp_Barcode_status = "";
+
+		String oo = " success";
+		String xx = " error!!";
+		if (this.Barcode_status == 6) {
+
+			// call JNI, and echo "7" > /proc/tca6416
+			Tmp_Barcode_status = imobileJNI.WriteProc(Barcode_Read_Path, "7");
+			// Log.d(TAG, "toggle_Barcode() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
+			if (Tmp_Barcode_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_NFC_SCR() via JNI write 7 is" + oo);
+				this.NFC_SCR_status = 7;
+
+				// set drawable
+				this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.barcode_canner_x));
+				this.Po_IV7_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			} else {
+				Log.d(TAG, "toggle_Barcode() via JNI write 7 is" + xx);
+			}
+
+		} else {
+
+			// call JNI, and echo "6" > /proc/tca6416
+			Tmp_Barcode_status = imobileJNI.WriteProc(Barcode_Read_Path, "6");
+			// Log.d(TAG, "toggle_Barcode() Tmp_Thermal_status =" +
+			// Tmp_Thermal_status);
+
+			if (Tmp_Barcode_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_Barcode() via JNI write 6 is" + oo);
+				this.Barcode_status = 6;
+
+				// set drawable
+				this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.barcode_canner));
+				this.Po_IV7_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			} else {
+				Log.d(TAG, "toggle_Barcode() via JNI write 6 is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_Barcode() Barcode_status (update) ="
+				+ this.Barcode_status);
+
+	}
+	
+	/***
+	 * Po_Barcode_area: click can toggle Barcode on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_Barcode_area(View view) {
+		toggle_Barcode(this);
+		// Log.d(TAG, "click");
+	}
+
+	/***
+	 * Po_GPS_area: click can toggle GPS on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_NFC_area(View view) {
+		toggle_NFC_SCR(this);
+		// Log.d(TAG, "click");
+	}
+	
+	//Po End
+	
 	/***
 	 * Po_GPS_area: click can toggle GPS on/off
 	 * 
@@ -549,6 +712,53 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		}
 		Log.d(TAG, "Finger_status=" + this.Finger_status);
+		
+		//Po add 2015/06/10 (Setup3)
+		if (this.NFC_SCR_status == 5) {
+			// set Finger_status --> 5
+
+			// set drawable
+			this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.nfc_checkpoint2_x));
+			this.Po_IV6_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_NFC_SCR_status = imobileJNI.WriteProc("/proc/tca6416",
+					"4");
+
+		} else {
+			// set Thermal_status --> 4
+
+			// set drawable
+			this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.nfc_checkpoint2_o));
+			this.Po_IV6_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "NFC_SCR_status=" + this.NFC_SCR_status);
+		
+		if (this.Barcode_status == 7) {
+			// set Finger_status --> 7
+
+			// set drawable
+			this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.barcode_canner_x));
+			this.Po_IV7_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_NFC_SCR_status = imobileJNI.WriteProc("/proc/tca6416",
+					"7");
+
+		} else {
+			// set Thermal_status --> 6
+
+			// set drawable
+			this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.barcode_canner));
+			this.Po_IV7_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "Barcode_status=" + this.Barcode_status);
 	}
 
 	/***
@@ -575,6 +785,25 @@ public class MainActivity extends Activity implements OnClickListener {
 		this.Po_IV5_top = (ImageView) findViewById(R.id.Po_IV5_top);
 		this.Po_IV5_below = (ImageView) findViewById(R.id.Po_IV5_below);
 
+		// find id NFC/SCR
+		this.Po_IV6_top = (ImageView) findViewById(R.id.Po_IV6_top);
+		this.Po_IV6_below = (ImageView) findViewById(R.id.Po_IV6_below);
+
+		// find id Barcode
+		this.Po_IV7_top = (ImageView) findViewById(R.id.Po_IV7_top);
+		this.Po_IV7_below = (ImageView) findViewById(R.id.Po_IV7_below);
+
+		// find id USB GSM
+		this.Po_IV8_top = (ImageView) findViewById(R.id.Po_IV8_top);
+		this.Po_IV8_below = (ImageView) findViewById(R.id.Po_IV8_below);
+
+		// find id Touch
+		this.Po_IV9_top = (ImageView) findViewById(R.id.Po_IV9_top);
+		this.Po_IV9_below = (ImageView) findViewById(R.id.Po_IV9_below);
+
+		// find id USB GPS
+		this.Po_IV10_top = (ImageView) findViewById(R.id.Po_IV10_top);
+		this.Po_IV10_below = (ImageView) findViewById(R.id.Po_IV10_below);
 	}
 
 	// Po area END
