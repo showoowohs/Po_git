@@ -582,6 +582,79 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	}
 	
+	/****
+	 * toggle_USBGPS
+	 * 
+	 * @param context
+	 *            on/of USB GPS
+	 */
+	public void toggle_USBGPS(Context context) {
+		
+		String USBGPS_Read_Path = "/proc/tca6416";
+		String Tmp_USBGPS_status = "";
+
+		String oo = " success";
+		String xx = " error!!";
+		if (this.USB_GPS_status == 12) {
+
+			// call JNI, and echo "13" > /proc/tca6416
+			Tmp_USBGPS_status = imobileJNI.WriteProc(USBGPS_Read_Path, "D");
+			// Log.d(TAG, "toggle_USBGPS() Tmp_USBGPS_status =" +
+			// Tmp_USBGPS_status);
+
+			if (Tmp_USBGPS_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_USBGSM() via JNI write D is" + oo);
+				this.USB_GPS_status = 13;
+
+				// set drawable
+				this.Po_IV10_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.gps_receiving_x));
+				this.Po_IV10_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			} else {
+				Log.d(TAG, "toggle_USBGPS() via JNI write D is" + xx);
+			}
+
+		} else {
+
+			// call JNI, and echo "12" > /proc/tca6416
+			Tmp_USBGPS_status = imobileJNI.WriteProc(USBGPS_Read_Path, "C");
+			// Log.d(TAG, "toggle_USBGPS() Tmp_Touch_status =" +
+			// Tmp_Touch_status);
+
+			if (Tmp_USBGPS_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_USBGPS() via JNI write C is" + oo);
+				this.USB_GPS_status = 12;
+
+				// set drawable
+				this.Po_IV10_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.gps_receiving_o));
+				this.Po_IV10_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			} else {
+				Log.d(TAG, "toggle_USBGPS() via JNI write C is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_USBGPS() USB_GPS_status (update) ="
+				+ this.USB_GPS_status);
+
+	}
+	
+	/***
+	 * Po_USB_GPS_area: click can toggle USB GPS on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_USB_GPS_area(View view) {
+		toggle_USBGPS(this);
+		// Log.d(TAG, "click");
+	}
+	
 	/***
 	 * Po_MultiTouch_area: click can toggle Touch on/off
 	 * 
@@ -951,6 +1024,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		}
 		Log.d(TAG, "Touch_status=" + this.Touch_status);
+		
+		if (this.USB_GPS_status == 13) {
+			// set USB_GPS_status --> 13
+
+			// set drawable
+			this.Po_IV10_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.gps_receiving_x));
+			this.Po_IV10_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_USB_GPS_status = imobileJNI.WriteProc("/proc/tca6416",
+					"D");
+
+		} else {
+			// set USB_GPS_status --> 12
+
+			// set drawable
+			this.Po_IV10_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.gps_receiving_o));
+			this.Po_IV10_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "USB_GPS_status=" + this.USB_GPS_status);
 		
 	}
 
