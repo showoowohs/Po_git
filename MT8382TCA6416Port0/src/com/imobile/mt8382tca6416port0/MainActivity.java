@@ -347,8 +347,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			// call JNI, and echo "1" > /proc/tca6416
 			Tmp_NFC_SCR_status = imobileJNI.WriteProc(NFC_SCR_Read_Path, "5");
-			// Log.d(TAG, "toggle_NFC_SCR() Tmp_Thermal_status =" +
-			// Tmp_Thermal_status);
+			// Log.d(TAG, "toggle_NFC_SCR() Tmp_NFC_SCR_status =" +
+			// Tmp_NFC_SCR_status);
 
 			if (Tmp_NFC_SCR_status.equals("oo")) {
 
@@ -369,8 +369,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			// call JNI, and echo "4" > /proc/tca6416
 			Tmp_NFC_SCR_status = imobileJNI.WriteProc(NFC_SCR_Read_Path, "4");
-			// Log.d(TAG, "toggle_NFC_SCR() Tmp_Thermal_status =" +
-			// Tmp_Thermal_status);
+			// Log.d(TAG, "toggle_NFC_SCR() Tmp_NFC_SCR_status =" +
+			// Tmp_NFC_SCR_status);
 
 			if (Tmp_NFC_SCR_status.equals("oo")) {
 
@@ -410,13 +410,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			// call JNI, and echo "7" > /proc/tca6416
 			Tmp_Barcode_status = imobileJNI.WriteProc(Barcode_Read_Path, "7");
-			// Log.d(TAG, "toggle_Barcode() Tmp_Thermal_status =" +
-			// Tmp_Thermal_status);
+			// Log.d(TAG, "toggle_Barcode() Tmp_Barcode_status =" +
+			// Tmp_Barcode_status);
 
 			if (Tmp_Barcode_status.equals("oo")) {
 
 				Log.d(TAG, "toggle_NFC_SCR() via JNI write 7 is" + oo);
-				this.NFC_SCR_status = 7;
+				this.Barcode_status = 7;
 
 				// set drawable
 				this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
@@ -432,8 +432,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			// call JNI, and echo "6" > /proc/tca6416
 			Tmp_Barcode_status = imobileJNI.WriteProc(Barcode_Read_Path, "6");
-			// Log.d(TAG, "toggle_Barcode() Tmp_Thermal_status =" +
-			// Tmp_Thermal_status);
+			// Log.d(TAG, "toggle_Barcode() Tmp_Barcode_status =" +
+			// Tmp_Barcode_status);
 
 			if (Tmp_Barcode_status.equals("oo")) {
 
