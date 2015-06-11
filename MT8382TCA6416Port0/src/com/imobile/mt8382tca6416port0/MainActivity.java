@@ -394,10 +394,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	/****
-	 * toggle_NFC_SCR
+	 * toggle_Barcode
 	 * 
 	 * @param context
-	 *            on/of NFC_SCR
+	 *            on/of Barcode
 	 */
 	public void toggle_Barcode(Context context) {
 		
@@ -454,6 +454,79 @@ public class MainActivity extends Activity implements OnClickListener {
 		Log.d(TAG, "toggle_Barcode() Barcode_status (update) ="
 				+ this.Barcode_status);
 
+	}
+	
+	/****
+	 * toggle_USBGSM
+	 * 
+	 * @param context
+	 *            on/of USB GSM
+	 */
+	public void toggle_USBGSM(Context context) {
+		
+		String USBGSM_Read_Path = "/proc/tca6416";
+		String Tmp_USBGSM_status = "";
+
+		String oo = " success";
+		String xx = " error!!";
+		if (this.USB_SGM_status == 8) {
+
+			// call JNI, and echo "9" > /proc/tca6416
+			Tmp_USBGSM_status = imobileJNI.WriteProc(USBGSM_Read_Path, "9");
+			// Log.d(TAG, "toggle_USBGSM() Tmp_USBGSM_status =" +
+			// Tmp_USBGSM_status);
+
+			if (Tmp_USBGSM_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_USBGSM() via JNI write 9 is" + oo);
+				this.USB_SGM_status = 9;
+
+				// set drawable
+				this.Po_IV8_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.gsm_x));
+				this.Po_IV8_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.white));
+
+			} else {
+				Log.d(TAG, "toggle_Barcode() via JNI write 9 is" + xx);
+			}
+
+		} else {
+
+			// call JNI, and echo "8" > /proc/tca6416
+			Tmp_USBGSM_status = imobileJNI.WriteProc(USBGSM_Read_Path, "8");
+			// Log.d(TAG, "toggle_USBGSM() Tmp_USBGSM_status =" +
+			// Tmp_USBGSM_status);
+
+			if (Tmp_USBGSM_status.equals("oo")) {
+
+				Log.d(TAG, "toggle_Barcode() via JNI write 8 is" + oo);
+				this.USB_SGM_status = 8;
+
+				// set drawable
+				this.Po_IV8_top.setImageDrawable(getResources().getDrawable(
+						R.drawable.gsm_o));
+				this.Po_IV8_below.setImageDrawable(getResources().getDrawable(
+						R.drawable.blue));
+
+			} else {
+				Log.d(TAG, "toggle_USBGSM() via JNI write 8 is" + xx);
+			}
+
+		}
+		Log.d(TAG, "toggle_USBGSM() USB_SGM_status (update) ="
+				+ this.USB_SGM_status);
+
+	}
+	
+	/***
+	 * Po_USBGSM_area: click can toggle USB GSM on/off
+	 * 
+	 * @param view
+	 */
+	public void Po_USBGSM_area(View view) {
+		toggle_USBGSM(this);
+		// Log.d(TAG, "click");
 	}
 	
 	/***
@@ -715,7 +788,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		//Po add 2015/06/10 (Setup3)
 		if (this.NFC_SCR_status == 5) {
-			// set Finger_status --> 5
+			// set NFC_SCR_status --> 5
 
 			// set drawable
 			this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
@@ -726,7 +799,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					"4");
 
 		} else {
-			// set Thermal_status --> 4
+			// set NFC_SCR_status --> 4
 
 			// set drawable
 			this.Po_IV6_top.setImageDrawable(getResources().getDrawable(
@@ -738,7 +811,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Log.d(TAG, "NFC_SCR_status=" + this.NFC_SCR_status);
 		
 		if (this.Barcode_status == 7) {
-			// set Finger_status --> 7
+			// set Barcode_status --> 7
 
 			// set drawable
 			this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
@@ -749,7 +822,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					"7");
 
 		} else {
-			// set Thermal_status --> 6
+			// set Barcode_status --> 6
 
 			// set drawable
 			this.Po_IV7_top.setImageDrawable(getResources().getDrawable(
@@ -759,6 +832,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		}
 		Log.d(TAG, "Barcode_status=" + this.Barcode_status);
+		
+		if (this.USB_SGM_status == 9) {
+			// set USB_SGM_status --> 9
+
+			// set drawable
+			this.Po_IV8_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.gsm_x));
+			this.Po_IV8_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.white));
+			String Tmp_USB_SGM_status = imobileJNI.WriteProc("/proc/tca6416",
+					"9");
+
+		} else {
+			// set USB_SGM_status --> 8
+
+			// set drawable
+			this.Po_IV8_top.setImageDrawable(getResources().getDrawable(
+					R.drawable.gsm_o));
+			this.Po_IV8_below.setImageDrawable(getResources().getDrawable(
+					R.drawable.blue));
+
+		}
+		Log.d(TAG, "USB_SGM_status=" + this.USB_SGM_status);
 	}
 
 	/***
