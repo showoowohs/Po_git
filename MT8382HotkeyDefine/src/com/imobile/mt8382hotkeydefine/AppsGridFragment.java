@@ -66,10 +66,23 @@ public class AppsGridFragment extends GridFragment implements LoaderManager.Load
                 }
                 String root = Environment.getExternalStorageDirectory().toString();
                 File hotkey_ini = new File(root, "Hotkey.ini");
-                String msg;
-                if (mKey2.getText().length() > 0) msg = "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
-                else msg = "Key1: "+mKey1.getText()+"\n";
+                String msg = "";
+//                if (mKey2.getText().length() > 0) msg = "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
+//                else msg = "Key1: "+mKey1.getText()+"\n";
+                if((mKey1.getText().length()!=0) & (mKey2.getText().length()!=0)){
+                	msg="#key press command\n"+
+                			"#key 4\n"+
+                			"#0 1 am start -a android.settings.WIFI_SETTINGS\n"+
+                			"0 1 /system/bin/MT8382_switch_wifi.sh\n"+
+                			"#key 3\n"+
+                			"1 1 am start -n "+mKey2.getText()+"\n"+
+                			"#key 2\n"+
+                			"#2 1 echo 'back Key 2' >> /data/kpd.log\n"+
+                			"#key 1\n"+
+                			"3 1  am start -n "+mKey1.getText()+ "\n";
 
+                }
+                
                 if (hotkey_ini.exists()) hotkey_ini.delete();
                 try {
                     FileOutputStream out = new FileOutputStream(hotkey_ini);
