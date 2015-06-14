@@ -114,13 +114,19 @@ public class AppsGridFragment extends GridFragment implements LoaderManager.Load
                     .getLaunchIntentForPackage(app.getApplicationPackageName())
                     .resolveActivity(mContext.getPackageManager())
                     .getClassName();
+            String PoPackageName = getActivity()
+                    .getPackageManager()
+                    .getLaunchIntentForPackage(app.getApplicationPackageName())
+                    .resolveActivity(mContext.getPackageManager())
+                    .getPackageName();
+            String PoResult = PoPackageName + "/"+ myActivityName;
             if (mKey1.isEnabled()) {
-                mKey1.setText(myActivityName);
+                mKey1.setText(PoResult);
                 mKey1.setEnabled(false);
                 mKey2.setEnabled(true);
             }
             else {
-                mKey2.setText(myActivityName);
+                mKey2.setText(PoResult);
                 mKey2.setEnabled(false);
                 mKey1.setEnabled(true);
             }
