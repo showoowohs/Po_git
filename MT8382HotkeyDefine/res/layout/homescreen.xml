@@ -117,22 +117,39 @@
             android:background="#e0000000"
             android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/save_ini"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="Save" />
+                android:layout_height="fill_parent"
+                android:orientation="horizontal" 
+                android:layout_weight="4">
+
+                <Button
+                    android:id="@+id/save_ini"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Save" 
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/restore_default"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set Default Config"
+                    android:layout_weight="1" 
+                    android:onClick="restore_default"/>
+            </LinearLayout>
 
             <fragment
                 android:id="@+id/apps_grid"
                 android:name="com.imobile.mt8382hotkeydefine.AppsGridFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true" 
+                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
 
