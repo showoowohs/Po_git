@@ -14,38 +14,113 @@ import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class HomeScreen extends FragmentActivity {
 
 	private final String TAG = "Po_debug";
-
+	private Switch PoSwitch;
+	private LinearLayout keySetup;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.homescreen);
+		PoFindId();
+		setLayout();
+	}
+
+	/**
+	 * 
+	 * @param status
+	 * status is 1 ---> custom hotkey on
+	 * status is 0 ---> custom hotkey off
+	 */
+	private void OnOff_CustomHotkey(int status){
+		if(status == 1){
+			
+			// set lay visible
+			for ( int i = 0; i < keySetup.getChildCount();  i++ ){
+			    View view = keySetup.getChildAt(i);
+			    view.setVisibility(View.VISIBLE); // Or whatever you want to do with the view.
+			}
+		}else{
+			
+			// set layout gone
+			for ( int i = 0; i < keySetup.getChildCount();  i++ ){
+			    View view = keySetup.getChildAt(i);
+			    view.setVisibility(View.GONE); // Or whatever you want to do with the view.
+			}
+		}
+	}
+	
+	/***
+	 * caheck switch status
+	 */
+	private void setLayout() {
+		// 1. init switch
+		// set the switch to OFF
+		this.PoSwitch.setChecked(false);
+		// set layout gone
+		OnOff_CustomHotkey(0);
+		
+		// 2. check switch status
+		// attach a listener to check for changes in state
+		this.PoSwitch
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+
+						if (isChecked) {
+							Log.d(TAG, "PoSwitch is currently ON");
+							// set lay visible
+							OnOff_CustomHotkey(1);
+							// call JNI
+							
+						} else {
+							Log.d(TAG, "PoSwitch is currently OFF");
+							// set layout gone
+							OnOff_CustomHotkey(0);
+						}
+
+					}
+				});
+
+	}
+
+	private void PoFindId() {
+		this.PoSwitch = (Switch) findViewById(R.id.PoSwitch);
+		this.keySetup = (LinearLayout) findViewById(R.id.keySetup);
 	}
 
 	public void restore_default(View view) {
-//		Log.d(TAG, "click");
+		// Log.d(TAG, "click");
 		CopyAssets();
 		String FilePath = "/mnt/sdcard/Hotkey.ini";
-		if(isFileExsist(FilePath)){
+		if (isFileExsist(FilePath)) {
 			Log.d(TAG, "have file");
-			show_dialog("Restore Default Config Success!", "Please reboot devices");
-		}else{
+			show_dialog("Restore Default Config Success!",
+					"Please reboot devices");
+		} else {
 			Log.d(TAG, "not file");
 		}
 
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		int pid = android.os.Process.myPid();
 		android.os.Process.killProcess(pid);
 		super.onDestroy();
 	}
-	
+
 	/***
 	 * Åã¥Üdiglog
 	 * 
@@ -70,17 +145,18 @@ public class HomeScreen extends FragmentActivity {
 		dialog.show();
 
 	}
-	
+
 	/**
-	 * isFileExsist() : can check file 
+	 * isFileExsist() : can check file
+	 * 
 	 * @param filepath
 	 * @return bool
 	 */
 	public Boolean isFileExsist(String filepath) {
-	    
-	        File file = new File(filepath);
-	        return file.exists();
-	    
+
+		File file = new File(filepath);
+		return file.exists();
+
 	}
 
 	private void CopyAssets() {

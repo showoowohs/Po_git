@@ -5,6 +5,31 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Switch
+            android:id="@+id/PoSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:text="Custom Hotkey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="If switch is off --> will use build in Hotkey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="If switch is on --> can custom Hotkey" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/keySetup"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -120,8 +145,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:orientation="horizontal" 
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:orientation="horizontal" >
 
                 <Button
                     android:id="@+id/save_ini"
@@ -130,16 +155,16 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:text="Save" 
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="Save" />
 
                 <Button
                     android:id="@+id/restore_default"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set Default Config"
-                    android:layout_weight="1" 
-                    android:onClick="restore_default"/>
+                    android:layout_weight="1"
+                    android:onClick="restore_default"
+                    android:text="Set Default Config" />
             </LinearLayout>
 
             <fragment
@@ -148,8 +173,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" 
-                android:layout_weight="1"/>
+                android:layout_alignParentRight="true"
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 
