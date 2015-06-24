@@ -1,7 +1,9 @@
 package com.imobile.mt8382hotkeydefine;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeScreen extends FragmentActivity {
@@ -33,6 +36,28 @@ public class HomeScreen extends FragmentActivity {
 		setContentView(R.layout.homescreen);
 		PoFindId();
 		setLayout();
+	}
+	
+	private void SaveCustomKpdStatus(int switch_status){
+		String root = Environment.getExternalStorageDirectory().toString();
+        File Po_Kpd = new File(root, "Po_kpd.sh");
+        if (Po_Kpd.exists()){
+        	Po_Kpd.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(Po_Kpd);
+            String msg = "";
+            if(switch_status == 1){
+            	msg = "echo QUIET > /proc/kpd\n\n";
+            }else{
+            	msg = "echo NOTQUIET > /proc/kpd\n\n";
+            }
+            
+            out.write(msg.getBytes());
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	/**
@@ -60,14 +85,92 @@ public class HomeScreen extends FragmentActivity {
 	}
 	
 	/***
+	 * check ¦³¨S¦³ /mnt/sdcard/Po_kpd.sh
+	 * if have Po_kpd.sh, slipt string, get status
+	 * if not Po_kpd.sh, set layout switch default 0 
+	 */
+	private void CheckKpdFileStatus(){
+		String FilePath = "/mnt/sdcard/Po_kpd.sh";
+		if (isFileExsist(FilePath)) {
+			Log.d(TAG, "have"+ FilePath);
+			// set Po_kpd.sh --> kpd status
+			
+			/****
+			 * read /mnt/sdcard/Po_kpd.sh
+			 */
+		    //Find the directory for the SD Card using the API
+			//*Don't* hardcode "/sdcard"
+			File sdcard = Environment.getExternalStorageDirectory();
+
+			//Get the text file
+			File file = new File(sdcard,"Po_kpd.sh");
+
+			//Read text from file
+			StringBuilder text = new StringBuilder();
+
+			try {
+			    BufferedReader br = new BufferedReader(new FileReader(file));
+			    String line;
+
+			    while ((line = br.readLine()) != null) {
+			        text.append(line);
+			        text.append('\n');
+			    }
+			    br.close();
+			}
+			catch (IOException e) {
+			    //You'll need to add proper error handling here
+			}
+
+			Log.d(TAG, "data = " + text.toString());
+			
+			/****
+			 * split string
+			 */
+			int PoCustomStatus = 0;
+			String str = text.toString();
+			String[] tokens = str.split(" ");
+			for (String token:tokens) {
+//				Log.d(TAG, "split = " + token);
+				if(token.equals("NOTQUIET")){
+					PoCustomStatus = 0;
+				}else if(token.equals("QUIET")){
+					PoCustomStatus = 1;
+				}
+			}
+			
+			/****
+			 * set switch
+			 */
+			if(PoCustomStatus == 1){
+				// set the switch to ON
+				this.PoSwitch.setChecked(true);
+				// set layout visible
+				OnOff_CustomHotkey(1);
+				Log.d(TAG, "PoSwitch = on");
+			}else{
+				// set the switch to OFF
+				this.PoSwitch.setChecked(false);
+				// set layout gone
+				OnOff_CustomHotkey(0);
+				Log.d(TAG, "PoSwitch = off");
+			}
+			
+		} else {
+			Log.d(TAG, "not found " + FilePath);
+			// set the switch to OFF
+			this.PoSwitch.setChecked(false);
+			// set layout gone
+			OnOff_CustomHotkey(0);
+		}
+	}
+	
+	/***
 	 * caheck switch status
 	 */
 	private void setLayout() {
 		// 1. init switch
-		// set the switch to OFF
-		this.PoSwitch.setChecked(false);
-		// set layout gone
-		OnOff_CustomHotkey(0);
+		CheckKpdFileStatus();
 		
 		// 2. check switch status
 		// attach a listener to check for changes in state
@@ -83,11 +186,12 @@ public class HomeScreen extends FragmentActivity {
 							// set lay visible
 							OnOff_CustomHotkey(1);
 							// call JNI
-							
+							SaveCustomKpdStatus(1);
 						} else {
 							Log.d(TAG, "PoSwitch is currently OFF");
 							// set layout gone
 							OnOff_CustomHotkey(0);
+							SaveCustomKpdStatus(0);
 						}
 
 					}
