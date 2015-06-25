@@ -139,13 +139,12 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="#e0000000"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="4"
+                android:layout_weight="6"
                 android:orientation="horizontal" >
 
                 <Button
@@ -155,8 +154,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_weight="1"
-                    android:text="Save" 
-                    android:onClick="Po_save_ini"/>
+                    android:onClick="Po_save_ini"
+                    android:text="Save" />
 
                 <Button
                     android:id="@+id/restore_default"
@@ -167,14 +166,22 @@
                     android:text="Set Default Config" />
             </LinearLayout>
 
-            <fragment
-                android:id="@+id/apps_grid"
-                android:name="com.imobile.mt8382hotkeydefine.AppsGridFragment"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@color/ltgray"
+                android:orientation="horizontal" >
+
+                <fragment
+                    android:id="@+id/apps_grid"
+                    android:name="com.imobile.mt8382hotkeydefine.AppsGridFragment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
