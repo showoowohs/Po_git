@@ -251,7 +251,7 @@ public class HomeScreen extends FragmentActivity {
 					+ "1 1 am start -n " + AppsGridFragment.mKey2.getText()
 					+ "\n" + "#key 2\n"
 					+ "#2 1 echo 'back Key 2' >> /data/kpd.log\n" + "#key 1\n"
-					+ "3 1  am start -n " + AppsGridFragment.mKey1.getText()
+					+ "3 1 am start -n " + AppsGridFragment.mKey1.getText()
 					+ "\n";
 
 		}
@@ -316,7 +316,7 @@ public class HomeScreen extends FragmentActivity {
 	 * @param filepath
 	 * @return bool
 	 */
-	public Boolean isFileExsist(String filepath) {
+	static public Boolean isFileExsist(String filepath) {
 
 		File file = new File(filepath);
 		return file.exists();
