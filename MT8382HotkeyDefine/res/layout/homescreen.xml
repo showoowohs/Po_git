@@ -149,14 +149,14 @@
                 android:orientation="horizontal" >
 
                 <Button
-                    android:id="@+id/save_ini"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_weight="1"
-                    android:text="Save" />
+                    android:text="Save" 
+                    android:onClick="Po_save_ini"/>
 
                 <Button
                     android:id="@+id/restore_default"

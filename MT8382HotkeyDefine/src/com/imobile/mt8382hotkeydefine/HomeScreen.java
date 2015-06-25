@@ -28,8 +28,7 @@ public class HomeScreen extends FragmentActivity {
 	private final String TAG = "Po_debug";
 	private Switch PoSwitch;
 	private LinearLayout keySetup;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,125 +36,125 @@ public class HomeScreen extends FragmentActivity {
 		PoFindId();
 		setLayout();
 	}
-	
-	private void SaveCustomKpdStatus(int switch_status){
+
+	private void SaveCustomKpdStatus(int switch_status) {
 		String root = Environment.getExternalStorageDirectory().toString();
-        File Po_Kpd = new File(root, "Po_kpd.sh");
-        if (Po_Kpd.exists()){
-        	Po_Kpd.delete();
-        }
-        try {
-            FileOutputStream out = new FileOutputStream(Po_Kpd);
-            String msg = "";
-            if(switch_status == 1){
-            	msg = "echo QUIET > /proc/kpd\n\n";
-            }else{
-            	msg = "echo NOTQUIET > /proc/kpd\n\n";
-            }
-            
-            out.write(msg.getBytes());
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		File Po_Kpd = new File(root, "Po_kpd.sh");
+		if (Po_Kpd.exists()) {
+			Po_Kpd.delete();
+		}
+		try {
+			FileOutputStream out = new FileOutputStream(Po_Kpd);
+			String msg = "";
+			if (switch_status == 1) {
+				msg = "echo QUIET > /proc/kpd\n";
+			} else {
+				msg = "echo NOTQUIET > /proc/kpd\n";
+			}
+
+			out.write(msg.getBytes());
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * 
 	 * @param status
-	 * status is 1 ---> custom hotkey on
-	 * status is 0 ---> custom hotkey off
+	 *            status is 1 ---> custom hotkey on status is 0 ---> custom
+	 *            hotkey off
 	 */
-	private void OnOff_CustomHotkey(int status){
-		if(status == 1){
-			
+	private void OnOff_CustomHotkey(int status) {
+		if (status == 1) {
+
 			// set lay visible
-			for ( int i = 0; i < keySetup.getChildCount();  i++ ){
-			    View view = keySetup.getChildAt(i);
-			    view.setVisibility(View.VISIBLE); // Or whatever you want to do with the view.
+			for (int i = 0; i < keySetup.getChildCount(); i++) {
+				View view = keySetup.getChildAt(i);
+				view.setVisibility(View.VISIBLE); // Or whatever you want to do
+													// with the view.
 			}
-		}else{
-			
+		} else {
+
 			// set layout gone
-			for ( int i = 0; i < keySetup.getChildCount();  i++ ){
-			    View view = keySetup.getChildAt(i);
-			    view.setVisibility(View.GONE); // Or whatever you want to do with the view.
+			for (int i = 0; i < keySetup.getChildCount(); i++) {
+				View view = keySetup.getChildAt(i);
+				view.setVisibility(View.GONE); // Or whatever you want to do
+												// with the view.
 			}
 		}
 	}
-	
+
 	/***
-	 * check 有沒有 /mnt/sdcard/Po_kpd.sh
-	 * if have Po_kpd.sh, slipt string, get status
-	 * if not Po_kpd.sh, set layout switch default 0 
+	 * check 有沒有 /mnt/sdcard/Po_kpd.sh if have Po_kpd.sh, slipt string, get
+	 * status if not Po_kpd.sh, set layout switch default 0
 	 */
-	private void CheckKpdFileStatus(){
+	private void CheckKpdFileStatus() {
 		String FilePath = "/mnt/sdcard/Po_kpd.sh";
 		if (isFileExsist(FilePath)) {
-			Log.d(TAG, "have"+ FilePath);
+			Log.d(TAG, "have" + FilePath);
 			// set Po_kpd.sh --> kpd status
-			
+
 			/****
 			 * read /mnt/sdcard/Po_kpd.sh
 			 */
-		    //Find the directory for the SD Card using the API
-			//*Don't* hardcode "/sdcard"
+			// Find the directory for the SD Card using the API
+			// *Don't* hardcode "/sdcard"
 			File sdcard = Environment.getExternalStorageDirectory();
 
-			//Get the text file
-			File file = new File(sdcard,"Po_kpd.sh");
+			// Get the text file
+			File file = new File(sdcard, "Po_kpd.sh");
 
-			//Read text from file
+			// Read text from file
 			StringBuilder text = new StringBuilder();
 
 			try {
-			    BufferedReader br = new BufferedReader(new FileReader(file));
-			    String line;
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				String line;
 
-			    while ((line = br.readLine()) != null) {
-			        text.append(line);
-			        text.append('\n');
-			    }
-			    br.close();
-			}
-			catch (IOException e) {
-			    //You'll need to add proper error handling here
+				while ((line = br.readLine()) != null) {
+					text.append(line);
+					text.append('\n');
+				}
+				br.close();
+			} catch (IOException e) {
+				// You'll need to add proper error handling here
 			}
 
 			Log.d(TAG, "data = " + text.toString());
-			
+
 			/****
 			 * split string
 			 */
 			int PoCustomStatus = 0;
 			String str = text.toString();
 			String[] tokens = str.split(" ");
-			for (String token:tokens) {
-//				Log.d(TAG, "split = " + token);
-				if(token.equals("NOTQUIET")){
+			for (String token : tokens) {
+				// Log.d(TAG, "split = " + token);
+				if (token.equals("NOTQUIET")) {
 					PoCustomStatus = 0;
-				}else if(token.equals("QUIET")){
+				} else if (token.equals("QUIET")) {
 					PoCustomStatus = 1;
 				}
 			}
-			
+
 			/****
 			 * set switch
 			 */
-			if(PoCustomStatus == 1){
+			if (PoCustomStatus == 1) {
 				// set the switch to ON
 				this.PoSwitch.setChecked(true);
 				// set layout visible
 				OnOff_CustomHotkey(1);
 				Log.d(TAG, "PoSwitch = on");
-			}else{
+			} else {
 				// set the switch to OFF
 				this.PoSwitch.setChecked(false);
 				// set layout gone
 				OnOff_CustomHotkey(0);
 				Log.d(TAG, "PoSwitch = off");
 			}
-			
+
 		} else {
 			Log.d(TAG, "not found " + FilePath);
 			// set the switch to OFF
@@ -164,38 +163,47 @@ public class HomeScreen extends FragmentActivity {
 			OnOff_CustomHotkey(0);
 		}
 	}
-	
+
 	/***
 	 * caheck switch status
 	 */
 	private void setLayout() {
 		// 1. init switch
 		CheckKpdFileStatus();
-		
+
 		// 2. check switch status
 		// attach a listener to check for changes in state
-		this.PoSwitch
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		this.PoSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 
-						if (isChecked) {
-							Log.d(TAG, "PoSwitch is currently ON");
-							// set lay visible
-							OnOff_CustomHotkey(1);
-							// call JNI
-							SaveCustomKpdStatus(1);
-						} else {
-							Log.d(TAG, "PoSwitch is currently OFF");
-							// set layout gone
-							OnOff_CustomHotkey(0);
-							SaveCustomKpdStatus(0);
-						}
-
+				if (isChecked) {
+					Log.d(TAG, "PoSwitch is currently ON");
+					// set lay visible
+					OnOff_CustomHotkey(1);
+					// call JNI
+					SaveCustomKpdStatus(1);
+				} else {
+					Log.d(TAG, "PoSwitch is currently OFF");
+					// set layout gone
+					OnOff_CustomHotkey(0);
+					SaveCustomKpdStatus(0);
+					// call restore default
+					CopyAssets();
+					String FilePath = "/mnt/sdcard/Hotkey.ini";
+					if (isFileExsist(FilePath)) {
+						Log.d(TAG, "have file");
+						show_dialog("Restore Default Config Success!",
+								"Please reboot devices");
+					} else {
+						Log.d(TAG, "not file");
 					}
-				});
+				}
+
+			}
+		});
 
 	}
 
@@ -216,6 +224,54 @@ public class HomeScreen extends FragmentActivity {
 			Log.d(TAG, "not file");
 		}
 
+	}
+
+	public void Po_save_ini(View view) {
+		Log.d(TAG, "Po_save_ini");
+		if (AppsGridFragment.mKey1.getText().length() == 0) {
+			Toast.makeText(this, "Please select application for keys",
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+		String root = Environment.getExternalStorageDirectory().toString();
+		File hotkey_ini = new File(root, "Hotkey.ini");
+		String msg = "";
+		// if (mKey2.getText().length() > 0) msg =
+		// "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
+		// else msg = "Key1: "+mKey1.getText()+"\n";
+		if ((AppsGridFragment.mKey1.getText().length() != 0)
+				& (AppsGridFragment.mKey2.getText().length() != 0)) {
+			msg = "#key press command\n" + "#key 4\n"
+					+ "#0 1 am start -a android.settings.WIFI_SETTINGS\n"
+					+ "0 1 /system/bin/MT8382_switch_wifi.sh\n" + "#key 3\n"
+					+ "1 1 am start -n " + AppsGridFragment.mKey2.getText()
+					+ "\n" + "#key 2\n"
+					+ "#2 1 echo 'back Key 2' >> /data/kpd.log\n" + "#key 1\n"
+					+ "3 1  am start -n " + AppsGridFragment.mKey1.getText()
+					+ "\n";
+
+		}
+
+		if (hotkey_ini.exists())
+			hotkey_ini.delete();
+		try {
+			FileOutputStream out = new FileOutputStream(hotkey_ini);
+			out.write(msg.getBytes());
+			Toast.makeText(
+					this,
+					"You set 1 key -> " + AppsGridFragment.mKey1.getText()
+							+ "\nYou set 3 key ->"
+							+ AppsGridFragment.mKey2.getText(),
+					Toast.LENGTH_LONG).show();
+			show_dialog("Save your hotkey config success",
+					"Please reboot devices\n");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Toast.makeText(this.getApplicationContext(),
+					"Cannot write file: " + root + "/Hotkey.ini",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

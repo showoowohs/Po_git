@@ -1,6 +1,9 @@
 package com.imobile.mt8382hotkeydefine;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.LoaderManager;
@@ -22,8 +25,7 @@ import java.util.ArrayList;
 public class AppsGridFragment extends GridFragment implements LoaderManager.LoaderCallbacks<ArrayList<AppModel>> {
 
     AppListAdapter mAdapter;
-    EditText mKey1, mKey2;
-    Button mSave;
+    static EditText mKey1, mKey2;
     Context mContext;
 
     @Override
@@ -46,7 +48,7 @@ public class AppsGridFragment extends GridFragment implements LoaderManager.Load
     public Loader<ArrayList<AppModel>> onCreateLoader(int id, Bundle bundle) {
         return new AppsLoader(getActivity());
     }
-
+    
     @Override
     public void onLoadFinished(Loader<ArrayList<AppModel>> loader, ArrayList<AppModel> apps) {
         mAdapter.setData(apps);
@@ -57,43 +59,6 @@ public class AppsGridFragment extends GridFragment implements LoaderManager.Load
             setGridShownNoAnimation(true);
         }
 
-        mSave = (Button) getView().getRootView().findViewById(R.id.save_ini);
-        mSave.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (mKey1.getText().length() == 0) {
-                    Toast.makeText(getActivity().getApplicationContext(),"Please select application for keys", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String root = Environment.getExternalStorageDirectory().toString();
-                File hotkey_ini = new File(root, "Hotkey.ini");
-                String msg = "";
-//                if (mKey2.getText().length() > 0) msg = "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
-//                else msg = "Key1: "+mKey1.getText()+"\n";
-                if((mKey1.getText().length()!=0) & (mKey2.getText().length()!=0)){
-                	msg="#key press command\n"+
-                			"#key 4\n"+
-                			"#0 1 am start -a android.settings.WIFI_SETTINGS\n"+
-                			"0 1 /system/bin/MT8382_switch_wifi.sh\n"+
-                			"#key 3\n"+
-                			"1 1 am start -n "+mKey2.getText()+"\n"+
-                			"#key 2\n"+
-                			"#2 1 echo 'back Key 2' >> /data/kpd.log\n"+
-                			"#key 1\n"+
-                			"3 1  am start -n "+mKey1.getText()+ "\n";
-
-                }
-                
-                if (hotkey_ini.exists()) hotkey_ini.delete();
-                try {
-                    FileOutputStream out = new FileOutputStream(hotkey_ini);
-                    out.write(msg.getBytes());
-                    Toast.makeText(getActivity().getApplicationContext(), "FILE: "+root+"/Hotkey.ini\n"+msg, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity().getApplicationContext(), "Cannot write file: "+root+"/Hotkey.ini", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         mKey1 = (EditText) getView().getRootView().findViewById(R.id.key1);
         mKey2 = (EditText) getView().getRootView().findViewById(R.id.key2);
         DisplayMetrics screenMetrics = new DisplayMetrics();
@@ -109,7 +74,7 @@ public class AppsGridFragment extends GridFragment implements LoaderManager.Load
         mKey1.setFocusable(false);
         mKey1.setWidth(width);
     }
-
+    
     @Override
     public void onLoaderReset(Loader<ArrayList<AppModel>> loader) {
         mAdapter.setData(null);
