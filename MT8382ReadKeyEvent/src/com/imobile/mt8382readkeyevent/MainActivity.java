@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -14,12 +15,19 @@ public class MainActivity extends Activity {
 	final int F14 = 184; // 0x00b8
 	final int F15 = 185; // 0x00b9
 	final int F16 = 186; // 0x00ba
+	private TextView Po_show_key;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Log.d(TAG, "start key");
+		Po_findID();
+	}
+
+	private void Po_findID() {
+		TextView Po_show_key = (TextView) findViewById(R.id.Po_show_key);
+		// setting TextView
+		Po_show_key.setText("You not press button");
 	}
 
 	public String Po_split_keycode(String keyevent) {
@@ -55,7 +63,7 @@ public class MainActivity extends Activity {
 		// Po_split_keycode(event.toString());
 		Log.d(TAG, "Po_split_keycode = " + Po_split_keycode(event.toString()));
 
-		//*** call standard android API ***//
+		// *** call standard android API ***//
 		// switch (keyCode) {
 		// case KeyEvent.KEYCODE_F1:
 		// // your Action code
@@ -67,22 +75,4 @@ public class MainActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }
