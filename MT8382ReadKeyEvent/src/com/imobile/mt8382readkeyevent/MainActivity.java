@@ -10,6 +10,10 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
 
 	final String TAG = "Po_ReadKey";
+	final int F13 = 183; // 0x00b7
+	final int F14 = 184; // 0x00b8
+	final int F15 = 185; // 0x00b9
+	final int F16 = 186; // 0x00ba
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,62 +22,48 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "start key");
 	}
 
+	public String Po_split_keycode(String keyevent) {
+		Log.d(TAG, "Po_split_keycode start");
+		// Log.d(TAG, keyevent);
+		String last_code;
+		// 1. splite ,
+		String[] AfterSplit = keyevent.split(",");
+		// for (int i = 0; i < AfterSplit.length; i++) {
+		// Log.d(TAG, "AfterSplit[" + i + "]=" + AfterSplit[i]);
+		// }
+		if (AfterSplit.length == 10) {
+			// Log.d(TAG, "AfterSplit[2]=" + AfterSplit[2]);
+			// 2. split kernel keycode
+			last_code = AfterSplit[2];
+			AfterSplit = last_code.split("=");
+			if (AfterSplit.length == 2) {
+				// Log.d(TAG, "AfterSplit[1]=" + AfterSplit[1]);
+				last_code = AfterSplit[1];
+			} else {
+				return "ERROR";
+			}
+		} else {
+			return "ERROR";
+		}
+
+		return last_code;
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.d(TAG, "start onKeyDown ok");
-		Log.d(TAG, "event"+ event.toString());
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_F1: 
-				// your Action code
-				Log.d(TAG, "F1");
-				return true;
-			case KeyEvent.KEYCODE_F2: 
-				// your Action code
-				Log.d(TAG, "F2");
-				return true;
-			case KeyEvent.KEYCODE_F3: 
-				// your Action code
-				Log.d(TAG, "F3");
-				return true;
-			case KeyEvent.KEYCODE_F4: 
-				// your Action code
-				Log.d(TAG, "F4");
-				return true;
-			case KeyEvent.KEYCODE_HOME: 
-				// your Action code
-				Log.d(TAG, "Home");
-				return true;				
-			case KeyEvent.KEYCODE_BACK: 
-				// your Action code
-				Log.d(TAG, "Back");
-				return true;
-			case KeyEvent.KEYCODE_VOLUME_DOWN: 
-				// your Action code
-				Log.d(TAG, "volume down");
-				return true;
-			case KeyEvent.KEYCODE_VOLUME_UP: 
-				// your Action code
-				Log.d(TAG, "volume up");
-				return true;
-			case KeyEvent.KEYCODE_F9: 
-				// your Action code
-				Log.d(TAG, "F9");
-				return true;
-			case KeyEvent.KEYCODE_F10: 
-				// your Action code
-				Log.d(TAG, "F10");
-				return true;
-			case KeyEvent.KEYCODE_F11: 
-				// your Action code
-				Log.d(TAG, "F11");
-				return true;
-			case KeyEvent.KEYCODE_F12: 
-				// your Action code
-				Log.d(TAG, "F12");
-				return true;
-			default:
-				Log.d(TAG, "keycode ->"+keyCode);
-		}
+		// Po_split_keycode(event.toString());
+		Log.d(TAG, "Po_split_keycode = " + Po_split_keycode(event.toString()));
+
+		//*** call standard android API ***//
+		// switch (keyCode) {
+		// case KeyEvent.KEYCODE_F1:
+		// // your Action code
+		// Log.d(TAG, "F1");
+		// return true;
+		// default:
+		// // Log.d(TAG, "keycode ->"+keyCode);
+		// }
 		return super.onKeyDown(keyCode, event);
 	}
 
