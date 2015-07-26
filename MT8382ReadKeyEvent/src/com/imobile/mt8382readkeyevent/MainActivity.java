@@ -1,11 +1,7 @@
 package com.imobile.mt8382readkeyevent;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
@@ -20,14 +16,21 @@ public class MainActivity extends Activity {
 	TextView Po_show_key;
 	private Thread Updata_UI;
 	int PoKeyCode;
+	final String Po_Path = "/proc/kpd";
+
+	static {
+		System.loadLibrary("imobileJNI");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Po_findID();
+		Enable_FunKey();
 		// Updata_UI = new Updata_UI();
 		// Updata_UI.start();
+		// imobileJNI.WriteProc(Finger_Read_Path, "2");
 	}
 
 	private void Po_findID() {
@@ -35,71 +38,57 @@ public class MainActivity extends Activity {
 		// setting TextView
 		this.Po_show_key.setText("You not press button");
 	}
-	
-	/*
-	private Handler mHandler = new Handler() {
-
-		public void handleMessage(Message msg) {
-
-			super.handleMessage(msg);
-
-			Log.d(TAG, "msg=" + msg.arg1);
-			if (msg != null) {
-				if (msg.arg1 != 0) {
-					Po_show_key.setText("You press button " + msg.arg1);
-				} else {
-					Po_show_key.setText("You not press button");
-				}
-			}
-
-		}
-
-	};
-
-	class Updata_UI extends Thread {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			super.run();
-			try {
-				while (true) {
-					Log.d(TAG, "Updata_UI");
-					Message msg = new Message();
-
-					switch (PoKeyCode) {
-					case F13:
-						msg.arg1 = 1;
-					case F14:
-						msg.arg1 = 2;
-					case F15:
-						msg.arg1 = 3;
-					case F16:
-						msg.arg1 = 4;
-					default:
-						msg.arg1 = 0;
-					}
-
-					mHandler.sendMessage(msg);
-					Thread.sleep(1000);
-				}
-			} catch (InterruptedException e) {
-				Log.d("TAG", "Thread was inturrupted");
-			} catch (Exception e) {
-				e.printStackTrace();
-				Log.d("TAG", "Thread was Exception");
-			}
-		}
-	}
-	*/
 
 	/*
-	 @Override
-	 public void onDestroy() {
-	 Updata_UI.interrupt();
-	 super.onDestroy();
-	 }
+	 * private Handler mHandler = new Handler() {
+	 * 
+	 * public void handleMessage(Message msg) {
+	 * 
+	 * super.handleMessage(msg);
+	 * 
+	 * Log.d(TAG, "msg=" + msg.arg1); if (msg != null) { if (msg.arg1 != 0) {
+	 * Po_show_key.setText("You press button " + msg.arg1); } else {
+	 * Po_show_key.setText("You not press button"); } }
+	 * 
+	 * }
+	 * 
+	 * };
+	 * 
+	 * class Updata_UI extends Thread {
+	 * 
+	 * @Override public void run() { // TODO Auto-generated method stub
+	 * super.run(); try { while (true) { Log.d(TAG, "Updata_UI"); Message msg =
+	 * new Message();
+	 * 
+	 * switch (PoKeyCode) { case F13: msg.arg1 = 1; case F14: msg.arg1 = 2; case
+	 * F15: msg.arg1 = 3; case F16: msg.arg1 = 4; default: msg.arg1 = 0; }
+	 * 
+	 * mHandler.sendMessage(msg); Thread.sleep(1000); } } catch
+	 * (InterruptedException e) { Log.d("TAG", "Thread was inturrupted"); }
+	 * catch (Exception e) { e.printStackTrace(); Log.d("TAG",
+	 * "Thread was Exception"); } } }
 	 */
+
+	/***
+	 * Enable_FunKey
+	 */
+	public void Enable_FunKey() {
+		imobileJNI.WriteProc(Po_Path, "FUNC_KEY");
+	}
+
+	/***
+	 * Disable_FunKey
+	 */
+	public void Disable_FunKey() {
+		imobileJNI.WriteProc(Po_Path, "help");
+	}
+
+	@Override
+	public void onDestroy() {
+		// Updata_UI.interrupt();
+		Disable_FunKey();
+		super.onDestroy();
+	}
 
 	public String Po_split_keycode(String keyevent) {
 		Log.d(TAG, "Po_split_keycode start");
