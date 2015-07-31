@@ -1,4 +1,4 @@
-#This APP can write NTF data(for i-mobile)
+#This APP can write NFC data(for i-mobile)
 reference com.pou.android.NFCProject code
 
 # result
