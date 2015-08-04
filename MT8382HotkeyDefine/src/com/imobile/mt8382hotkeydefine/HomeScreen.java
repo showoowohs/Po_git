@@ -41,20 +41,20 @@ public class HomeScreen extends FragmentActivity {
 		setLayout();
 		addFragment();
 	}
-	
-	//Po add 2015/08/04
+
+	// Po add 2015/08/04
 	void addFragment() {
 
-        // Instantiate a new fragment.
-        Fragment newFragment = new MyFirstFragment();
+		// Instantiate a new fragment.
+		Fragment newFragment = new MyFirstFragment();
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.MainActivityUI, newFragment, "first");
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.commit();
-    }
-	
-	//Po End
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(R.id.MainActivityUI, newFragment, "first");
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.commit();
+	}
+
+	// Po End
 
 	private void SaveCustomKpdStatus(int switch_status) {
 		String root = Environment.getExternalStorageDirectory().toString();
@@ -259,15 +259,27 @@ public class HomeScreen extends FragmentActivity {
 		// "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
 		// else msg = "Key1: "+mKey1.getText()+"\n";
 		if ((AppsGridFragment.mKey1.getText().length() != 0)
-				& (AppsGridFragment.mKey2.getText().length() != 0)) {
-			msg = "#key press command\n" + "#key 4\n"
+				& (AppsGridFragment.mKey2.getText().length() != 0)
+				& (AppsGridFragment.mKey3.getText().length() != 0)
+				& (AppsGridFragment.mKey4.getText().length() != 0)) {
+			msg = "#key press command\n"
+					+ "#key T\n"
 					+ "#0 1 am start -a android.settings.WIFI_SETTINGS\n"
-					+ "0 1 /system/bin/MT8382_switch_wifi.sh\n" + "#key 3\n"
-					+ "1 1 am start -n " + AppsGridFragment.mKey2.getText()
-					+ "\n" + "#key 2\n"
-					+ "#2 1 echo 'back Key 2' >> /data/kpd.log\n" + "#key 1\n"
-					+ "3 1 am start -n " + AppsGridFragment.mKey1.getText()
-					+ "\n";
+					+ "#0 1 echo 'Key T' >> /data/kpd.log\n"
+					+ "0 1 ls\n\n"
+					+ "#key 1\n"
+					+ "#1 1 echo 'Key 1' >> /data/kpd.log\n"
+					+ "1 1 am start -n "+ AppsGridFragment.mKey1.getText()+"\n\n"
+					+ "#key 2\n"
+					+ "#2 1 echo 'Key 2' >> /data/kpd.log\n"
+					+ "2 1 am start -n "+AppsGridFragment.mKey2.getText()+"\n\n"
+					+ "#key 3\n"
+					+ "#3 1 echo 'Key 3' >> /data/kpd.log\n"
+					+ "3 1 am start -n "+AppsGridFragment.mKey3.getText()+"\n\n"
+					+ "#key 4\n"
+					+ "#4 1 echo 'Key 4' >> /data/kpd.log\n"
+					+ "#4 1 am start -a android.settings.WIFI_SETTINGS\n"
+					+ "4 1 am start -n "+AppsGridFragment.mKey4.getText()+"\n";
 
 		}
 
@@ -279,8 +291,12 @@ public class HomeScreen extends FragmentActivity {
 			Toast.makeText(
 					this,
 					"You set 1 key -> " + AppsGridFragment.mKey1.getText()
+							+ "\nYou set 2 key ->"
+							+ AppsGridFragment.mKey2.getText()
 							+ "\nYou set 3 key ->"
-							+ AppsGridFragment.mKey2.getText(),
+							+ AppsGridFragment.mKey3.getText()
+							+ "\nYou set 4 key ->"
+							+ AppsGridFragment.mKey4.getText(),
 					Toast.LENGTH_LONG).show();
 			show_dialog("Save your hotkey config success",
 					"Please reboot devices\n");
