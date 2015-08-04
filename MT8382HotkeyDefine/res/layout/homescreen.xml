@@ -167,20 +167,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/MainActivityUI"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@color/ltgray"
                 android:orientation="horizontal" >
 
-                <fragment
-                    android:id="@+id/apps_grid"
-                    android:name="com.imobile.mt8382hotkeydefine.AppsGridFragment"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -9,10 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
@@ -22,7 +23,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeScreen extends FragmentActivity {
@@ -39,7 +39,22 @@ public class HomeScreen extends FragmentActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		PoFindId();
 		setLayout();
+		addFragment();
 	}
+	
+	//Po add 2015/08/04
+	void addFragment() {
+
+        // Instantiate a new fragment.
+        Fragment newFragment = new MyFirstFragment();
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.MainActivityUI, newFragment, "first");
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.commit();
+    }
+	
+	//Po End
 
 	private void SaveCustomKpdStatus(int switch_status) {
 		String root = Environment.getExternalStorageDirectory().toString();
