@@ -211,7 +211,7 @@ public class HomeScreen extends FragmentActivity {
 					SaveCustomKpdStatus(0);
 					// call restore default
 					CopyAssets();
-					String FilePath = "/mnt/sdcard/Hotkey.ini";
+					String FilePath = "/mnt/sdcard/hotkey.ini";
 					if (isFileExsist(FilePath)) {
 						Log.d(TAG, "have file");
 						show_dialog("Restore Default Config Success!",
@@ -234,7 +234,7 @@ public class HomeScreen extends FragmentActivity {
 	public void restore_default(View view) {
 		// Log.d(TAG, "click");
 		CopyAssets();
-		String FilePath = "/mnt/sdcard/Hotkey.ini";
+		String FilePath = "/mnt/sdcard/hotkey.ini";
 		if (isFileExsist(FilePath)) {
 			Log.d(TAG, "have file");
 			show_dialog("Restore Default Config Success!",
@@ -253,7 +253,7 @@ public class HomeScreen extends FragmentActivity {
 			return;
 		}
 		String root = Environment.getExternalStorageDirectory().toString();
-		File hotkey_ini = new File(root, "Hotkey.ini");
+		File hotkey_ini = new File(root, "hotkey.ini");
 		String msg = "";
 		// if (mKey2.getText().length() > 0) msg =
 		// "Key1: "+mKey1.getText()+"\nKey2: "+mKey2.getText()+"\n";
@@ -304,7 +304,7 @@ public class HomeScreen extends FragmentActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Toast.makeText(this.getApplicationContext(),
-					"Cannot write file: " + root + "/Hotkey.ini",
+					"Cannot write file: " + root + "/hotkey.ini",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
