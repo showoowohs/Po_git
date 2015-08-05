@@ -278,7 +278,6 @@ public class HomeScreen extends FragmentActivity {
 					+ "3 1 am start -n "+AppsGridFragment.mKey3.getText()+"\n\n"
 					+ "#key 4\n"
 					+ "#4 1 echo 'Key 4' >> /data/kpd.log\n"
-					+ "#4 1 am start -a android.settings.WIFI_SETTINGS\n"
 					+ "4 1 am start -n "+AppsGridFragment.mKey4.getText()+"\n";
 
 		}

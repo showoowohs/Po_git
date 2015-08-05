@@ -80,7 +80,7 @@ public class AppsGridFragment extends GridFragment implements
 		int width = (screenMetrics.widthPixels - 150) >> 1;
 
 		// Po add 2015/08/04
-		if (Po_currnet == 1) {
+		if (Po_currnet == 0) {
 			// set mKey2 off
 			mKey2.setEnabled(false);
 			mKey2.setText("");
@@ -108,24 +108,24 @@ public class AppsGridFragment extends GridFragment implements
 		// Po End
 
 		// check have /mnt/sdcard/Hotkey.ini
-		String FilePath = "/mnt/sdcard/Hotkey.ini";
+		String FilePath = "/mnt/sdcard/hotkey.ini";
 		if (HomeScreen.isFileExsist(FilePath)) {
 			Log.d(TAG, "found " + FilePath);
-			// ReadHotkeyData();
+			ReadHotkeyData();
 		}
 	}
 
 	private void ReadHotkeyData() {
 
 		/****
-		 * read /mnt/sdcard/Hotkey.ini
+		 * read /mnt/sdcard/hotkey.ini
 		 */
 		// Find the directory for the SD Card using the API
 		// *Don't* hardcode "/sdcard"
 		File sdcard = Environment.getExternalStorageDirectory();
 
 		// Get the text file
-		File file = new File(sdcard, "Hotkey.ini");
+		File file = new File(sdcard, "hotkey.ini");
 
 		// Read text from file
 		StringBuilder text = new StringBuilder();
@@ -139,7 +139,13 @@ public class AppsGridFragment extends GridFragment implements
 				if (line.indexOf("1 1 am") != -1) {
 					text.append(line);
 					text.append('\n');
+				} else if (line.indexOf("2 1 am") != -1) {
+					text.append(line);
+					text.append('\n');
 				} else if (line.indexOf("3 1 am") != -1) {
+					text.append(line);
+					text.append('\n');
+				} else if (line.indexOf("4 1 am") != -1) {
 					text.append(line);
 					text.append('\n');
 				}
@@ -150,7 +156,7 @@ public class AppsGridFragment extends GridFragment implements
 			// You'll need to add proper error handling here
 		}
 
-		// Log.d(TAG, "hotkey data = " + text.toString());
+//		Log.d(TAG, "hotkey data = " + text.toString());
 
 		/****
 		 * split \n
@@ -160,15 +166,16 @@ public class AppsGridFragment extends GridFragment implements
 		// for (String token : tokens) {
 		// Log.d(TAG, "token = " + token.toString());
 		// }
-		if (tokens.length == 2) {
+		if (tokens.length == 4) {
 			// Log.d(TAG, "tokens length " + tokens.length);
-			String Po_key1 = tokens[1];
-			String Po_key3 = tokens[0];
-			// Log.d(TAG, "Po_key1 =" + Po_key1);
-			Log.d(TAG, "Po_key3 =" + Po_key3);
+			String Po_key1 = tokens[0];
+			String Po_key2 = tokens[1];
+			String Po_key3 = tokens[2];
+			String Po_key4 = tokens[3];
+			Log.d(TAG, "Po_key1 =" + Po_key1);
 
 			// ㏃¾ data 돌 Po_key1
-			// 3 1 am start -n com.android.calculator2/com.android.........
+			// 1 1 am start -n com.anytag.android/com.anytag.android....
 			tokens = Po_key1.split(" ");
 			if (tokens.length == 6) {
 				// Log.d(TAG, " Po_key1 tokens length " + tokens.length);
@@ -176,18 +183,38 @@ public class AppsGridFragment extends GridFragment implements
 				Log.d(TAG, "new Po_key1 = " + Po_key1);
 			}
 
+			// ㏃¾ data 돌 Po_key2
+			// 2 1 am start -n com.android.browser/com.android.brows....
+			tokens = Po_key2.split(" ");
+			if (tokens.length == 6) {
+				// Log.d(TAG, " Po_key2 tokens length " + tokens.length);
+				Po_key2 = tokens[5];
+				Log.d(TAG, "new Po_key2 = " + Po_key2);
+			}
+			
 			// ㏃¾ data 돌 Po_key3
-			// 1 1 am start -n com.jrm.trueonline.ethernet/com.jrm.........
+			//3 1 am start -n com.android.browser/com.android.brows....
 			tokens = Po_key3.split(" ");
 			if (tokens.length == 6) {
-				// Log.d(TAG, " Po_key1 tokens length " + tokens.length);
+				// Log.d(TAG, " Po_key3 tokens length " + tokens.length);
 				Po_key3 = tokens[5];
 				Log.d(TAG, "new Po_key3 = " + Po_key3);
+			}
+			
+			// ㏃¾ data 돌 Po_key4
+			// 4 1 am start -n com.android.browser/com.android.brows....
+			tokens = Po_key4.split(" ");
+			if (tokens.length == 6) {
+				// Log.d(TAG, " Po_key4 tokens length " + tokens.length);
+				Po_key4 = tokens[5];
+				Log.d(TAG, "new Po_key4 = " + Po_key4);
 			}
 
 			// set layout
 			mKey1.setText(Po_key1);
-			mKey2.setText(Po_key3);
+			mKey2.setText(Po_key2);
+			mKey3.setText(Po_key3);
+			mKey4.setText(Po_key4);
 
 		}
 
