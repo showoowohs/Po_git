@@ -27,10 +27,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Po_findID();
-		Enable_FunKey();
-		// Updata_UI = new Updata_UI();
-		// Updata_UI.start();
-		// imobileJNI.WriteProc(Finger_Read_Path, "2");
+		
 	}
 
 	private void Po_findID() {
@@ -68,27 +65,6 @@ public class MainActivity extends Activity {
 	 * catch (Exception e) { e.printStackTrace(); Log.d("TAG",
 	 * "Thread was Exception"); } } }
 	 */
-
-	/***
-	 * Enable_FunKey
-	 */
-	public void Enable_FunKey() {
-		imobileJNI.WriteProc(Po_Path, "FUNC_KEY");
-	}
-
-	/***
-	 * Disable_FunKey
-	 */
-	public void Disable_FunKey() {
-		imobileJNI.WriteProc(Po_Path, "help");
-	}
-
-	@Override
-	public void onDestroy() {
-		// Updata_UI.interrupt();
-		Disable_FunKey();
-		super.onDestroy();
-	}
 
 	public String Po_split_keycode(String keyevent) {
 		Log.d(TAG, "Po_split_keycode start");
