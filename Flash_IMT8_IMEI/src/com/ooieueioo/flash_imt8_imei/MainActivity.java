@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 		this.Po_IMEI = Po_et_show_imei_number.getText().toString();
 		if (this.Po_IMEI.length() == 15) {
 			Create_File("/sdcard/imei.sh", this.Po_IMEI);
-			Run_su("busybox chmod 777 /sdcard/imei.sh ;sleep 1; busybox msh /sdcard/imei.sh; sleep 1; busybox rm -r /sdcard/imei.sh");
+			Run_su("busybox chmod 777 /sdcard/imei.sh ;sleep 1; busybox msh /sdcard/imei.sh; sleep 1;busybox cp /sdcard/imei.sh /system/local_script/flash_imei.sh;sleep 1; busybox rm -r /sdcard/imei.sh");
 			show_dialog("Successfully", "Please reboot IMT8", exit_APP);
 			
 		} else {
