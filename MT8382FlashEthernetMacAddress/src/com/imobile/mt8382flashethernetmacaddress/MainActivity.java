@@ -1,13 +1,10 @@
 package com.imobile.mt8382flashethernetmacaddress;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import android.app.Activity;
@@ -96,7 +93,26 @@ public class MainActivity extends Activity {
 	public void Clear_Mac_Address(View view) {
 		// Toast("Clear_Mac_Address");
 		Po_Llayout1.setVisibility(View.GONE);
-		Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eeclear.txt");
+		//** through su **/
+		//Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eeclear.txt");
+		
+		//** through JNI **/
+		// echo ClearMac > /proc/eth0 
+		String Clear_status = PoJNITtest.WriteProc("/proc/eth0", "ClearMac");
+
+		if (Clear_status.equals("oo")) {
+			Toast("Clear success");
+		}else{
+			Toast("Clear fail");
+		}
+		try{
+		    // delay 1 second
+		    Thread.sleep(1000);
+		        
+		} catch(InterruptedException e){
+		    e.printStackTrace();
+		        
+		}
 		Check_Path("Flash_Ethernet_Mac");
 		Show_Mac_Status();
 	}
@@ -346,7 +362,7 @@ public class MainActivity extends Activity {
 	/**
 	 * 
 	 * @param call
-	 *            Toast
+	 * Toast
 	 */
 	public void Toast(String str) {
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
