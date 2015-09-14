@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 		Log.d(Po_debug, "str =" + str);
 
 		String My_Mac_Addres = "Mac Address: ";
-		
+
 		// 拆解字串
 		My_Mac_Addres += Dismantling(str);
 
@@ -211,33 +211,33 @@ public class MainActivity extends Activity {
 		// 1. 清除空白
 
 		String[] token = Str.split("\\s+");
-//		for (int i = 0; i < token.length; i++) {
-//
-//			Log.e("Po_debug", "token[" + i + "]= " + token[i]);
-//
-//		}
-		
-		
+		// for (int i = 0; i < token.length; i++) {
+		//
+		// Log.e("Po_debug", "token[" + i + "]= " + token[i]);
+		//
+		// }
+
 		// 2. 檢查是否符合格式
 		if (token.length == 2) {
 			// Log.e("Debug", "token[1] = " + token[1]);
 			// 3. 切出所有mac號碼
 			String tmp = token[1];
-			if(tmp.length() == 12){
+			if (tmp.length() == 12) {
 				String Mac1 = tmp.substring(0, 2);
 				String Mac2 = tmp.substring(2, 4);
 				String Mac3 = tmp.substring(4, 6);
 				String Mac4 = tmp.substring(6, 8);
 				String Mac5 = tmp.substring(8, 10);
 				String Mac6 = tmp.substring(10, 12);
-				Mac_Addres += Mac1 + ":" + Mac2 + ":" + Mac3 + ":" + Mac4 + ":" + Mac5 + ":" + Mac6;
+				Mac_Addres += Mac1 + ":" + Mac2 + ":" + Mac3 + ":" + Mac4 + ":"
+						+ Mac5 + ":" + Mac6;
 				Log.d("Po_debug", "Mac_Addres = " + Mac_Addres);
 
-			}else{
+			} else {
 				Mac_Addres += "Not Read Mac Address";
 				return Mac_Addres;
 			}
-			
+
 		} else {
 			Mac_Addres += "Not Read Mac Address";
 		}
@@ -336,7 +336,6 @@ public class MainActivity extends Activity {
 				Log.e("Debug", "Successfully to su");
 				Toast("Successfully to su");
 			}
-			Toast("exitVal =" + exitVal);
 		} catch (Exception e) {
 			Log.e("Debug", "Fails to su");
 			Toast("Fails to su");

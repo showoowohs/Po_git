@@ -8,49 +8,6 @@
 extern "C" {
 #endif
 
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: HelloWorld
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jstring JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_HelloWorld(JNIEnv *, jclass);
-
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: TransportStringToC, Java send String to C, then C return string
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jstring JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_TransportStringToC(JNIEnv *, jclass, jstring);
-
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: TransportIntToC, Java send a integer to C, then C return (integer + 1) to Java
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jint JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_TransportIntToC(JNIEnv *, jclass, jint);
-
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: TransportIntArrayToC, Java send a integer[] to C, then C return (integer[] + 5) to Java
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jintArray JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_TransportIntArrayToC(JNIEnv *, jclass, jintArray);
-
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: TransportBooleanToC, Java send a boolean to C, then C return (!Java_boolean) to Java
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jboolean JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_TransportBooleanToC(JNIEnv *, jclass, jboolean);
-
-/**
- * Class: com_ooieueioo_potestjni_PoJNITtest
- * Method: PoTryExec
- * Signature: ()Ljava/lang/String
- */
-JNIEXPORT jstring JNICALL Java_com_ooieueioo_potestjni_PoJNITtest_ReadProc(JNIEnv *, jclass, jstring);
-
-
 /***** Po area
  *
 */
