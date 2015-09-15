@@ -35,18 +35,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// Run_CMD("/system/bin/sh /system/ethtool/ee9wj eth0");
-
 		findViewId();
 		Check_Path("Flash_Ethernet_Mac");
 		Show_Mac_Status();
-
-		// Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eeclear.txt");
-		// Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eedata.txt");
-
-		// Create_File("/sdcard/flash_eth.sh",
-		// "cd /system/ethtool\n/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eedata.txt\n");
-		// Run_su("busybox chmod 777 /sdcard/flash_eth.sh ; busybox msh /sdcard/flash_eth.sh");
 
 	}
 
@@ -98,23 +89,36 @@ public class MainActivity extends Activity {
 		
 		//** through JNI **/
 		// echo ClearMac > /proc/eth0 
-		String Clear_status = PoJNITtest.WriteProc("/proc/eth0", "ClearMac");
+		String Clean_status = PoJNITtest.WriteProc("/proc/eth0", "ClearMac");
 
-		if (Clear_status.equals("oo")) {
-			Toast("Clear success");
+		if (Clean_status.equals("oo")) {
+			Toast("Clear Mac success");
 		}else{
-			Toast("Clear fail");
+			Toast("Clear Mac fail");
 		}
+		
+		//delay 2 sec
+		delay_via_thread(3000);
+		
+		Check_Path("Flash_Ethernet_Mac");
+		Show_Mac_Status();
+	}
+	
+	/*****
+	 * can delay
+	 * example: Thread.sleep(1000);
+	 * @param delay_time
+	 */
+	private void delay_via_thread(int delay_time){
+		int DelatTime = delay_time;
 		try{
 		    // delay 1 second
-		    Thread.sleep(1000);
+		    Thread.sleep(DelatTime);
 		        
 		} catch(InterruptedException e){
 		    e.printStackTrace();
 		        
 		}
-		Check_Path("Flash_Ethernet_Mac");
-		Show_Mac_Status();
 	}
 
 	/**
@@ -150,7 +154,20 @@ public class MainActivity extends Activity {
 					+ "0x65 0x00 0x72 0x00 0x0a 0x03 0x30 0x00 0x30 0x00 0x30 0x00 0x33 0x00 0xc3 0x61\n";
 			Create_File("/sdcard/Flash_Ethernet_Mac/eedata.txt", My_Mac);
 
-			Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eeclear.txt;/system/bin/sh /system/ethtool/ee9wj eth0 /sdcard/Flash_Ethernet_Mac/eedata.txt");
+			//Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eeclear.txt;/system/bin/sh /system/ethtool/ee9wj eth0 /sdcard/Flash_Ethernet_Mac/eedata.txt");
+			//** through JNI **/
+			// echo ClearMac > /proc/eth0 
+			String Flash_status = PoJNITtest.WriteProc("/proc/eth0", "FlashMacSD");
+
+			if (Flash_status.equals("oo")) {
+				Toast("Flash Mac success");
+			}else{
+				Toast("Flash Mac fail");
+			}
+			
+			//delay 2 sec
+			delay_via_thread(3000);
+
 			Show_Mac_Status();
 			// Run_su("cd /system/ethtool/ ;/system/bin/sh /system/ethtool/ee9wj eth0 /system/ethtool/eedata.txt");
 		}
