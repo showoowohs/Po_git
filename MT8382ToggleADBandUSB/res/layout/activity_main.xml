@@ -1,8 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="600px"
+    android:layout_height="400px"
+    android:background="@color/white"
     android:keepScreenOn="true"
     android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:src="@drawable/close_icon" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/POTV1"
@@ -22,10 +36,20 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_world" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/offoff" />
+            android:orientation="vertical" >
+
+            <Switch
+                android:id="@+id/on_off_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:textOff="OFF"
+                android:textOn="ON" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
