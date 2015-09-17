@@ -41,14 +41,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <Switch
-                android:id="@+id/on_off_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ToggleButton
+                android:id="@+id/toggleButton1"
+                android:layout_width="120px"
+                android:layout_height="50px"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="right"
+                android:background="@drawable/bgtoggle"
+                android:button="@null"
                 android:gravity="center"
-                android:textOff="OFF"
-                android:textOn="ON" />
+                android:textOff=""
+                android:textOn="" />
         </LinearLayout>
     </LinearLayout>
 
