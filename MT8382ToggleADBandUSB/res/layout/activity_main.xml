@@ -15,6 +15,7 @@
             android:layout_height="80px"
             android:layout_gravity="right"
             android:gravity="center"
+            android:onClick="Po_close"
             android:src="@drawable/close_icon" />
     </LinearLayout>
 
@@ -24,9 +25,15 @@
         android:layout_height="wrap_content"
         android:text="XXX Model is currently" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="26px" />
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:keepScreenOn="true"
         android:orientation="horizontal" >
 
@@ -54,6 +61,25 @@
                 android:textOff=""
                 android:textOn="" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textSize="26px" />
+
+        <ImageView
+            android:id="@+id/POIV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
     </LinearLayout>
 
 </LinearLayout>

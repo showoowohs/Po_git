@@ -6,14 +6,17 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 	private TextView POTV1, POTV2;
+	private ImageView POIV1;
 	private ToggleButton tButton;
 	private final int Default_config = 1;
 
@@ -53,17 +56,31 @@ public class MainActivity extends Activity {
 					String SetUIText = ReadUSBStatus();
 					POTV1.setText(SetUIText);
 					
+					// show picture
+					POIV1.setImageResource(R.drawable.usb_hub);
+					
 					Log.d(TAG, "button off");
 				}
 
 			}
 		});
 	}
+	
+	/**
+	 * this is a exit button, can close APP
+	 * @param view
+	 */
+	public void Po_close(View view){
+		Log.d(TAG, "exit this APP");
+		android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+	}
 
 	private void PO_findID() {
 		this.POTV1 = (TextView) findViewById(R.id.POTV1);
 		this.POTV2 = (TextView) findViewById(R.id.POTV2);
 		this.tButton = (ToggleButton) findViewById(R.id.toggleButton1);
+		this.POIV1 = (ImageView) findViewById(R.id.POIV1);
 	}
 
 	/**
@@ -144,9 +161,18 @@ public class MainActivity extends Activity {
 		// check status
 		// Log.d(TAG, "status = "+SetUIText.substring(0, 3));
 		if (SetUIText.substring(0, 3).equals("USB")) {
+			
 			this.tButton.setChecked(false);
+			
+			// show picture
+			this.POIV1.setImageResource(R.drawable.usb_hub);
+			
 		} else if (SetUIText.substring(0, 3).equals("OTG")) {
+			
 			this.tButton.setChecked(true);
+			// show picture
+			this.POIV1.setImageResource(R.drawable.otg_600web);
+			
 		}
 
 	}
@@ -178,6 +204,9 @@ public class MainActivity extends Activity {
 							String SetUIText = ReadUSBStatus();
 							POTV1.setText(SetUIText);
 							
+							// show picture
+							POIV1.setImageResource(R.drawable.otg_600web);
+							
 							onDestroy();
 						}
 					});
@@ -190,6 +219,9 @@ public class MainActivity extends Activity {
 							// show usb mode(USB/OTG)
 							String SetUIText = ReadUSBStatus();
 							POTV1.setText(SetUIText);
+							
+							// show picture
+							POIV1.setImageResource(R.drawable.usb_hub);
 							
 							onDestroy();
 						}
