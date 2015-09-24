@@ -1,10 +1,16 @@
 package com.imobile.mt8382toggleadbandusb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -13,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.ooieueioo.externallib.ProcessInfo.ProcessInfo;
 
 public class MainActivity extends Activity {
 	private TextView POTV1, POTV2;
@@ -46,34 +54,35 @@ public class MainActivity extends Activity {
 							"Warning",
 							"USB host power will be disable!! (USB GPS, USB 3G, NFC e.t.c. function may not work)",
 							Default_config);
-					
+
 				} else {
-					
+
 					// on USB power
 					USBON();
-					
+
 					// show usb mode(USB/OTG)
 					String SetUIText = ReadUSBStatus();
 					POTV1.setText(SetUIText);
-					
+
 					// show picture
 					POIV1.setImageResource(R.drawable.usb_hub);
-					
+
 					Log.d(TAG, "button off");
 				}
 
 			}
 		});
 	}
-	
+
 	/**
 	 * this is a exit button, can close APP
+	 * 
 	 * @param view
 	 */
-	public void Po_close(View view){
+	public void Po_close(View view) {
 		Log.d(TAG, "exit this APP");
 		android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+		System.exit(1);
 	}
 
 	private void PO_findID() {
@@ -109,10 +118,10 @@ public class MainActivity extends Activity {
 
 		return ReturnUI;
 	}
-	
+
 	/**
-	 * can disable USB power(through echo USBOFF > "/proc/USBStatus")
-	 * P.S if function fail will show "write USBOFF error" dialog
+	 * can disable USB power(through echo USBOFF > "/proc/USBStatus") P.S if
+	 * function fail will show "write USBOFF error" dialog
 	 */
 	private void USBOFF() {
 		String status = "";
@@ -127,10 +136,10 @@ public class MainActivity extends Activity {
 			debug_toast("write USBOFF error");
 		}
 	}
-	
+
 	/**
-	 * can enable USB power(through echo USBON > "/proc/USBStatus")
-	 * if function fail will show "write USBOFF error" dialog
+	 * can enable USB power(through echo USBON > "/proc/USBStatus") if function
+	 * fail will show "write USBOFF error" dialog
 	 */
 	private void USBON() {
 		String status = "";
@@ -145,7 +154,7 @@ public class MainActivity extends Activity {
 			debug_toast("write USBON error");
 		}
 	}
-	
+
 	private void init() {
 		// setting text size
 		this.POTV1.setTextSize(36);
@@ -161,18 +170,18 @@ public class MainActivity extends Activity {
 		// check status
 		// Log.d(TAG, "status = "+SetUIText.substring(0, 3));
 		if (SetUIText.substring(0, 3).equals("USB")) {
-			
+
 			this.tButton.setChecked(false);
-			
+
 			// show picture
 			this.POIV1.setImageResource(R.drawable.usb_hub);
-			
+
 		} else if (SetUIText.substring(0, 3).equals("OTG")) {
-			
+
 			this.tButton.setChecked(true);
 			// show picture
 			this.POIV1.setImageResource(R.drawable.otg_600web);
-			
+
 		}
 
 	}
@@ -199,14 +208,14 @@ public class MainActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// on USB power
 							USBOFF();
-							
+
 							// show usb mode(USB/OTG)
 							String SetUIText = ReadUSBStatus();
 							POTV1.setText(SetUIText);
-							
+
 							// show picture
 							POIV1.setImageResource(R.drawable.otg_600web);
-							
+
 							onDestroy();
 						}
 					});
@@ -215,14 +224,14 @@ public class MainActivity extends Activity {
 
 						public void onClick(DialogInterface dialog, int which) {
 							tButton.setChecked(false);
-							
+
 							// show usb mode(USB/OTG)
 							String SetUIText = ReadUSBStatus();
 							POTV1.setText(SetUIText);
-							
+
 							// show picture
 							POIV1.setImageResource(R.drawable.usb_hub);
-							
+
 							onDestroy();
 						}
 					});
@@ -235,5 +244,62 @@ public class MainActivity extends Activity {
 
 	private void debug_toast(String msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 * get NFC PID, busybox ps | grep nfc return NFC_PID
+	 */
+	private String getRunningAppProcessInfo_NFCPID() {
+
+		ActivityManager mActivityManager = null;
+
+		List<ProcessInfo> processInfoList = null;
+
+		mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+		processInfoList = new ArrayList<ProcessInfo>();
+
+		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
+				.getRunningAppProcesses();
+
+		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+
+			int pid = appProcessInfo.pid;
+
+			int uid = appProcessInfo.uid;
+
+			String processName = appProcessInfo.processName;
+
+			int[] myMempid = new int[] { pid };
+
+			Debug.MemoryInfo[] memoryInfo = mActivityManager
+					.getProcessMemoryInfo(myMempid);
+
+			int memSize = memoryInfo[0].dalvikPrivateDirty;
+
+			// Log.i(TAG, "processName: " + processName + "  pid: " + pid
+			// + " uid:" + uid + " memorySize is -->" + memSize + "kb");
+
+			// find nfc package name
+			if (processName.equals("com.android.nfc")) {
+				// if (processName.equals("com.imobile.packagemanagertest")) {
+
+				ProcessInfo processInfo = new ProcessInfo();
+				processInfo.setPid(pid);
+				processInfo.setUid(uid);
+				processInfo.setMemSize(memSize);
+				processInfo.setPocessName(processName);
+				processInfoList.add(processInfo);
+
+				String[] packageList = appProcessInfo.pkgList;
+				// Log.i(TAG, "process id is " + pid + " has "
+				// + packageList.length);
+
+				String PID = Integer.toString(pid);
+				return PID;
+			}
+
+		}
+		return "0";
 	}
 }
