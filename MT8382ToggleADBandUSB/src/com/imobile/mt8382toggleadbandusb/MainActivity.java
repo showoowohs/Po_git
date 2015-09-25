@@ -23,15 +23,11 @@ import android.widget.ToggleButton;
 import com.ooieueioo.externallib.ProcessInfo.ProcessInfo;
 
 public class MainActivity extends Activity {
-	private final int NFC_Setting_Permission = 1;
-	private final int NFC_Setting_Rmmod = 2;
-	private final int GPS_Setting_Permission = 3;
-	private int Thread_Status = 0;
 	private TextView POTV1, POTV2;
 	private ImageView POIV1;
 	private ToggleButton tButton;
 	private final int Default_config = 1;
-	private Thread RmmodNFC, ChmodNFC, ChmodGPS;
+	private Thread RmmodNFC, ChmodNFC, ChmodGPS, InsmodNFC;
 
 	private final String TAG = "Po_dbg";
 
@@ -57,7 +53,7 @@ public class MainActivity extends Activity {
 					Log.d(TAG, "button on");
 					show_dialog(
 							"Warning",
-							"USB host power will be disable!! (USB GPS, USB 3G, NFC e.t.c. function may not work)",
+							"USB host power will be disable!! (USB 3G function may not work)",
 							Default_config);
 
 				} else {
@@ -106,9 +102,11 @@ public class MainActivity extends Activity {
 
 			Log.d(TAG, "Po_close ChmodGPS.isAlive()" + ChmodGPS.isAlive());
 			Log.d(TAG, "Po_close ChmodNFC.isAlive()" + ChmodNFC.isAlive());
+			Log.d(TAG, "Po_close ChmodNFC.isAlive()" + InsmodNFC.isAlive());
 
 			if ((this.ChmodGPS.isAlive() == true)
-					&& (this.ChmodNFC.isAlive() == true)) {
+					&& (this.ChmodNFC.isAlive() == true)
+					&& (this.InsmodNFC.isAlive() == true)) {
 				debug_toast("Please exit one more time!");
 			} else {
 				onDestroy();
@@ -185,7 +183,8 @@ public class MainActivity extends Activity {
 		// read nfc pid
 		String NFCPID = getRunningAppProcessInfo_NFCPID();
 		if (!NFCPID.equals("0")) {
-			InsmodNFCModule();
+			InsmodNFC = new Thread(new NFCInmodThread());
+			InsmodNFC.start();
 			// delay_via_thread(3000);
 			ChmodNFC = new Thread(new NFCPremissionThread());
 			ChmodNFC.start();
@@ -535,6 +534,29 @@ public class MainActivity extends Activity {
 					Log.d(TAG, "GPSChmodThread() i=" + i);
 					if (i > 3) {
 						ChmodDevNote("/dev/ttyACM0");
+						break;
+					}
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+
+			}
+		}
+	}
+
+	public class NFCInmodThread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				// delay 2 second
+				int i = 0;
+				while (true) {
+					i++;
+					Thread.sleep(1000);
+					Log.d(TAG, "NFCInmodThread() i=" + i);
+					if (i > 2) {
+						InsmodNFCModule();
 						break;
 					}
 				}
