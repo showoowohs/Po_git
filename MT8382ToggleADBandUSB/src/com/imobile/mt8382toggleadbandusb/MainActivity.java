@@ -23,13 +23,10 @@ import android.widget.ToggleButton;
 import com.ooieueioo.externallib.ProcessInfo.ProcessInfo;
 
 public class MainActivity extends Activity {
-	/** will run chmod -> NFC**/
-	static private final int NFC_Setting_Permission = 1;
-	/** will run rmmod -> NFC**/
-	static private final int NFC_Setting_Rmmod = 2;
-	/** will run chmod -> GPS**/
-	static private final int GPS_Setting_Permission = 3;
-	static private int Thread_Status = 0;
+	private final int NFC_Setting_Permission = 1;
+	private final int NFC_Setting_Rmmod = 2;
+	private final int GPS_Setting_Permission = 3;
+	private int Thread_Status = 0;
 	private TextView POTV1, POTV2;
 	private ImageView POIV1;
 	private ToggleButton tButton;
@@ -136,9 +133,8 @@ public class MainActivity extends Activity {
 	 * turn on USB GPS, via setting permission
 	 */
 	private void USBGPSON(){
-		this.Thread_Status = GPS_Setting_Permission;
-		Thread Thread = new Thread(new POThread());
-		Thread.start();
+		Thread RmmodNFC = new Thread(new GPSChmodThread());
+		RmmodNFC.start();
 	}
 
 	/**
@@ -150,9 +146,8 @@ public class MainActivity extends Activity {
 		if (!NFCPID.equals("0")) {
 			KILLNFCPID(NFCPID);
 			//delay_via_thread(500);
-			this.Thread_Status = NFC_Setting_Rmmod;
-			Thread Thread = new Thread(new POThread());
-			Thread.start();
+			Thread RmmodNFC = new Thread(new NFCRmmodThread());
+			RmmodNFC.start();
 		}
 	}
 
@@ -162,9 +157,8 @@ public class MainActivity extends Activity {
 		if (!NFCPID.equals("0")) {
 			InsmodNFCModule();
 			// delay_via_thread(3000);
-			this.Thread_Status = NFC_Setting_Permission;
-			Thread Thread = new Thread(new POThread());
-			Thread.start();
+			Thread ChmodNFCPremission = new Thread(new NFCPremissionThread());
+			ChmodNFCPremission.start();
 		}
 	}
 
@@ -454,39 +448,67 @@ public class MainActivity extends Activity {
 		}
 		return "0";
 	}
-	
-	public class POThread implements Runnable {
+
+	public class NFCPremissionThread implements Runnable {
 		@Override
 		public void run() {
 			try {
-				
+				// delay 3 second
 				int i = 0;
 				while (true) {
 					i++;
 					Thread.sleep(1000);
-					Log.d(TAG, "POThread() i=" + i);
-					Log.d(TAG, "Thread_Status=" + Thread_Status);
-					
-					if(Thread_Status == NFC_Setting_Permission){
-						if (i > 3) {
-							ChmodDevNote("/dev/ttyUSB1");
-							break;
-						}
+					Log.d(TAG, "NFCPremissionThread() i=" + i);
+					if (i > 3) {
+						ChmodDevNote("/dev/ttyUSB1");
+						break;
 					}
-					if(Thread_Status == GPS_Setting_Permission){
-						if (i > 3) {
-							ChmodDevNote("/dev/ttyACM0");
-							break;
-						}
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+
+			}
+		}
+	}
+	
+	public class NFCRmmodThread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				// delay 2 second
+				int i = 0;
+				while (true) {
+					i++;
+					Thread.sleep(1000);
+					Log.d(TAG, "NFCRmmodThread() i=" + i);
+					if (i > 2) {
+						RmmodNFCModule();
+						break;
 					}
-					if(Thread_Status == NFC_Setting_Rmmod){
-						if (i > 2) {
-							RmmodNFCModule();
-							break;
-						}
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+
+			}
+		}
+	}
+	
+	public class GPSChmodThread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				// delay 2 second
+				int i = 0;
+				while (true) {
+					i++;
+					Thread.sleep(1000);
+					Log.d(TAG, "GPSChmodThread() i=" + i);
+					if (i > 3) {
+						ChmodDevNote("/dev/ttyACM0");
+						break;
 					}
-					
-					
 				}
 
 			} catch (InterruptedException e) {
