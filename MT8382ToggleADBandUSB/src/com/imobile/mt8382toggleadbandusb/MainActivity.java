@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
 	private ImageView POIV1;
 	private ToggleButton tButton;
 	private final int Default_config = 1;
+	private Thread RmmodNFC, ChmodNFC, ChmodGPS;
 
 	private final String TAG = "Po_dbg";
 
@@ -73,7 +74,7 @@ public class MainActivity extends Activity {
 
 					// setting nfc
 					NFCON();
-					
+
 					// setting gps
 					USBGPSON();
 
@@ -90,6 +91,35 @@ public class MainActivity extends Activity {
 	 * @param view
 	 */
 	public void Po_close(View view) {
+		Log.d(TAG, "Po_close()");
+
+		boolean status = this.tButton.isChecked();
+
+		if (status == true) {
+			Log.d(TAG, "Po_close RmmodNFC.isAlive()" + RmmodNFC.isAlive());
+			if (this.RmmodNFC.isAlive() == true) {
+				debug_toast("Please exit one more time!");
+			} else {
+				onDestroy();
+			}
+		} else {
+
+			Log.d(TAG, "Po_close ChmodGPS.isAlive()" + ChmodGPS.isAlive());
+			Log.d(TAG, "Po_close ChmodNFC.isAlive()" + ChmodNFC.isAlive());
+
+			if ((this.ChmodGPS.isAlive() == true)
+					&& (this.ChmodNFC.isAlive() == true)) {
+				debug_toast("Please exit one more time!");
+			} else {
+				onDestroy();
+			}
+		}
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 		Log.d(TAG, "exit this APP");
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(1);
@@ -128,13 +158,13 @@ public class MainActivity extends Activity {
 
 		return ReturnUI;
 	}
-	
+
 	/**
 	 * turn on USB GPS, via setting permission
 	 */
-	private void USBGPSON(){
-		Thread RmmodNFC = new Thread(new GPSChmodThread());
-		RmmodNFC.start();
+	private void USBGPSON() {
+		ChmodGPS = new Thread(new GPSChmodThread());
+		ChmodGPS.start();
 	}
 
 	/**
@@ -145,8 +175,8 @@ public class MainActivity extends Activity {
 		String NFCPID = getRunningAppProcessInfo_NFCPID();
 		if (!NFCPID.equals("0")) {
 			KILLNFCPID(NFCPID);
-			//delay_via_thread(500);
-			Thread RmmodNFC = new Thread(new NFCRmmodThread());
+			// delay_via_thread(500);
+			RmmodNFC = new Thread(new NFCRmmodThread());
 			RmmodNFC.start();
 		}
 	}
@@ -157,8 +187,8 @@ public class MainActivity extends Activity {
 		if (!NFCPID.equals("0")) {
 			InsmodNFCModule();
 			// delay_via_thread(3000);
-			Thread ChmodNFCPremission = new Thread(new NFCPremissionThread());
-			ChmodNFCPremission.start();
+			ChmodNFC = new Thread(new NFCPremissionThread());
+			ChmodNFC.start();
 		}
 	}
 
@@ -295,7 +325,7 @@ public class MainActivity extends Activity {
 
 			// setting nfc
 			NFCON();
-			
+
 			// setting GPS
 			USBGPSON();
 
@@ -345,7 +375,6 @@ public class MainActivity extends Activity {
 							// setting nfc
 							NFCOFF();
 
-							onDestroy();
 						}
 					});
 			dialog.setNegativeButton("close",
@@ -361,7 +390,6 @@ public class MainActivity extends Activity {
 							// show picture
 							POIV1.setImageResource(R.drawable.usb_hub);
 
-							onDestroy();
 						}
 					});
 
@@ -471,7 +499,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-	
+
 	public class NFCRmmodThread implements Runnable {
 		@Override
 		public void run() {
@@ -494,7 +522,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-	
+
 	public class GPSChmodThread implements Runnable {
 		@Override
 		public void run() {
