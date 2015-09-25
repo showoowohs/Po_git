@@ -23,6 +23,13 @@ import android.widget.ToggleButton;
 import com.ooieueioo.externallib.ProcessInfo.ProcessInfo;
 
 public class MainActivity extends Activity {
+	/** will run chmod -> NFC**/
+	static private final int NFC_Setting_Permission = 1;
+	/** will run rmmod -> NFC**/
+	static private final int NFC_Setting_Rmmod = 2;
+	/** will run chmod -> GPS**/
+	static private final int GPS_Setting_Permission = 3;
+	static private int Thread_Status = 0;
 	private TextView POTV1, POTV2;
 	private ImageView POIV1;
 	private ToggleButton tButton;
@@ -66,6 +73,12 @@ public class MainActivity extends Activity {
 
 					// show picture
 					POIV1.setImageResource(R.drawable.usb_hub);
+
+					// setting nfc
+					NFCON();
+					
+					// setting gps
+					USBGPSON();
 
 					Log.d(TAG, "button off");
 				}
@@ -118,6 +131,42 @@ public class MainActivity extends Activity {
 
 		return ReturnUI;
 	}
+	
+	/**
+	 * turn on USB GPS, via setting permission
+	 */
+	private void USBGPSON(){
+		this.Thread_Status = GPS_Setting_Permission;
+		Thread Thread = new Thread(new POThread());
+		Thread.start();
+	}
+
+	/**
+	 * turn off nfc, if not nfc driver this function is not work
+	 */
+	private void NFCOFF() {
+		// read nfc pid
+		String NFCPID = getRunningAppProcessInfo_NFCPID();
+		if (!NFCPID.equals("0")) {
+			KILLNFCPID(NFCPID);
+			//delay_via_thread(500);
+			this.Thread_Status = NFC_Setting_Rmmod;
+			Thread Thread = new Thread(new POThread());
+			Thread.start();
+		}
+	}
+
+	private void NFCON() {
+		// read nfc pid
+		String NFCPID = getRunningAppProcessInfo_NFCPID();
+		if (!NFCPID.equals("0")) {
+			InsmodNFCModule();
+			// delay_via_thread(3000);
+			this.Thread_Status = NFC_Setting_Permission;
+			Thread Thread = new Thread(new POThread());
+			Thread.start();
+		}
+	}
 
 	/**
 	 * can disable USB power(through echo USBOFF > "/proc/USBStatus") P.S if
@@ -155,6 +204,80 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/**
+	 * can kill nfc PID (through echo KILLPID MyPID > "/proc/USBStatus")
+	 */
+	private void KILLNFCPID(String NFCPID) {
+		String status = "";
+		String command = "KILLPID " + NFCPID;
+		try {
+			status = imobileJNI.WriteProc("/proc/USBStatus", command);
+			Log.d(TAG, "status=" + status.toString());
+			if (status.equals("xx")) {
+				debug_toast("write KILLPID error");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			debug_toast("write KILLPID error");
+		}
+	}
+
+	/**
+	 * can rmmod nfc module (through echo RMMOD cp210x+ > "/proc/USBStatus")
+	 */
+	private void RmmodNFCModule() {
+		String status = "";
+		try {
+			status = imobileJNI.WriteProc("/proc/USBStatus", "RMMOD cp210x+");
+			Log.d(TAG, "status=" + status.toString());
+			if (status.equals("xx")) {
+				debug_toast("write rmmod error");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			debug_toast("write rmmod error");
+		}
+	}
+
+	/**
+	 * can insmod nfc module (through echo INSMOD /system/lib/modules/cp210x.ko+
+	 * > "/proc/USBStatus")
+	 */
+	private void InsmodNFCModule() {
+		String status = "";
+		try {
+			status = imobileJNI.WriteProc("/proc/USBStatus",
+					"INSMOD /system/lib/modules/cp210x.ko+");
+			Log.d(TAG, "status=" + status.toString());
+			if (status.equals("xx")) {
+				debug_toast("write insmod error");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			debug_toast("write insmod error");
+		}
+	}
+
+	/**
+	 * can set /dev/ttyUSB1 permission (through echo CHMOD 0666 /dev/ttyUSB1+ >
+	 * "/proc/USBStatus") can set /dev/ttyACM0 permission (through echo CHMOD
+	 * 0666 /dev/ttyACM0+ > "/proc/USBStatus")
+	 */
+	private void ChmodDevNote(String device_note) {
+		String status = "";
+		String command = "CHMOD 0777 " + device_note + "+";
+		try {
+			status = imobileJNI.WriteProc("/proc/USBStatus", command);
+			Log.d(TAG, "status=" + status.toString());
+			if (status.equals("xx")) {
+				debug_toast("write insmod error");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			debug_toast("write insmod error");
+		}
+	}
+
 	private void init() {
 		// setting text size
 		this.POTV1.setTextSize(36);
@@ -176,11 +299,20 @@ public class MainActivity extends Activity {
 			// show picture
 			this.POIV1.setImageResource(R.drawable.usb_hub);
 
+			// setting nfc
+			NFCON();
+			
+			// setting GPS
+			USBGPSON();
+
 		} else if (SetUIText.substring(0, 3).equals("OTG")) {
 
 			this.tButton.setChecked(true);
 			// show picture
 			this.POIV1.setImageResource(R.drawable.otg_600web);
+
+			// setting nfc
+			NFCOFF();
 
 		}
 
@@ -216,6 +348,9 @@ public class MainActivity extends Activity {
 							// show picture
 							POIV1.setImageResource(R.drawable.otg_600web);
 
+							// setting nfc
+							NFCOFF();
+
 							onDestroy();
 						}
 					});
@@ -244,6 +379,23 @@ public class MainActivity extends Activity {
 
 	private void debug_toast(String msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+	}
+
+	/*****
+	 * can delay example: Thread.sleep(1000);
+	 * 
+	 * @param delay_time
+	 */
+	private void delay_via_thread(int delay_time) {
+		int DelatTime = delay_time;
+		try {
+			// delay 1 second
+			Thread.sleep(DelatTime);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+
+		}
 	}
 
 	/**
@@ -301,5 +453,46 @@ public class MainActivity extends Activity {
 
 		}
 		return "0";
+	}
+	
+	public class POThread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				
+				int i = 0;
+				while (true) {
+					i++;
+					Thread.sleep(1000);
+					Log.d(TAG, "POThread() i=" + i);
+					Log.d(TAG, "Thread_Status=" + Thread_Status);
+					
+					if(Thread_Status == NFC_Setting_Permission){
+						if (i > 3) {
+							ChmodDevNote("/dev/ttyUSB1");
+							break;
+						}
+					}
+					if(Thread_Status == GPS_Setting_Permission){
+						if (i > 3) {
+							ChmodDevNote("/dev/ttyACM0");
+							break;
+						}
+					}
+					if(Thread_Status == NFC_Setting_Rmmod){
+						if (i > 2) {
+							RmmodNFCModule();
+							break;
+						}
+					}
+					
+					
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+
+			}
+		}
 	}
 }
