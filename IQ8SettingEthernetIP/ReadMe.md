@@ -14,6 +14,8 @@ P.S IQ8_IP_info is current LAN IP address
 
 note
 1. 2015/05/08 add DNS2 setting function
+2. 2015/10/01 add domain function
+> #ndc resolver setifdns <iface> <domains> <dns1> <dns2>
 
 result:
 1. save user setting IP
