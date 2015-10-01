@@ -36,6 +36,8 @@ public class MainActivity extends Activity {
 	private EditText Po_DNS_1, Po_DNS_2, Po_DNS_3, Po_DNS_4;
 	// Po_DNS2_area
 	private EditText Po_DNS2_1, Po_DNS2_2, Po_DNS2_3, Po_DNS2_4;
+	// Po_Domain_area
+	private EditText Po_Domain;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,8 @@ public class MainActivity extends Activity {
 		this.Po_DNS2_3 = (EditText) findViewById(R.id.Po_DNS2_3);
 		this.Po_DNS2_4 = (EditText) findViewById(R.id.Po_DNS2_4);
 
+		// find id Domain area
+		this.Po_Domain = (EditText) findViewById(R.id.Po_Domain_1);
 	}
 
 	/***
@@ -164,6 +168,15 @@ public class MainActivity extends Activity {
 		Log.i(TAG, "Mask=" + Mask);
 
 		return Mask;
+	}
+
+	/**
+	 * 
+	 * @return domain
+	 */
+	private String Read_Domain() {
+		String PoTmp_Domain = this.Po_Domain.getText().toString();
+		return PoTmp_Domain;
 	}
 
 	/**
@@ -325,7 +338,7 @@ public class MainActivity extends Activity {
 	 * @return success/error
 	 */
 	private int Po_write_file(String IP, String Mask, String Gateway,
-			String DNS, String DNS2) {
+			String DNS, String DNS2, String Domain) {
 		try {
 			// Path ==> /mnt/shell/emulated/0/
 			FileWriter fw = new FileWriter("/sdcard/IQ8_EthernetIP.sh", false);
@@ -348,8 +361,8 @@ public class MainActivity extends Activity {
 			bw.write("         sleep 5\n");
 			bw.write("     fi\n");
 			bw.write("     \n");
-			bw.write("     ndc resolver setifdns eth0 \"\" " + DNS + " " + DNS2
-					+ "\n");
+			bw.write("     ndc resolver setifdns eth0 \"" + Domain + "\" "
+					+ DNS + " " + DNS2 + "\n");
 			bw.write("     ndc resolver setdefaultif eth0\n");
 			bw.write("     \n");
 			bw.write("     route add default gw " + Gateway + " dev eth0\n");
@@ -457,7 +470,7 @@ public class MainActivity extends Activity {
 		} else {
 			int Po_write_status = Po_write_file(this.Read_IP(),
 					this.Read_Mask(), this.Read_Gateway(), this.Read_DNS(),
-					this.Read_DNS2());
+					this.Read_DNS2(), this.Read_Domain());
 			if (Po_write_status == 1) {
 				show_dialog("Save config", "save is success\nwill exit APP!",
 						this.Custom_config);
