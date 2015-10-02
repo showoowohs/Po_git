@@ -363,6 +363,8 @@ public class MainActivity extends Activity {
 			bw.write("     \n");
 			bw.write("     ndc resolver setifdns eth0 \"" + Domain + "\" "
 					+ DNS + " " + DNS2 + "\n");
+			bw.write("     setprop net.dns.search \"" + Domain + "\"\n");
+			bw.write("     setprop dhcp.eth0.search \"" + Domain + "\"\n");
 			bw.write("     ndc resolver setdefaultif eth0\n");
 			bw.write("     \n");
 			bw.write("     route add default gw " + Gateway + " dev eth0\n");
