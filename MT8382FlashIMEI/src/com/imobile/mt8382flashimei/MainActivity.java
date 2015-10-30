@@ -1,13 +1,14 @@
 package com.imobile.mt8382flashimei;
 
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imobile.mt8382flashimei.externalcode.TelephonyInfo;
+
 public class MainActivity extends Activity {
 
 	int not_exit_APP = 0;
@@ -25,13 +28,75 @@ public class MainActivity extends Activity {
 	TextView Po_show_imei_number, Po_show_imei;
 	EditText Po_et_show_imei_number;
 	String Po_IMEI;
+	private String TAG = "Po_dbg";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		// CheckSIM();
 		show_imei();
 		Po_findViewById();
+	}
+
+	public void CheckSIM() {
+		TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(this);
+
+		String imsiSIM1 = telephonyInfo.getImsiSIM1();
+		String imsiSIM2 = telephonyInfo.getImsiSIM2();
+
+		boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
+		boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
+
+		boolean isDualSIM = telephonyInfo.isDualSIM();
+
+		Log.i(TAG, " IME1 : " + imsiSIM1 + "\n" + " IME2 : " + imsiSIM2 + "\n"
+				+ " IS DUAL SIM : " + isDualSIM + "\n" + " IS SIM1 READY : "
+				+ isSIM1Ready + "\n" + " IS SIM2 READY : " + isSIM2Ready + "\n");
+	}
+
+	private void FlashIMEI1(String imei1) {
+		String sdcard_path = Environment.getExternalStorageDirectory()
+				.toString();
+		File imei_script = new File(sdcard_path, "imei.sh");
+		String msg = "echo SIM1 " + imei1 + "+ >  /proc/MTKIMEI\n";
+		try {
+			FileOutputStream out = new FileOutputStream(imei_script);
+			out.write(msg.getBytes());
+		} catch (Exception e) {
+			// TODO: handle exception
+			Toast("write FlashIMEI1 error");
+		}
+
+		/*
+		 * String status = ""; try { // call write // status =
+		 * imobileJNI.WriteProc("/proc/MTKIMEI", "SIM1");
+		 * 
+		 * status = imobileJNI.WriteProc("/proc/MTKIMEI",
+		 * "SIM1 555555555666666+"); Log.d(TAG, "status=" + status.toString());
+		 * if (status.equals("xx")) { Toast("write FlashIMEI1 error"); }
+		 * 
+		 * 
+		 * // call read status = imobileJNI.ReadProc("/proc/MTKIMEI");
+		 * Log.d(TAG, "status=" + status.toString());
+		 * 
+		 * if (!status.equals("success")) { Toast("write FlashIMEI1 error"); }
+		 * 
+		 * } catch (Exception e) { // TODO: handle exception
+		 * Toast("write FlashIMEI1 error"); }
+		 */
+	}
+
+	/**
+	 * isFileExsist() : can check file
+	 * 
+	 * @param filepath
+	 * @return bool
+	 */
+	static public Boolean isFileExsist(String filepath) {
+
+		File file = new File(filepath);
+		return file.exists();
 
 	}
 
@@ -39,8 +104,14 @@ public class MainActivity extends Activity {
 
 		this.Po_IMEI = Po_et_show_imei_number.getText().toString();
 		if (this.Po_IMEI.length() == 15) {
-			Create_File("/sdcard/imei.sh", this.Po_IMEI);
-			Run_su("busybox chmod 777 /sdcard/imei.sh ;sleep 1; busybox msh /sdcard/imei.sh; sleep 1;busybox cp /sdcard/imei.sh /system/local_script/flash_imei.sh;sleep 1; busybox rm -r /sdcard/imei.sh");
+			// flash code
+			FlashIMEI1(this.Po_IMEI);
+
+			// check file
+			String FilePath = "/sdcard/imei.sh";
+			if (isFileExsist(FilePath)) {
+				Log.d(TAG, "have" + FilePath);
+			}
 			show_dialog("Successfully", "Please reboot IMT8", exit_APP);
 
 		} else {
@@ -88,69 +159,6 @@ public class MainActivity extends Activity {
 
 		dialog.show();
 
-	}
-
-	/**
-	 * 
-	 * @param call
-	 *            Create_File(String str, String imei_number) input path and
-	 *            imei number
-	 */
-	public void Create_File(String str, String imei_number) {
-		Log.e("Debug", "Create_File()");
-		try {
-			// String data01 =
-			// "echo  'AT+EGMR=1,7,\"123456789012347\"'>/dev/radio/pttycmd1\n";
-			String data01 = "echo  'AT+EGMR=1,7,\"" + imei_number
-					+ "\"'>/dev/radio/pttycmd1\n";
-			// String data02 = "busybox cp " + COPY_FILE_PATH + " /data/\n";
-			// 建立FileOutputStream物件，路徑為SD卡中的output.txt
-			FileOutputStream output = new FileOutputStream(str);
-
-			output.write(data01.getBytes());
-			// output.write(data02.getBytes());
-			output.close();
-			Log.e("Debug", "Successfully Create_File()");
-			Toast("Successfully write /sdcard/" + str);
-		} catch (Exception e) {
-			Log.e("Debug", "Fails Create_File()");
-			Toast("write File Fails");
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 
-	 * @param call
-	 *            Run_su(String str) input command
-	 */
-	public void Run_su(String str) {
-		Runtime ex = Runtime.getRuntime();
-		String cmdBecomeSu = "su";
-		String script = str;
-		Log.e("Debug", "Run_su()");
-		try {
-			java.lang.Process runsum = ex.exec(cmdBecomeSu);
-			int exitVal = 0;
-			final OutputStreamWriter out = new OutputStreamWriter(
-					runsum.getOutputStream());
-			// Write the script to be executed
-			out.write(script);
-			// Ensure that the last character is an "enter"
-			out.write("\n");
-			out.flush();
-			// Terminate the "su" process
-			out.write("exit\n");
-			out.flush();
-			exitVal = runsum.waitFor();
-			if (exitVal == 0) {
-				Log.e("Debug", "Successfully to su");
-				// Toast("Successfully to su");
-			}
-		} catch (Exception e) {
-			Log.e("Debug", "Fails to su");
-			Toast("Fails to su");
-		}
 	}
 
 	/**
