@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings.Secure;
@@ -68,36 +69,6 @@ public class MainActivity extends Activity {
 			Toast("write FlashIMEI1 error");
 		}
 
-		/*
-		 * String status = ""; try { // call write // status =
-		 * imobileJNI.WriteProc("/proc/MTKIMEI", "SIM1");
-		 * 
-		 * status = imobileJNI.WriteProc("/proc/MTKIMEI",
-		 * "SIM1 555555555666666+"); Log.d(TAG, "status=" + status.toString());
-		 * if (status.equals("xx")) { Toast("write FlashIMEI1 error"); }
-		 * 
-		 * 
-		 * // call read status = imobileJNI.ReadProc("/proc/MTKIMEI");
-		 * Log.d(TAG, "status=" + status.toString());
-		 * 
-		 * if (!status.equals("success")) { Toast("write FlashIMEI1 error"); }
-		 * 
-		 * } catch (Exception e) { // TODO: handle exception
-		 * Toast("write FlashIMEI1 error"); }
-		 */
-	}
-
-	/**
-	 * isFileExsist() : can check file
-	 * 
-	 * @param filepath
-	 * @return bool
-	 */
-	static public Boolean isFileExsist(String filepath) {
-
-		File file = new File(filepath);
-		return file.exists();
-
 	}
 
 	public void Po_Btn_flash_imei_number(View view) {
@@ -107,12 +78,10 @@ public class MainActivity extends Activity {
 			// flash code
 			FlashIMEI1(this.Po_IMEI);
 
-			// check file
-			String FilePath = "/sdcard/imei.sh";
-			if (isFileExsist(FilePath)) {
-				Log.d(TAG, "have" + FilePath);
-			}
-			show_dialog("Successfully", "Please reboot IMT8", exit_APP);
+			Intent intent = new Intent(this, process_dialog.class);
+			Bundle bundle = new Bundle();
+			intent.putExtras(bundle);
+			this.startActivityForResult(intent, 1);
 
 		} else {
 
@@ -120,6 +89,17 @@ public class MainActivity extends Activity {
 					not_exit_APP);
 		}
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK) {
+			Bundle bundleResult = data.getExtras();
+			Log.d(TAG, "RESULT_OK");
+			show_dialog("Successfully", "Please reboot device", exit_APP);
+		}
 	}
 
 	/**
