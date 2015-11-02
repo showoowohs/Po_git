@@ -162,6 +162,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 		buttonTestBarCodeLoopStop = (Button) findViewById(R.id.buttonTestBarCodeLoopStop);
 		buttonTestBarCodeLoopStop.setOnClickListener(this);
+		buttonTestBarCodeLoopStop.setEnabled(false);
 
 		mContext = getApplicationContext();
 		mSerial = new PL2303Driver();
@@ -769,6 +770,12 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			close();
 			break;
 		case R.id.buttonTestBarCodeLoop:
+			buttonTestQrCode_loop.setEnabled(false);
+			buttonTestBarCodeLoopStop.setEnabled(true);
+			buttonTestText.setEnabled(false);
+			buttonTestBarCode.setEnabled(false);
+			buttonTestQrCode.setEnabled(false);
+			buttonTestPic.setEnabled(false);
 			task = new TestThread();
 			t = new Thread(task);
 			t.start();
@@ -776,6 +783,12 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			break;
 
 		case R.id.buttonTestBarCodeLoopStop:
+			buttonTestQrCode_loop.setEnabled(true);
+			buttonTestBarCodeLoopStop.setEnabled(false);
+			buttonTestText.setEnabled(true);
+			buttonTestBarCode.setEnabled(true);
+			buttonTestQrCode.setEnabled(true);
+			buttonTestPic.setEnabled(true);
 			task.stopThread();
 			t.interrupted();
 			break;
