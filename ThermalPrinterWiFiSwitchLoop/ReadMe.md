@@ -16,3 +16,4 @@ OS: android 4.0.3
 
 ### maintain
 > 2015/11/02 done continue print function
+> 2015/11/02 15:01 fix button double click error
