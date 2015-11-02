@@ -47,7 +47,8 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		OnClickListener {
 
 	private Button buttonTestText, buttonTestBarCode, buttonTestQrCode,
-			buttonTestPic, buttonQueryStatus, buttonTestQrCode_loop, buttonTestBarCodeLoopStop;
+			buttonTestPic, buttonQueryStatus, buttonTestQrCode_loop,
+			buttonTestBarCodeLoopStop;
 	private Button buttonDisconnect, buttonConnect;
 	private TextView textView1;
 
@@ -79,14 +80,11 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 	static {
 		System.loadLibrary("imobileJNI");
 	}
-	
+
 	Handler hr = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			// 檢查msg.what若為ABC，就執行s+1，
-			// 並將值設成已播放時間
 			case 1:
-				Log.d(TAG, "1111");
 				open(115200, Parity.NONE);
 				mPos.POS_S_SetQRcode(strQrCode, 6, 4);
 				mPos.POS_FeedLine();
@@ -99,34 +97,9 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		}
 	};
 
-	// 20151102
-	
-//	Thread t = new Thread(new Runnable() {
-//		
-//		public void run() {
-//			while (thread_isRunning) {
-//				try {
-//					Thread.sleep(1000);
-//					
-//					Log.i(TAG, "thread_isRunning="+ thread_isRunning);
-//					// 使用Handler和Message把資料丟給主UI去後續處理
-//
-//					Message m = new Message();
-//					m.what = 1;
-//					hr.sendMessage(m);
-//
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//
-//
-//			}
-//		}
-//	});
-	
 	TestThread task;
 	Thread t;
+
 	public class TestThread implements Runnable {
 		private boolean thread_isRunning = true;
 
@@ -158,37 +131,6 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		}
 
 	}
-	
-	
-	/////
-	Thread t2 = new Thread(new Runnable() {
-	
-	public void run() {
-		
-//		if(t2 != Thread.currentThread()){
-//			throw new RuntimeException();
-//		}
-		while (!Thread.interrupted() && t2 != null) {
-			try {
-				Thread.sleep(1000);
-				
-				Log.i(TAG, "thread_isRunning=");
-				// 使用Handler和Message把資料丟給主UI去後續處理
-
-				Message m = new Message();
-				m.what = 1;
-				hr.sendMessage(m);
-
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				Thread.currentThread().interrupt();
-			}
-
-
-		}
-	}
-});
 
 	// Po area END
 
@@ -214,13 +156,12 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		buttonTestPic.setOnClickListener(this);
 		buttonQueryStatus = (Button) findViewById(R.id.buttonQueryStatus);
 		buttonQueryStatus.setOnClickListener(this);
-		
+
 		buttonTestQrCode_loop = (Button) findViewById(R.id.buttonTestBarCodeLoop);
 		buttonTestQrCode_loop.setOnClickListener(this);
-		
+
 		buttonTestBarCodeLoopStop = (Button) findViewById(R.id.buttonTestBarCodeLoopStop);
 		buttonTestBarCodeLoopStop.setOnClickListener(this);
-		
 
 		mContext = getApplicationContext();
 		mSerial = new PL2303Driver();
@@ -828,42 +769,15 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			close();
 			break;
 		case R.id.buttonTestBarCodeLoop:
-			//Po add
-//			new Thread(new Runnable() {
-//				public void run() {
-//
-//					while (true) {
-//						try {
-//							Thread.sleep(1000);
-//							
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//						// 使用Handler和Message把資料丟給主UI去後續處理
-//
-//						Message m = new Message();
-//						m.what = 1;
-//						hr.sendMessage(m);
-//						
-//					}
-//				}
-//			}).start();
-
-			//Po End
 			task = new TestThread();
-	        t = new Thread(task);
+			t = new Thread(task);
 			t.start();
-			
-//			t2.start();
+
 			break;
-			
+
 		case R.id.buttonTestBarCodeLoopStop:
 			task.stopThread();
-			//t.interrupt();
 			t.interrupted();
-//		    t2.interrupt();
-		    Log.i(TAG, "aaa");
 			break;
 		case R.id.buttonTestPic:
 			Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
