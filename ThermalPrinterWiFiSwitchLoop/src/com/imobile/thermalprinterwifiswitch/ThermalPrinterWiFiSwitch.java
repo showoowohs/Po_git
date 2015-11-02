@@ -108,7 +108,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			// TODO Auto-generated method stub
 			while (thread_isRunning) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(200);
 
 					Log.i(TAG, "thread_isRunning=" + thread_isRunning);
 					// 使用Handler和Message把資料丟給主UI去後續處理
