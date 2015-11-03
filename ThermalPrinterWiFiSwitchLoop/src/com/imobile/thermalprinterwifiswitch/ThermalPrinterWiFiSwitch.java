@@ -48,7 +48,8 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 
 	private Button buttonTestText, buttonTestBarCode, buttonTestQrCode,
 			buttonTestPic, buttonQueryStatus, buttonTestQrCode_loop,
-			buttonTestBarCodeLoopStop;
+			buttonTestBarCodeLoopStop, buttonTestPictureLoop,
+			buttonTestPictureLoopStop;
 	private Button buttonDisconnect, buttonConnect;
 	private TextView textView1;
 
@@ -92,13 +93,30 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 				debug_toast("Testing QRCode");
 				close();
 				break;
+			case 2:
+				Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+						R.drawable.iu2);
+				if (null == bitmap) {
+					debug_toast("Image Decoding ERROR!");
+					break;
+				}
+				open(115200, Parity.NONE);
+				/**
+				 * ?��??��?��?��?�宽度�?�须�?8??�整?��??
+				 */
+				mPos.POS_PrintPicture(bitmap, 360, 0);
+				mPos.POS_FeedLine();
+				mPos.POS_FeedLine();
+				debug_toast("Testing Image");
+				close();
+				break;
 			}
 			super.handleMessage(msg);
 		}
 	};
 
 	TestThread task;
-	Thread t;
+	Thread t, t2;
 
 	public class TestThread implements Runnable {
 		private boolean thread_isRunning = true;
@@ -117,6 +135,39 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 					m.what = 1;
 					hr.sendMessage(m);
 
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					Thread.currentThread().interrupt();
+				}
+
+			}
+		}
+
+		public void stopThread() {
+			this.thread_isRunning = false;
+		}
+
+	}
+
+	PictureThread task2;
+
+	public class PictureThread implements Runnable {
+		private boolean thread_isRunning = true;
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			while (thread_isRunning) {
+				try {
+
+					Log.i(TAG, "thread_isRunning=" + thread_isRunning);
+					// 使用Handler和Message把資料丟給主UI去後續處理
+
+					Message m = new Message();
+					m.what = 2;
+					hr.sendMessage(m);
+					Thread.sleep(2800);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -163,6 +214,13 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 		buttonTestBarCodeLoopStop = (Button) findViewById(R.id.buttonTestBarCodeLoopStop);
 		buttonTestBarCodeLoopStop.setOnClickListener(this);
 		buttonTestBarCodeLoopStop.setEnabled(false);
+
+		buttonTestPictureLoop = (Button) findViewById(R.id.buttonTestPictureLoop);
+		buttonTestPictureLoop.setOnClickListener(this);
+
+		buttonTestPictureLoopStop = (Button) findViewById(R.id.buttonTestPictureLoopStop);
+		buttonTestPictureLoopStop.setOnClickListener(this);
+		buttonTestPictureLoopStop.setEnabled(false);
 
 		mContext = getApplicationContext();
 		mSerial = new PL2303Driver();
@@ -776,6 +834,7 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			buttonTestBarCode.setEnabled(false);
 			buttonTestQrCode.setEnabled(false);
 			buttonTestPic.setEnabled(false);
+			buttonTestPictureLoop.setEnabled(false);
 			task = new TestThread();
 			t = new Thread(task);
 			t.start();
@@ -789,8 +848,35 @@ public class ThermalPrinterWiFiSwitch extends Activity implements
 			buttonTestBarCode.setEnabled(true);
 			buttonTestQrCode.setEnabled(true);
 			buttonTestPic.setEnabled(true);
+			buttonTestPictureLoop.setEnabled(true);
 			task.stopThread();
 			t.interrupted();
+			break;
+
+		case R.id.buttonTestPictureLoop:
+			buttonTestPictureLoop.setEnabled(false);
+			buttonTestPictureLoopStop.setEnabled(true);
+			buttonTestText.setEnabled(false);
+			buttonTestBarCode.setEnabled(false);
+			buttonTestQrCode.setEnabled(false);
+			buttonTestPic.setEnabled(false);
+			buttonTestQrCode_loop.setEnabled(false);
+			task2 = new PictureThread();
+			t2 = new Thread(task2);
+			t2.start();
+
+			break;
+
+		case R.id.buttonTestPictureLoopStop:
+			buttonTestPictureLoop.setEnabled(true);
+			buttonTestPictureLoopStop.setEnabled(false);
+			buttonTestText.setEnabled(true);
+			buttonTestBarCode.setEnabled(true);
+			buttonTestQrCode.setEnabled(true);
+			buttonTestPic.setEnabled(true);
+			buttonTestQrCode_loop.setEnabled(true);
+			task2.stopThread();
+			t2.interrupted();
 			break;
 		case R.id.buttonTestPic:
 			Bitmap bitmap = BitmapFactory.decodeResource(getResources(),

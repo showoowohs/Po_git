@@ -215,7 +215,8 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="loop" />
-        <Button
+
+        <Button
             android:id="@+id/buttonTestBarCodeLoopStop"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
@@ -223,6 +224,30 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="loop stop" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonTestPictureLoop"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="loop Picture" />
+
+        <Button
+            android:id="@+id/buttonTestPictureLoopStop"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Picture loop stop" />
     </LinearLayout>
 
     <ScrollView
