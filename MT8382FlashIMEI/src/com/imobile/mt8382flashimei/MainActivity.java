@@ -60,7 +60,11 @@ public class MainActivity extends Activity {
 		String sdcard_path = Environment.getExternalStorageDirectory()
 				.toString();
 		File imei_script = new File(sdcard_path, "imei.sh");
-		String msg = "echo SIM1 " + imei1 + "+ >  /proc/MTKIMEI\n";
+		String msg = "echo SIM1 " + imei1 + "+ >  /proc/MTKIMEI\n"+
+		/** fix factory imie bug**/
+		"rm /system/local_script/first_imei.sh\n" +
+		"echo \"sleep 5\" >> /system/local_script/first_imei.sh\n"+
+		"echo \"echo SIM1 " + imei1 + "+ >  /proc/MTKIMEI\" >> /system/local_script/first_imei.sh\n";
 		try {
 			FileOutputStream out = new FileOutputStream(imei_script);
 			out.write(msg.getBytes());

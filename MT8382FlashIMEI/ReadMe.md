@@ -19,3 +19,4 @@ OS: android 4.4.2
 
 ### maintain
 > 2015/10/31 done flash MTK imei function(SIM1)  
+> 2015/11/03 fix factory/recovery imie bug
