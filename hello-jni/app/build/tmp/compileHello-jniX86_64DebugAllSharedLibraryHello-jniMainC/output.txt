@@ -1,0 +1,4 @@
+See file:///home/benson/tmp/android-ndk/hello-jni/app/build/tmp/compileHello-jniX86_64DebugAllSharedLibraryHello-jniMainC/output.txt for all output for compileHello-jniX86_64DebugAllSharedLibraryHello-jniMainC.
+compiling hello-jni.c successful.
+
+Finished compileHello-jniX86_64DebugAllSharedLibraryHello-jniMainC, see full log file:///home/benson/tmp/android-ndk/hello-jni/app/build/tmp/compileHello-jniX86_64DebugAllSharedLibraryHello-jniMainC/output.txt.

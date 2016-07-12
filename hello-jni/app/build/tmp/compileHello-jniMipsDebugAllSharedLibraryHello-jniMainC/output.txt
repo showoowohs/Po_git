@@ -1,0 +1,5 @@
+See file:///home/benson/tmp/android-ndk/hello-jni/app/build/tmp/compileHello-jniMipsDebugAllSharedLibraryHello-jniMainC/output.txt for all output for compileHello-jniMipsDebugAllSharedLibraryHello-jniMainC.
+compiling hello-jni.c successful.
+clang: warning: optimization flag '-finline-functions' is not supported
+
+Finished compileHello-jniMipsDebugAllSharedLibraryHello-jniMainC, see full log file:///home/benson/tmp/android-ndk/hello-jni/app/build/tmp/compileHello-jniMipsDebugAllSharedLibraryHello-jniMainC/output.txt.

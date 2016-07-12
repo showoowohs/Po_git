@@ -1,0 +1,15 @@
+-shared
+-Wl,-soname,libhello-jni.so
+-o
+/home/benson/tmp/android-ndk/hello-jni/app/build/intermediates/binaries/debug/all/obj/armeabi/libhello-jni.so
+/home/benson/tmp/android-ndk/hello-jni/app/build/intermediates/objectFiles/armeabiDebugAllSharedLibrary/hello-jniMainC/492ljv5dzpxoubur0bmscqu6l/hello-jni.o
+-Wl,--no-undefined
+-Wl,-z,noexecstack
+-Wl,-z,relro
+-Wl,-z,now
+--sysroot=/home/benson/IDE/android-ndk-r12b/platforms/android-23/arch-arm
+-Wl,--build-id
+-gcc-toolchain
+/home/benson/IDE/android-ndk-r12b/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
+-target
+armv5-none-linux-android
